@@ -1,0 +1,82 @@
+PART
+{
+	name = KF_SemiheavyWaterExtractor
+	module = Part
+	author = TotallyNotHuman, 0111narwhalz, KAL 9000
+
+	MODEL
+	{
+		// TODO
+	}
+
+	rescaleFactor = 1
+	node_stack_top = //x,y,z,angx,angy,angz,size // FIXME
+	node_stack_bottom = //x,y,z,angx,angy,angz,size // FIXME
+	TechRequired = KF_FusionPower
+	entryCost = // TODO
+	cost = 15000
+	Category = Utility
+	subcategory = 0
+	title = FILTER Semiheavy Water Extractor
+	manufacturer = Layland-Wutani
+	description = Semiheavy water? That's gonna limit our delta-v budget - I mean, if it's only half as heavy...
+	attachRules = 1,0,1,0,0
+	mass = // TODO
+	dragModelType = default
+	maximum_drag = // TODO
+	minimum_drag = // TODO
+	angularDrag = // TODO
+	crashTolerance = // TODO
+	maxTemp = // TODO
+	bulkheadProfiles = // TODO
+
+	MODULE
+	{
+    name = ModuleResourceConverter
+    ConverterName = Semiheavy Water Extractor
+    StartActionName = Start HDO Extraction
+    StopActionName = Stop HDO Extraction
+    AutoShutdown = true
+    TemperatureModifier
+    {
+      // TODO
+    }
+
+    GeneratesHeat = true
+    DefaultShutoffTemp = .8
+    ThermalEfficiency
+    {
+      // TODO
+    }
+
+    INPUT_RESOURCE
+    {
+      ResourceName = Hydrates // solves 'feeding water back into the extractor to get moar HDO' infinite loop
+      Ratio = 0.000046296 // 1 unit per day
+      FlowMode = STAGE_PRIORITY_FLOW
+    }
+
+    INPUT_RESOURCE
+    {
+      ResourceName = ElectricCharge
+      Ratio = 30
+      FlowMode = STAGE_PRIORITY_FLOW
+    }
+
+    OUTPUT_RESOURCE
+    {
+      ResourceName = HDO
+      Ratio = 0.00000001286 // 1/3600 chance
+      DumpExcess = False
+      FlowMode = STAGE_PRIORITY_FLOW
+    }
+
+    OUTPUT_RESOURCE
+    {
+      ResourceName = Water
+      Ratio = 0.00004628314 // 3599/3600 chance
+      DumpExcess = False
+      FlowMode = STAGE_PRIORITY_FLOW
+    }
+  }
+}
