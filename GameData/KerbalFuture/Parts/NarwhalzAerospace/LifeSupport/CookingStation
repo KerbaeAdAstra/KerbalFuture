@@ -129,11 +129,13 @@ PART
       FlowMode = STAGE_PRIORITY_FLOW
     }
 
-		OUTPUT_RESOURCE
-		{
-			ResourceName = Calories
-			Ratio = 1
-			DumpExcess = False
-			FlowMode = STAGE_PRIORITY_FLOW
-		}
+     OUTPUT_RESOURCE
+	{
+		ResourceName = Calories
+		Ratio = 1
+		DumpExcess = False
+		FlowMode = STAGE_PRIORITY_FLOW
+	}
+		
+}
 }
