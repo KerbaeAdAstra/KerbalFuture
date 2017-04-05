@@ -58,13 +58,13 @@ PART
       FlowMode = STAGE_PRIORITY_FLOW
     }
 
-		OUTPUT_RESOURCE
-		{
-			ResourceName = Calories
-			Ratio = 2.94
-			DumpExcess = False
-			FlowMode = STAGE_PRIORITY_FLOW
-		}
+    OUTPUT_RESOURCE
+    {
+	ResourceName = Calories
+	Ratio = 2.94
+	DumpExcess = false
+	FlowMode = STAGE_PRIORITY_FLOW
+     }
   }
   MODULE
 	{
@@ -94,13 +94,13 @@ PART
       FlowMode = STAGE_PRIORITY_FLOW
     }
 
-		OUTPUT_RESOURCE
-		{
-			ResourceName = Calories
-			Ratio = 2.71
-			DumpExcess = False
-			FlowMode = STAGE_PRIORITY_FLOW
-		}
+    OUTPUT_RESOURCE
+    {
+		ResourceName = Calories
+		Ratio = 2.71
+		DumpExcess = false
+		FlowMode = STAGE_PRIORITY_FLOW
+    }
     MODULE
 	{
     name = ModuleResourceConverter
@@ -128,14 +128,14 @@ PART
       Ratio = 7
       FlowMode = STAGE_PRIORITY_FLOW
     }
-
-     OUTPUT_RESOURCE
+    
+    OUTPUT_RESOURCE
 	{
 		ResourceName = Calories
 		Ratio = 1
-		DumpExcess = False
+		DumpExcess = false
 		FlowMode = STAGE_PRIORITY_FLOW
 	}
 		
-}
+    }
 }
