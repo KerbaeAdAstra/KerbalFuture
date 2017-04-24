@@ -12,7 +12,7 @@ Community Category Kit and Community Resource Pack (by RoverDude) are distribute
 
 Kerbalism (by ShotgunNinja) is distributed under the Unlicense <<http://unlicense.org/>>.
 
-KSP Interstellar Extended (by FreeThinker et al.) is distributed under the KSP Interstellar License <<https://github.com/FractalUK/KSPInterstellar/blob/develop/FNPlugin/License.md>>. Various other models and parts are licensed under their own licenses. See [here](http://forum.kerbalspaceprogram.com/index.php?/topic/100190-1/&do=findComment&comment=1731509)> for more information.
+KSP Interstellar Extended (by FreeThinker et al.) is distributed under the KSP Interstellar License <<https://github.com/FractalUK/KSPInterstellar/blob/develop/FNPlugin/License.md>>. Various other models and parts are licensed under their own licenses. See [here](http://forum.kerbalspaceprogram.com/index.php?/topic/100190-1/&do=findComment&comment=1731509) for more information.
 
 TweakScale (by pellinor et al.) is distributed under the WTFPL <<http://www.wtfpl.net/>>.
 
