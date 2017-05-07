@@ -14,7 +14,10 @@
 
 #### FTL Drives
 
-* TBD
+* ☒Frameshift Drive
+* ☒Polyspatial Drive
+* ☒Wormhole Drive
+* ☒Stutterwarp Drive
 
 #### Missile Weapons
 
@@ -28,7 +31,8 @@
 
 #### Fuel Tanks
 
-* TBD
+* ☒Spatiofibrin Tanks
+* ☒Exotic Matter Tanks
 
 #### Engines
 
@@ -49,31 +53,40 @@
 
 #### Radiators
 
-* TBD
+* ☒Hyperspace-Optimized Radiators
 
 #### Artificial Gravity
 
-* TBD
+* ☒Artificial Gravity Generator
+* ☒Artificial Gravity Conduit
+* ☒Artificial Gravity Plate
 
 #### Kinetic Weapons
 
-* TBD
+* ☒Point-Defense Turret
+* ☒Point-Defense Cannon
+* ☒Point-Defense Network
 
 ### Narwhalz Aerospace Corp.
 
 #### Life Support
 
-* TBD
+* ☒Virtomeat Farm
+* ☑Algae Farm
+* ☑SCWOR
+* ☑Cooking Station
 
 #### Refining & Manufacturing
 
-* TBD
+* ☒Spatiofibrin Harvester
+* ☒Omni-Drill
 
 #### Nanites
 
 * ☒Nanite Storage
 * ☒Nanite Factory
 * ☒Nanite Repair Unit
+* ☒Nanite Conduit
 
 #### Hull Plating
 
