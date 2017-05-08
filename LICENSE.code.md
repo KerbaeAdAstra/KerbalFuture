@@ -1,7 +1,7 @@
 MIT License
 ===========
 
-Copyright © 2017 0111narwhalz, KAL-9000, & TotallyNotHuman
+Copyright (c) the Kerbae ad Astra group, 2017
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
