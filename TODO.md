@@ -108,4 +108,5 @@
 * ☒FTL (Frameshift) (KSPI + Kerbalism)
 * ☒FTL (Polyspatial) (Original + Randomized code)
 * ☒FTL (Stutterwarp, Spacefolder) (Original)
+* ☒Future-style names in-game (Renamer code)
 * ☒Weapons (BDArmory)
