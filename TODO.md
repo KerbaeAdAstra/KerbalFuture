@@ -21,22 +21,47 @@
 
 #### Missile Weapons
 
-* TBD
+* ☒Fission Warhead
+* ☒Radiological Dispersal Warhead
+* ☒Fusion Warhead
+* ☒Antimatter Warhead
+* ☒Missile Booster
 
 #### Superweapons
 
-* TBD
+* ☒Strangelet Projector
+* ☒Molecular Disruption Device
 
 ### TNH Rocket Propulsion Inc.
 
 #### Fuel Tanks
 
 * ☒Spatiofibrin Tanks
+* ☒Spatial Fluid Tanks
 * ☒Exotic Matter Tanks
+* ☒Fission Fuel Tanks
+* ☒Fusion Fuel Tanks
+* ☒Antimatter Tanks
 
 #### Engines
 
-* TBD
+* ☒Resistojet Engine
+* ☒Resistojet RCS Thruster
+* ☒Electrostatic Ion Engine
+* ☒Electromagnetic Ion Engine
+* ☒Solar Moth
+* ☒Fission Fragment Drive
+* ☒Orion Drive
+* ☒Solar Sail
+* ☒Remote-Beam Drive
+* ☒Photon Drive
+* ☒Fusion Drive
+* ☒Ramscoop Drive
+* ☒Ramscoop Augmented Interstellar Rocket
+* ☒Thermal Antimatter Drive
+* ☒Antimatter-Induced Fusion Drive
+* ☒Beam-Core Antimatter Drive
+* ☒Spatial Turbine
 
 #### Reactors & Support
 
@@ -90,11 +115,18 @@
 
 #### Hull Plating
 
-* TBD
+* ☒Basic Hull Plating
+* ☒Metal Foam Hull Plating
+* ☒Composite Hull Plating
+* ☒Spaced Hull Plating
+* ☒Mirror Hull Plating
 
 #### Energy Weapons
 
-* TBD
+* ☒Gamma Ray Laser
+* ☒X-ray Laser
+* ☒Visible Light Laser
+* ☒Infrared Laser
 
 ### Miscellany
 
