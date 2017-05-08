@@ -80,17 +80,11 @@
 
 * ☒Hyperspace-Optimized Radiators
 
-#### Artificial Gravity
-
-* ☒Artificial Gravity Generator
-* ☒Artificial Gravity Conduit
-* ☒Artificial Gravity Plate
-
 #### Kinetic Weapons
 
-* ☒Point-Defense Turret
 * ☒Point-Defense Cannon
-* ☒Point-Defense Network
+* ☒Railgun
+* ☒Fire Control Computer
 
 ### Narwhalz Aerospace Corp.
 
