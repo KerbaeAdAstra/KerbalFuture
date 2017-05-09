@@ -1,31 +1,52 @@
 {
-	"spec_version"		: "v1.20",
-	"name"			: "Kerbal Future",
-	"abstract"		: "Mod for KSP based on Kerbae ad Astra",
-	"identifier"		: "KerbalFuture",
-	"download"		: "",
-	"license"		: [ "MIT", "CC-BY-NC-SA" ],
-	"version"		: "",
-	"author"		: [ "0111narwhalz", "KAL 9000", "TotallyNotHuman_" ],
-	"description"		: "",
-	"release_status"	: "development",
-	"ksp_version"		: "1.2.2",
-	"ksp_version_strict"	: "true",
-	"depends" : [
-		{ "name" : "CommunityResourcePack" },
-		{ "name" : "BDArmoryContinued" },
-		{ "name" : "Kerbalism" },
-		{ "name" : "KSPInterstellarExtended" }
-	]
-	"conflicts" : [
-		{ "name" : "CommunityTechTree" },
-		{ "name" : "HistoricalProgressionTechTree" }
-	]
-	"resources" : {
-		"homepage"	: "https://kerbaeadastra.github.io",
-		"bugtracker"	: "https://github.com/KerbaeAdAstra/KerbalFuture/issues",
-		"repository"	: "https://github.com/KerbaeAdAstra/KerbalFuture",
-		"ci"		: "",
-		"spacedock"	: ""
+	"spec_version": "v1.20",
+	"name": "Kerbal Future",
+	"abstract": "Mod for KSP based on Kerbae ad Astra",
+	"identifier": "KerbalFuture",
+	"download": "",
+	"license": ["MIT", "CC-BY-NC-SA"],
+	"version": "",
+	"author": ["0111narwhalz", "KAL 9000", "TotallyNotHuman_"],
+	"description": "",
+	"release_status": "development",
+	"ksp_version": "1.2.2",
+	"ksp_version_strict": "true",
+	"depends": [
+		{
+			"name": "CommunityResourcePack"
+		},
+		{
+			"name": "BDArmoryContinued"
+		},
+		{
+			"name": "Kerbalism"
+		},
+		{
+			"name": "KSPInterstellarExtended"
+		},
+		{
+			"name": "ModuleManager"
+		},
+		{
+			"name": "TweakScale"
+		}
+	],
+	"conflicts": [
+		{
+			"name": "CommunityTechTree"
+		},
+		{
+			"name": "ETT
+		},
+		{
+			"name": "HistoricalProgressionTechTree"
+		}
+	],
+	"resources": {
+		"homepage": "https://kerbaeadastra.github.io",
+		"bugtracker": "https://github.com/KerbaeAdAstra/KerbalFuture/issues",
+		"repository": "https://github.com/KerbaeAdAstra/KerbalFuture",
+		"ci": "",
+		"spacedock": ""
 	}
-
+}
