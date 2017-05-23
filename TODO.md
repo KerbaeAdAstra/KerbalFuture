@@ -97,7 +97,7 @@
 
 #### Refining & Manufacturing
 
-* ☒Spatiofibrin Harvester
+* ☑Spatiofibrin Harvester
 * ☒Omni-Drill
 
 #### Nanites
