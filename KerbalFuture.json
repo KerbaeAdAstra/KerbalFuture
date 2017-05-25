@@ -4,7 +4,7 @@
 	"abstract": "Mod for KSP based on Kerbae ad Astra",
 	"identifier": "KerbalFuture",
 	"download": "",
-	"license": ["MIT", "CC-BY-NC-SA"],
+	"license": ["GPL", "MIT", "CC-BY-NC-SA"],
 	"version": "",
 	"author": ["0111narwhalz", "KAL 9000", "TotallyNotHuman_"],
 	"description": "",
