@@ -330,8 +330,8 @@ when it starts in an interactive mode:
 
     Gnomovision version 69, Copyright (C) year name of author
     Gnomovision comes with ABSOLUTELY NO WARRANTY; for details
-    type \`show w'.  This is free software, and you are welcome
-    to redistribute it under certain conditions; type \`show c' 
+    type `show w'.  This is free software, and you are welcome
+    to redistribute it under certain conditions; type `show c'
     for details.
 
 The hypothetical commands \`show w' and \`show c' should show the
@@ -345,7 +345,7 @@ your school, if any, to sign a "copyright disclaimer" for the program,
 if necessary. Here is a sample; alter the names:
 
     Yoyodyne, Inc., hereby disclaims all copyright
-    interest in the program \`Gnomovision'
+    interest in the program `Gnomovision'
     (which makes passes at compilers) written
     by James Hacker.
 
