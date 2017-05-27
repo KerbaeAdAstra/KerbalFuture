@@ -15,7 +15,7 @@
 #### FTL Drives
 
 * ☒Frameshift Drive
-* ☒Polyspatial Drive
+* ☑Polyspatial Drive
 * ☒Wormhole Drive
 * ☒Stutterwarp Drive
 
@@ -80,10 +80,11 @@
 
 * ☒Hyperspace-Optimized Radiators
 
-#### Kinetic Weapons
+#### Kinetic Weapons & Ammo
 
 * ☒Point-Defense Cannon
 * ☒Railgun
+* ☑Railgun Ammunition Box
 * ☒Fire Control Computer
 
 ### Narwhalz Aerospace Corp.
