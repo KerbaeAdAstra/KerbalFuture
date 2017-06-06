@@ -19,7 +19,7 @@ PART
 	subcategory = 0
 	title = SKYNET Sentient Artificial General Intelligence
 	manufacturer = KAL's Junkyard LLC
-	description = Many of our sotckholders questioned the sanity of giving control of a spacecraft traveling at several km/s to a computer that's failed 72% of the ethical tests we've given it.
+	description = Many of our stockholders questioned the sanity of giving control of a spacecraft traveling at several km/s to a computer that's failed 72% of the ethical tests we've given it.
 	attachRules = 1,0,1,0,0
 	mass = // TODO
 	dragModelType = default
