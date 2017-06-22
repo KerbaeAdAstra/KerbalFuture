@@ -16,6 +16,12 @@ namespace KerbalFuture
 	}
 	class FlightDrive : VesselModule
 	{
-		public st
+		public void FixedUpdate()
+		{
+			if(HighLogic.LoadedSceneIsFlight)
+			{
+				
+			}
+		}
 	}
 }
