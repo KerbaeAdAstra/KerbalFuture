@@ -16,12 +16,19 @@ namespace KerbalFuture
 	}
 	class FlightDrive : VesselModule
 	{
+		Vector3 vslObtVel;
 		public void FixedUpdate()
 		{
 			if(HighLogic.LoadedSceneIsFlight)
 			{
-				
+				vslObtVel = Vessel.GetObtVelocity();
 			}
 		}
+	}
+	class SpaceFolderEngine : PartModule
+	{
+		double xMaxLength;
+		double yMaxLength;
+		double 
 	}
 }
