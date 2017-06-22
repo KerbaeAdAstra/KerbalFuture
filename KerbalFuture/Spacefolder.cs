@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEngine;
 using KSP;
 
-namespace SpaceFolderDrive
+namespace KerbalFuture
 {
-	class SFDData : MonoBehavior
+	class SpacefolderData : MonoBehavior
 	{
 		public static string path()
 		{
