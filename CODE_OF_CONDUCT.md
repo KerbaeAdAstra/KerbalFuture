@@ -1,46 +1,41 @@
-# Contributor Covenant Code of Conduct
+# Kerbae Ad Astra Code of Conduct
+The Kerbal Future group wishes to extend the warmest welcome to any and all contributers as possible. 
+In order to accomplish this, we ask the following things from you. 
+## IRC Channel
+When visiting the Kerbae Ad Astra IRC channel (#kerbaeadastra) on FreeNode, acesseble through www.webchat.freenode.net, we ask that you be respectful and thoughtful before posting. Any abuse will not be tolerated, and reports can and will be made to the moderators of the chanel. This includes the following:
+* Sexual or suggestive language
+* Links to inappropriate pictures or websites. As a rule-of-thumb, if the KSP forums would block it, so will we. 
+* Posting of inappropriate pictures. Using certain clients, it is possible to post pictures directly in chat. See above for the rule-of-thumb.  
+* Abusive language of any kind, insulting others in any way. "Playful" teasing is not tolerated, nor is any other form of disrespect for other members. 
+* Role playing while on the channel is not acceptable. 
+* Comments about any other user's suspected race, sexual orientation, or ethnicity is not tolerated. As a rule of thumb, if you feel as though others will make fun of you for revealing your race or ethnicity, do not state in in the channel. The same goes for sexual orientation. 
+* Keep all posts on topic, and for any confidintal information, personal message the user.
+* Political statements of any kind.  
+* Posting other user's personal information. 
+* To restate all of the above, keep posts on topic and SFW, and respect other user's beliefs and practices. 
+* Political statements of any kind. 
+## GitHub
+When visiting the Kerbae Ad Astra GitHub page, found at www.github.com/KerbaeAdAstra, you have the ability of commenting on others commits, issues, and pull requests(PRs) if you have a GitHub account. These comments should be kept on topic and shall not make personal attacks or condesending statements. These include: 
+* Making a request to close said issue or PR because "you are not experiencing the problem". 
+* Arguing about the content of issues or PRs, either created by yourself or others. 
+* Trying to justify issues or PRs after they have been closed by Kerbae Ad Astra staff. 
+* Making issues or PRs without a purpose. 
+* Unhelpful creation of issues such as "it is completely broken". These do not help anyone in any way, and create much more unessesary communication and waiting time for the issue to be fixed. 
+## The Moderators and Members of Kerbae Ad Astra
+* TotallyNotHuman
+* Narwhalz0111/0111Narwhalz
+* KAL_9000
+* Benjamin Kerman
+* Brent Kerman
+We (The Moderators) are commited to keeping Kerbae Ad Astra and all related places healthy and accepting for all users. 
+## Consequences for misconduct
+### IRC Channel
+The cosequences for misconduct are avalible on the IRC channel by typing the command '/msg ChanServ taxonomy #kerbaeadastra' in the chat bar. 
+### GitHub
+Blocking and reporting to GitHub staff, and removal of any and all non-appropriate wiki edits, commits, comments, issues, and pull requests. 
+### KSP Forum, including any and all Kerbae Ad Astra mantained threads
+An immediate report to the KSP forum moderators
+## Reports of Abuse
+We take abuse very seriously. If you would like to make a complaint of abuse or harrasment, please send us an email at "kerbaeadastra@gmail.com". We will review each case thouroghly, and may invite you into a private session to discuss the incident. All findings will be kept confidential, unless otherwise stated. 
 
-## Our Pledge
-
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
-
-## Our Standards
-
-Examples of behavior that contributes to creating a positive environment include:
-
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
-
-Examples of unacceptable behavior by participants include:
-
-* The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
-
-## Our Responsibilities
-
-Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take appropriate and fair corrective action in response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
-
-## Scope
-
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
-
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at kerbaeadastra@gmail.com. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
-
-## Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][version]
-
-[homepage]: http://contributor-covenant.org
-[version]: http://contributor-covenant.org/version/1/4/
+Thank you for visiting Kerbae Ad Astra, and enjoy your stay!
