@@ -1,7 +1,7 @@
 # Kerbae ad Astra Code of Conduct
 The Kerbal Future group wishes to extend the warmest welcome to any and all contributors as possible. In order to accomplish this, we ask the following things from you.
 ## IRC Channel
-When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, accessible through <webchat.freenode.net>, we ask that you be respectful and thoughtful before posting. Any abuse will not be tolerated, and reports can and will be made to the staff members of the channel. This includes the following:
+When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, accessible through http://webchat.freenode.net, we ask that you be respectful and thoughtful before posting. Any abuse will not be tolerated, and reports can and will be made to the staff members of the channel. This includes the following:
 * Sexual or suggestive language
 * Links to inappropriate pictures or websites. As a rule-of-thumb, if the KSP Forums would block it, so will we.
 * Posting of inappropriate pictures. Using certain clients, it is possible to post pictures directly in chat. See above for the rule-of-thumb.
