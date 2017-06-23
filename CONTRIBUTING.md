@@ -93,6 +93,8 @@ To make our work easier, please answer these questions when submitting a bug rep
 4. What did you do that caused this bug?
 5. What exceptions were thrown?
 
+And most importantly, you **must** include the KSP.log (preferably in GitHub Gist form) when submitting a bug report. **NO LOGS = NO SUPPORT.**
+
 ## Suggesting Features
 
 Kerbal Future is based on a foundation of hard science-fiction. Handwaving is kept to a minimum. Kerbal Future will implement most if not all paradigms of Kerbae ad Astra - see the official Wiki [here](https://github.com/KerbaeAdAstra/wiki/wiki). As such, features requests or suggestions will probably be denied unless it fits in with the universe.
