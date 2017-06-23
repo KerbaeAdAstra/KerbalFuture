@@ -7,7 +7,7 @@ When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, acce
 * Posting of inappropriate pictures. Using certain clients, it is possible to post pictures directly in chat. See above for the rule-of-thumb.
 * Abusive language of any kind, insulting others in any way. "Playful" teasing is not tolerated, nor is any other form of disrespect for other members.
 * Role playing while on the channel is not acceptable.
-* Comments about any other user's suspected race, sexual orientation, or ethnicity is not tolerated. As a rule of thumb, if you feel as though others will make fun of you for revealing your race or ethnicity, do not state in in the channel. The same goes for sexual orientation.
+* Comments about any other user's suspected race, sexual orientation, or ethnicity is not tolerated. As a rule of thumb, if you feel as though others will make fun of you for revealing your race or ethnicity, do not state it in the channel. The same goes for sexual orientation.
 * Keep all posts on topic, and for any confidential information, personal message the user.
 * Political statements of any kind.
 * Posting other users' personal information.
@@ -35,5 +35,5 @@ Blocking and reporting to GitHub staff, and removal of any and all non-appropria
 ### KSP Forums, including any and all Kerbae ad Astra mantained threads
 An immediate report to the KSP forum moderators will be made - punishments (or the lack thereof) will be decided by them, seeing as the Forums are under their jurisdiction.
 ## Reports of Abuse
-We take abuse very seriously. If you would like to make a complaint of abuse or harassment, please send us an email at "kerbaeadastra@gmail.com". We will review each case thoroughly, and may invite you into a private session to discuss the incident. All findings will be kept confidential, unless otherwise stated.
+We take abuse very seriously. If you would like to make a complaint of abuse or harassment, please send us an email at kerbaeadastra@gmail.com. We will review each case thoroughly, and may invite you into a private session to discuss the incident. All findings will be kept confidential, unless otherwise stated or requested.
 ## Thank you for visiting Kerbae ad Astra, and enjoy your stay!
