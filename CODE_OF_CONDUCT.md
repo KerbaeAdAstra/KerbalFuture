@@ -10,9 +10,8 @@ When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, acce
 * Comments about any other user's suspected race, sexual orientation, or ethnicity is not tolerated. As a rule of thumb, if you feel as though others will make fun of you for revealing your race or ethnicity, do not state in in the channel. The same goes for sexual orientation.
 * Keep all posts on topic, and for any confidential information, personal message the user.
 * Political statements of any kind.
-* Posting other user's personal information.
+* Posting other users' personal information.
 * To restate all of the above, keep posts on topic and SFW, and respect other user's beliefs and practices.
-* Political statements of any kind.
 ## GitHub
 When visiting the Kerbae ad Astra GitHub page, found at github.com/KerbaeAdAstra, you have the ability of commenting on others commits, issues, and pull requests (PRs) if you have a GitHub account. These comments should be kept on topic and shall not make personal attacks or condescending statements. These include:
 * Making a request to close said issue or PR because "you are not experiencing the problem".
