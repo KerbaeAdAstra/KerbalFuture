@@ -20,7 +20,7 @@ When visiting the Kerbae ad Astra GitHub page, found at github.com/KerbaeAdAstra
 * Trying to justify issues or PRs after they have been closed by Kerbae ad Astra staff.
 * Making issues or PRs without a purpose.
 * Unhelpful creation of issues such as "it is completely broken". These do not help anyone in any way, and create much more unnecessary communication and waiting time for the issue to be fixed.
-## The Moderators and Members of Kerbae Ad Astra
+## The Staff Members of Kerbae Ad Astra
 * TotallyNotHuman\_
 * 0111narwhalz
 * KAL 9000
