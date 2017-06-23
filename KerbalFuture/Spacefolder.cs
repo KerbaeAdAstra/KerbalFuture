@@ -7,7 +7,7 @@ using KSP;
 
 namespace KerbalFuture
 {
-	class SpacefolderData : MonoBehavior
+	class SpaceFolderData : MonoBehavior
 	{
 		public static string path()
 		{
