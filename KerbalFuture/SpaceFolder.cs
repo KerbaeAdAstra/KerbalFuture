@@ -15,7 +15,16 @@ namespace KerbalFuture
 		}
 		public bool partContainsModule(string miPart, string moduleName)
 		{
-			ConfigNode.Load
+			List<partDatabase> = GameDatabase.GetConfigNodes("PART");
+			partDatabase[] = GameDatabase.GetConfigNodes("
+			if(
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 	class SpaceFolderVslChecks : MonoBehavior
@@ -25,7 +34,7 @@ namespace KerbalFuture
 			List<Part> vslParts = this.Vessel.Parts;
 			for(vslParts[i])
 			{
-				if(vslParts[i].Contains("SFD"+*)
+				if(partContainsModule(vslParts[i], "SpaceFolderDrive"))
 				{
 					
 				}
