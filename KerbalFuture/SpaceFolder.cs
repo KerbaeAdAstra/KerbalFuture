@@ -20,13 +20,15 @@ namespace KerbalFuture
 	}
 	class SpaceFolderVslChecks : MonoBehavior
 	{
-		
 		public bool SpaceFolderWarpCheck()
 		{
 			List<Part> vslParts = this.Vessel.Parts;
 			for(vslParts[i])
 			{
-				if(vslParts[i].Contains
+				if(vslParts[i].Contains("SFD"+*)
+				{
+					
+				}
 			}
 		}
 	}
@@ -44,8 +46,6 @@ namespace KerbalFuture
 	}
 	class SpaceFolderEngine : PartModule
 	{
-		double xMaxLength;
-		double yMaxLength;
-		double 
+		double holeDiameter;
 	}
 }
