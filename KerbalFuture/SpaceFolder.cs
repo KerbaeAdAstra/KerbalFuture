@@ -13,13 +13,21 @@ namespace KerbalFuture
 		{
 			return System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 		}
+		public bool partContainsModule(string miPart, string moduleName)
+		{
+			ConfigNode.Load
+		}
 	}
 	class SpaceFolderVslChecks : MonoBehavior
 	{
-		List<Part> Vessel.Parts = new List<Part> Vessel.Parts;
+		
 		public bool SpaceFolderWarpCheck()
 		{
-			if (Vessel.
+			List<Part> vslParts = this.Vessel.Parts;
+			for(vslParts[i])
+			{
+				if(vslParts[i].Contains
+			}
 		}
 	}
 	class FlightDrive : VesselModule
@@ -27,7 +35,6 @@ namespace KerbalFuture
 		Vector3 vslObtVel;
 		public void FixedUpdate()
 		{
-			//need a part list here...
 			if((HighLogic.LoadedSceneIsFlight) && (SpaceFolderWarpCheck()))
 			{
 				vslObtVel = Vessel.GetObtVelocity();
