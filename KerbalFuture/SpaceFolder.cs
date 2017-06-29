@@ -26,6 +26,22 @@ namespace KerbalFuture
 				return false;
 			}
 		}
+		public ConfigNode CFGFinder(PartModule pM)
+		{
+			ConfigNode[] nodeGroup = GameDatabase.Instance.GetConfigNodes("PART");
+			if(nodeGroup.Length == 0)
+			{
+				return new ConfigNode();
+			}
+			for (int i; i < nodeGroup.Length; i++)
+			{
+				if(nodeGroup[i].GetValues(pM.Part.partName).Length > 0)
+				{
+					return nodeGroup[i];
+				}
+			}
+			return new ConfigNode();
+		}
 	}
 	class SpaceFolderVslChecks : MonoBehavior
 	{
