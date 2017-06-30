@@ -65,7 +65,10 @@ namespace KerbalFuture
 			if((HighLogic.LoadedSceneIsFlight) && (SpaceFolderWarpCheck()))
 			{
 				vslObtVel = Vessel.GetObtVelocity();
-				if (SpacefolderWarpCheck(true))
+				if (SpacefolderWarpCheck())
+				{
+					
+				}
 			}
 		}
 	}
@@ -74,3 +77,4 @@ namespace KerbalFuture
 		double holeDiameter;
 	}
 }
+sfj
