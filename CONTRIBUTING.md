@@ -12,12 +12,53 @@ There is only one important ground rule, and it is as follows:
 > Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/blob/develop/CODE_OF_CONDUCT.md).
 
 ## Contributing
-* Each pull request should implement one, and only one, feature or bug fix. Should you wish to implement or fix more than one feature/bug, submit more than one pull request.
-* The commits of each pull request should be directly relevant to the pull request itself. Do not commit changes to files that are irrelevant to the pull request.
+* Each merge request should implement one, and only one, feature or bug fix. Should you wish to implement or fix more than one feature/bug, submit more than one merge request.
+* The commits of each merge request should be directly relevant to the merge request itself. Do not commit changes to files that are irrelevant to the merge request.
 * Do not add `using` directives that point to third-party libraries, unless said library is essential to the project. When in doubt, contact the project maintainers.
 * Be willing to accept constructive criticism from the project maintainers.
-* Be aware that the pull request review process is not immediate, and that the project maintainers have other things to do. Do not pester the project maintainers.
-* Low-effort pull requests will generally be rejected.
+* Be aware that the merge request review process is not immediate, and that the project maintainers have other things to do. Do not pester the project maintainers.
+* Low-effort merge requests will generally be rejected.
+### Commit message guidelines
+
+The commit message should describe what changed and why.
+
+1. The first line should:
+   - contain a short description of the change
+   - be 50 characters or less
+   - be entirely in lowercase with the exception of proper nouns, acronyms, and programming terms
+   - be prefixed with the name of the changed subsystem and start with an imperative verb.
+
+   Examples:
+   - `doc: fix typos in code of conduct`
+   - `cfg: add missing PartModule to Spacefolder`
+
+2. Keep the second line blank.
+3. Wrap all other lines at 72 columns.
+
+4. If your patch fixes an open issue, you can add a reference to it at the end of the log. Use the `Fixes:` prefix and the full issue URL. For other references, use `Refs:`.
+
+   Examples:
+   - `Fixes: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/issues/76`
+   - `Refs: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/merge_requests/83`
+
+
+Sample complete commit message:
+
+```
+subsystem: explain the commit in one line
+
+Body of commit message is a few lines of text, explaining things
+in more detail, possibly giving some background about the issue
+being fixed, etc.
+
+The body of the commit message can be several paragraphs, and
+please do proper word-wrap and keep columns shorter than about
+72 characters or so. That way, `git log` will show things
+nicely even when it is indented.
+
+Fixes: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/issues/76
+Refs: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/merge_requests/83
+```
 
 ## Bug Reporting
 
