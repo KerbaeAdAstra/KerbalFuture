@@ -13,6 +13,7 @@ When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, acce
 * Political statements of any kind will not be tolerated.
 * Posting other users' personal information (doxxing) is forbidden.
 * To restate all of the above, keep posts on topic and SFW [Safe For Work], and respect other users' beliefs and practices.
+
 ## GitLab
 To combat spambots, registration on the official Kerbae ad Astra GitLab repository has been disabled. Should you wish to have access to the repository, please contact us at kerbaeadastra@gmail.com and we will consider your case.
 
@@ -29,6 +30,7 @@ Once you have obtained access to the repository, you may submit new issues or MR
 * KAL 9000
 * Benjamin Kerman
 * Brent Kerman
+
 We (the staff members) are committed to keeping Kerbae ad Astra and all related places healthy and accepting for all users.
 
 # Consequences for misconduct
