@@ -22,9 +22,6 @@
 			"name": "InterstellarFuelSwitch-Core"
 		},
 		{
-			"name": "Kerbalism"
-		},
-		{
 			"name": "KSPInterstellarExtended"
 		},
 		{
@@ -33,6 +30,20 @@
 		{
 			"name": "TweakScale"
 		}
+	],
+	"recommends": [
+	    {
+	        "name": "TACLS"
+	    },
+	    {
+	        "name": "USI-LS"
+	    },
+	    {
+	        "name": "Snacks"
+	    },
+	    {
+	        "name": "Kerbalism"
+	    }
 	],
 	"conflicts": [
 		{
