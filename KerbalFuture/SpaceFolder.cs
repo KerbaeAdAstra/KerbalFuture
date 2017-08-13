@@ -16,8 +16,8 @@ namespace KerbalFuture
 		public bool partContainsModule(string miPart, string moduleName)
 		{
 			List<partDatabase> = GameDatabase.GetConfigNodes("PART");
-			partDatabase[] = GameDatabase.GetConfigNodes("
-			if(
+			partDatabase[] = GameDatabase.GetConfigNodes("");
+			if (
 			{
 				return true;
 			}
@@ -77,4 +77,3 @@ namespace KerbalFuture
 		double holeDiameter;
 	}
 }
-sfj
