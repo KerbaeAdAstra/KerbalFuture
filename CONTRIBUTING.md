@@ -1,4 +1,4 @@
-# Contributing
+# Contributing to Kerbal Future
 
 First of all, thank you for considering contributing to Kerbal Future. We're a small team - only five people at the moment - so we can and will appreciate all the help we can get.
 
@@ -11,7 +11,7 @@ Please don't use the issue tracker for support, questions, or other miscellany. 
 ## Ground Rules
 
 There is only one important ground rule, and it is as follows:
-> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/blob/develop/CODE_OF_CONDUCT.md).
+> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://47.156.216.77:3000/KerbaeAdAstra/KerbalFuture/src/develop/CODE_OF_CONDUCT.md).
 
 ## Contributing
 
