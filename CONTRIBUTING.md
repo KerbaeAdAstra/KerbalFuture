@@ -11,13 +11,14 @@ Please don't use the issue tracker for support, questions, or other miscellany. 
 ## Ground Rules
 
 There is only one important ground rule, and it is as follows:
-> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://47.156.216.77:3000/KerbaeAdAstra/KerbalFuture/src/develop/CODE_OF_CONDUCT.md).
+> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://35.190.136.99:3000/KerbaeAdAstra/KerbalFuture/blob/develop/CODE_OF_CONDUCT.md).
 
 ## Contributing
 
 * Each merge request should implement one, and only one, feature or bug fix. Should you wish to implement or fix more than one feature/bug, submit more than one merge request.
 * The commits of each merge request should be directly relevant to the merge request itself. Do not commit changes to files that are irrelevant to the merge request.
-* Do not add `using` directives that point to third-party libraries, unless said library is essential to the project. When in doubt, contact the project maintainers.
+* Do not add `using` directives that point to third-party libraries, unless said library is either essential to the project or pre-approved. When in doubt, contact the project maintainers.
+* Pre-approved libraries are defined as any library included with Kerbal Space Program itself (i.e., in `<KSP_DIR>/KSP_DATA`).
 * Be willing to accept constructive criticism from the project maintainers.
 * Be aware that the merge request review process is not immediate, and that the project maintainers have other things to do. Do not pester the project maintainers.
 * Low-effort merge requests will generally be rejected.
@@ -42,8 +43,8 @@ The commit message should describe what changed and why.
 1. If your patch fixes an open issue, you can add a reference to it at the end of the log. Use the `Fixes:` prefix and the full issue URL. For other references, use `Refs:`.
 
    Examples:
-   * `Fixes: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/issues/76`
-   * `Refs: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/merge_requests/83`
+   * `Fixes: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/issues/76`
+   * `Refs: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/merge_requests/83`
 
 Sample complete commit message:
 
@@ -59,8 +60,8 @@ please do proper word-wrap and keep columns shorter than about
 72 characters or so. That way, `git log` will show things
 nicely even when it is indented.
 
-Fixes: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/issues/76
-Refs: http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/merge_requests/83
+Fixes: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/issues/76
+Refs: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/merge_requests/83
 ```
 
 ## Bug Reporting
@@ -83,7 +84,7 @@ And most importantly, you **must** include the output_log.txt (preferably using 
 
 ## Suggesting Features
 
-Kerbal Future is based on a foundation of hard science-fiction. Handwaving is kept to a minimum. Kerbal Future will implement most if not all paradigms of Kerbae ad Astra - see the official Wiki [here](https://github.com/KerbaeAdAstra/wiki/wiki). As such, features requests or suggestions will probably be denied unless it fits in with the universe.
+Kerbal Future is based on a foundation of hard science-fiction. Handwaving is kept to a minimum. Kerbal Future will implement most if not all paradigms of Kerbae ad Astra - see the official Wiki [here](http://35.190.136.99/w/). As such, feature requests or suggestions will probably be denied unless it fits in with the universe.
 
 ## Community
 
