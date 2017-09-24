@@ -4,7 +4,7 @@
 
 Kerbal Future is a team endeavor, as all members of the team contribute to this mod. However, every member has a different job, and may not know much of other parts of the mod; therefore, care should be taken when ensuring that the correct member is approached regarding an issue.
 
-* 0111narwhalz \<0111narwhalz (at) gmail (dot) com]\> – Plugin Programmer, Texturer and Modeller, Configuration Writer
+* 0111narwhalz \<0111narwhalz (at) gmail (dot) com\> – Plugin Programmer, Texturer and Modeller, Configuration Writer
 * TotallyNotHuman \<tnhthereal (at) gmail (dot) com\> - GitLab Maintainer, Configuration Writer
 * KAL 9000 \<rocketboy04 (at) gmail (dot) com\> - Configuration Writer
 * Benjamin Kerman \<bcronin720 (at) gmail (dot) com\> - Plugin Programmer, Configuration Writer
