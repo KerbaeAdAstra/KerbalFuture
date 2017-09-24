@@ -35,7 +35,7 @@ Kerbal Future is a team endeavor, as all members of the team contribute to this 
 * Q. How can I contribute?
 * A. Usually this will say "help us alpha-test", but right now we don't even have a working prototype.
 * Q. Okay, so in what other ways can I contribute?
-* A. We have configuration writers, plugin programmers, and modellers/texturers, but we always appreciate extra help. Shoot either 0111narwhalz or TotallyNotHuman if you wish to contribute.
+* A. We have configuration writers, plugin programmers, and modellers/texturers, but we always appreciate extra help. Shoot either 0111narwhalz or TotallyNotHuman a message if you wish to contribute.
 * Q. I'd like to join the team. Can I do that?
 * A. Yes! Join #kerbaeadastra on Freenode and talk to one of the staff members for more info.
 
