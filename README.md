@@ -19,7 +19,7 @@ Kerbal Future is a team endeavor, as all members of the team contribute to this 
 * Q. Okay, so what's the *Kerbae ad Astra* universe?
 * A. *Kerbae ad Astra* is "Latin" for *Kerbalkind to the Stars*. It's a universe based (primarily) after the existence of the Kerbal Space Center, when Kerbals have discovered faster-than-light travel.
 * Q. That sounds cool, where can I learn more?
-* A. [Here!](http://35.190.136.99:8080/w)
+* A. [Here!](http://35.190.136.99/w)
 
 ### Contributing to *Kerbae ad Astra*
 
