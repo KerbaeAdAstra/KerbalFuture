@@ -9,16 +9,16 @@ namespace KerbalFuture
 {
 	class FlightDrive : VesselModule
 	{
-		Vector3 vslObtVel;
+		private Vector3d vesPos;
+		private double vesHeight;
+		private CelestialBody vesBody; 
 		public void FixedUpdate()
 		{
 			if((HighLogic.LoadedSceneIsFlight) && (SpaceFolderWarpCheck()))
 			{
-				vslObtVel = Vessel.GetObtVelocity();
-				if (SpacefolderWarpCheck())
-				{
-					
-				}
+				vesPos = this.Vessel.GetWorldPosition3D();
+				vesBody = this.Vessel.mainBody;
+				vesHeight = this.Vessel.alitiude + vesBody.Radius;
 			}
 		}
 	}
