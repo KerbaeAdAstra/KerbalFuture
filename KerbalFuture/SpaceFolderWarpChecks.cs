@@ -14,7 +14,9 @@ namespace KerbalFuture
 		private double vesselDiameter;
 		public void InitiateWarpCheck()//called by GUI, sets bool gudToGo
 		{
-			//If vessel !have spatiofibrin, return
+			//If vessel !have Spatiofibrin, return
+			if (ResourceAmountOnVessel("Spatiofibrin", CurrentVessel()) < ResourceAmountNeeded())
+				return;
 			//If warpDrive.diameter < vesselSize, return
 			//
 			WarpVessel();

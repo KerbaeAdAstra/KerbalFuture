@@ -10,6 +10,20 @@ namespace KerbalFuture
 {
 	class SpaceFolderData : MonoBehavior
 	{
+		public static List<uint> vesselParts = FinePrint.Utilities.VesselUtilities.GetPartIDList(CurrentVessel());
 		
+		public static string DLLPath()
+		{
+			return System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+		}
+		public static double ResourceAmountOnVessel(string resource, Vessel vessel)
+		{
+			return FinePrint.Utilities.VesselUtilities.VesselResourceAmount(Tea, FlightGlobals.ActiveVessel);
+		}
+		public static Vessel CurrentVessel()
+		{
+			return FlightGlobals.ActiveVessel;
+		}
+		//public static double ResourceAmountNeeded(Vessel vessel)
 	}
 }

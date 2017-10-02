@@ -10,6 +10,13 @@ namespace KerbalFuture
 {
 	class SpaceFolderEngine : PartModule
 	{
-		
+		public static double HoleDiameter()
+		{
+			this.PartModule.Fields.GetValue(SpaceFolderEngine);
+		}
+		public void OnFixedUpdate()
+		{
+			Debug.Log("[BenK]" + this.PartModule.Fields.GetValue(SpaceFolderEngine).ToString);
+		}
 	}
 }

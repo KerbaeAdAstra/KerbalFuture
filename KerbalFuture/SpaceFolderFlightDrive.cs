@@ -23,11 +23,5 @@ namespace KerbalFuture
 				vesHeight = this.Vessel.alitiude + vesBody.Radius;
 			}
 		}
-		
-		/*
-		
-		*/
-		
-		
 	}
 }
