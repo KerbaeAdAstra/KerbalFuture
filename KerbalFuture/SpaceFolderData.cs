@@ -18,7 +18,7 @@ namespace KerbalFuture
 		}
 		public static double ResourceAmountOnVessel(string resource, Vessel vessel)
 		{
-			return FinePrint.Utilities.VesselUtilities.VesselResourceAmount(Tea, FlightGlobals.ActiveVessel);
+			return FinePrint.Utilities.VesselUtilities.VesselResourceAmount(resource, vessel);
 		}
 		public static Vessel CurrentVessel()
 		{

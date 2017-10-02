@@ -14,7 +14,7 @@ namespace KerbalFuture
 		private static double vesHeight;
 		private static CelestialBody vesBody;
 		
-		public static void WarpVessel()
+		public void WarpVessel()
 		{
 			if(WarpIsGo())
 			{

@@ -14,7 +14,7 @@ namespace KerbalFuture
 		{
 			this.PartModule.Fields.GetValue(SpaceFolderEngine);
 		}
-		public void OnFixedUpdate()
+		public static void OnFixedUpdate()
 		{
 			Debug.Log("[BenK]" + this.PartModule.Fields.GetValue(SpaceFolderEngine).ToString);
 		}
