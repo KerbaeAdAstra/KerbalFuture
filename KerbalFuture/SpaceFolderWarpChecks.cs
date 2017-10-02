@@ -10,9 +10,21 @@ namespace KerbalFuture
 {
 	class SpaceFolderVslChecks : MonoBehavior
 	{
-		public bool SpaceFolderWarpCheck()
+		private bool gudToGo;
+		private double vesselDiameter;
+		public void InitiateWarpCheck()//called by GUI, sets bool gudToGo
 		{
-			
+			//If vessel !have spatiofibrin, return
+			//If warpDrive.diameter < vesselSize, return
+			//
+			WarpVessel();
+		}
+		public bool WarpIsGo()//used by FlightDrive to allow warp
+		{
+			if(gudToGo)
+				return true;
+			else
+				return false;
 		}
 	}
 }
