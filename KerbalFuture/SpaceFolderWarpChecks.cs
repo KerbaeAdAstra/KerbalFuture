@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KSP;
+using KerbalFuture;
 
 namespace KerbalFuture
 {
@@ -11,14 +12,7 @@ namespace KerbalFuture
 	{
 		public bool SpaceFolderWarpCheck()
 		{
-			List<Part> vslParts = this.Vessel.Parts;
-			for(vslParts[i])
-			{
-				if(partContainsModule(vslParts[i], "SpaceFolderDrive"))
-				{
-					
-				}
-			}
+			
 		}
 	}
 }
