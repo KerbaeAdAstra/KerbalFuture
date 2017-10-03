@@ -14,6 +14,7 @@ namespace KerbalFuture
 		private static double vesHeight;
 		private static CelestialBody vesBody;
 		private static CelestialBody warpBody;
+		private static double gravPot;
 
 		public void WarpVessel()
 		{
@@ -37,7 +38,10 @@ namespace KerbalFuture
 		}
 		private void CalculateGravPot(CelestialBody cb)
 		{
-			cb.
+			
+			//cb.
+
+		//	gravPot = 
 		}
 	}
 }
