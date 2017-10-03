@@ -28,6 +28,14 @@ namespace KerbalFuture
 				
 			}
 		}
+		private double GetVesselAltitude(bool includePlanetRadius, Vessel v)
+		{
+		    if(includePlanetRadius)
+		    {
+		        return v.altitude + v.mainBody.Radius();
+		    }
+		    return v.altitude;
+		}
 		private double GetVesselLongPos(Vector3d pos)
 		{
 			return this.Vessel.GetLongitude(pos, false);
@@ -38,8 +46,8 @@ namespace KerbalFuture
 		}
 		private void CalculateGravPot(CelestialBody cb)
 		{
+			gravPot = cb.gravParameter / GetVesselAltitude(true, this.Vessel)^2;
 			
-			//cb.
 
 		//	gravPot = 
 		}
