@@ -1,4 +1,4 @@
-# Style Sheet
+# Style Guide
 
 ## Naming
 
@@ -13,13 +13,15 @@
 * There shall be no space between a method's name and its arguments.
 * There shall be a space between a control structure (e.g. if, for) and its arguments.
 * Class, method, property, control structure, et cetera bodies shall always be contained by curly brackets, even if they contain only one statement.
-* Bracketed blocks shall begin the line after the control structure or declaration, e.g.
-```
+* Bracketed blocks shall begin the line after the control structure or declaration, e.g.,
+
+```csharp
 class Foo
 {
-	//…
+    //…
 }
 ```
+
 * Indentation shall be one tab per rank.
 * Wraparound shall be controlled. Excessively long single lines shall be cut at logical points.
 
