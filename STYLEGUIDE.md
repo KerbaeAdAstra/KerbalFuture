@@ -25,8 +25,7 @@ class Foo
 
 ## Layout
 
-* The order of members within a class shall be: static fields, instanced fields, static properties,
- * instanced properties, constructors, methods.
+* The order of members within a class shall be: static fields, instanced fields, static properties, instanced properties, constructors, methods.
 * There shall be an empty line between: the last field and the first property; the last property and the first constructor; each pair of constructors; the last constructor and the first method; each pair of methods.
 * There shall be one class, enum, or struct in each file.
 * Instanced fields and properties shall be initialized in constructors, not in declaration.
