@@ -44,9 +44,9 @@ namespace KerbalFuture
 		{
 			return this.Vessel.GetLatitude(pos, false);
 		}
-		private void CalculateGravPot(CelestialBody cb)
+		private double CalculateGravPot(CelestialBody cb)
 		{
-			gravPot = cb.gravParameter / GetVesselAltitude(true, this.Vessel)^2;
+			gravPot = cb.gravParameter / Math.Pow(GetVesselAltitude(true, this.Vessel), 2);
 			
 
 		//	gravPot = 
