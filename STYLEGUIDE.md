@@ -37,5 +37,5 @@ class Foo
 
 * Single-line comments shall be on their own line, not appended to any other code.
 * Single-line comments shall use the double-slash notation `//`, as opposed to the block-comment notation, `/* … */`.
-* There shall be a comment immediately preceding every method.
+* There shall be a block comment immediately preceding every method documenting said method. It should be documented in [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/how-to-use-the-xml-documentation-features) format.
 * Comments within the body of a method shall precede the content in question and be preceded by an empty line themselves.
