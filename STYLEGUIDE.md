@@ -23,7 +23,8 @@ class Foo
 ```
 
 * Indentation shall be one tab per rank.
-* Wraparound shall be controlled. Excessively long single lines shall be cut at logical points.
+* Lines shall have a length not exceeding 80 characters.
+* Excessively long single lines shall be cut at logical points.
 
 ## Layout
 
@@ -35,5 +36,6 @@ class Foo
 ## Commenting
 
 * Single-line comments shall be on their own line, not appended to any other code.
+* Single-line comments shall use the double-slash notation `//`, as opposed to the block-comment notation, `/* … */`.
 * There shall be a comment immediately preceding every method.
 * Comments within the body of a method shall precede the content in question and be preceded by an empty line themselves.
