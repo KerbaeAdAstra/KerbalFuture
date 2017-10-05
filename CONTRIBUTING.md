@@ -11,17 +11,21 @@ Please don't use the issue tracker for support, questions, or other miscellany. 
 ## Ground Rules
 
 There is only one important ground rule, and it is as follows:
-> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://35.190.136.99:3000/KerbaeAdAstra/KerbalFuture/blob/develop/CODE_OF_CONDUCT.md).
+> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://35.190.136.99:3000/KerbaeAdAstra/KerbalFuture/blob/Documentation/CODE_OF_CONDUCT.md).
 
 ## Contributing
 
 * Each merge request should implement one, and only one, feature or bug fix. Should you wish to implement or fix more than one feature/bug, submit more than one merge request.
 * The commits of each merge request should be directly relevant to the merge request itself. Do not commit changes to files that are irrelevant to the merge request.
 * Do not add `using` directives that point to third-party libraries, unless said library is either essential to the project or pre-approved. When in doubt, contact the project maintainers.
-* Pre-approved libraries are defined as any library included with Kerbal Space Program itself (i.e., in `<KSP_DIR>/KSP_DATA`).
+* Pre-approved libraries are defined as any library included with Kerbal Space Program itself (i.e., in `<KSP_DIR>/KSP_Data`).
 * Be willing to accept constructive criticism from the project maintainers.
 * Be aware that the merge request review process is not immediate, and that the project maintainers have other things to do. Do not pester the project maintainers.
 * Low-effort merge requests will generally be rejected.
+
+### Coding style
+
+Please refer to the [style guide](http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/blob/Documentation/STYLEGUIDE.md) for specific information. If non-compliant code is written, we may ask you to refactor it accordingly.
 
 ### Commit message guidelines
 
@@ -68,7 +72,7 @@ Refs: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/merge_requests/83
 
 ### Security Vulnerabilities
 
-If you find a security vulnerability, **DO NOT** open an issue! Send an email to kerbaeadastra@gmail.com. If you're a PGP user, feel free to encrypt to `A00A 5B66 377B EC69 5C4B  8CE8 A7B8 2AD1 4B50 74A3`.
+If you find a security vulnerability, **DO NOT** open an issue! Send an email to kerbaeadastra@gmail.com at your earliest convenience.
 
 ### Bug Reporting Etiquette
 
@@ -80,7 +84,7 @@ To make our work easier, please answer these questions when submitting a bug rep
 1. What did you do that caused this bug?
 1. What exceptions were thrown?
 
-And most importantly, you **must** include the output_log.txt (preferably using the GitLab Snippet function, or thru Pastebin) when submitting a bug report. **NO LOGS == NO SUPPORT.**
+And most importantly, you **must** include the `KSP.log` (preferably using the GitLab Snippet function, or thru Pastebin) when submitting a bug report. **NO LOGS == NO SUPPORT.**
 
 ## Suggesting Features
 
