@@ -8,7 +8,7 @@ using KerbalFuture;
 
 namespace KerbalFuture
 {
-	class SpaceFolderVslChecks : MonoBehavior
+	class SpaceFolderVslChecks : MonoBehaviour
 	{
 		private bool gudToGo;
 		private double vesselDiameter;

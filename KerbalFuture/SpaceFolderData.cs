@@ -8,7 +8,7 @@ using KerbalFuture;
 
 namespace KerbalFuture
 {
-	class SpaceFolderData : MonoBehavior
+	class SpaceFolderData : MonoBehaviour
 	{
 		public static List<uint> vesselParts = FinePrint.Utilities.VesselUtilities.GetPartIDList(CurrentVessel());
 		

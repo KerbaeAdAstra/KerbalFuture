@@ -10,25 +10,35 @@ namespace KerbalFuture
 {
 	class FlightDrive : VesselModule
 	{
-		private static Vector3d vesPos;
+		private static Vector3d cbPos;
 		private static double vesHeight;
 		private static CelestialBody vesBody;
 		private static CelestialBody warpBody;
-		private static double gravPot;
+		private static double warpLong, warpLat;
+		private static double bodyGravPot;
 
 		public void WarpVessel()
 		{
 			if(WarpIsGo())
 			{
-				vesPos = this.Vessel.GetWorldPosition3D();
 				vesBody = this.Vessel.mainBody;
 				vesHeight = (this.Vessel.alitiude + vesBody.Radius);
-				warpBody = GUIChosenBody();
-				
+				warpBody = GUI.ChosenBody();
+				warpLong = GUI.ChosenLat();
+				warpLat = GUI.ChosenLong();
+				bodyGravPot = CalculateGravPot(vesBody);
+				cbPos = warpBody.position;
+				Vector3dHelper CBVector = new Vector3dHelper;
+				Vector3dHelper VesPosition = new Vector3dHelper;
+				CBVector.ConvertVector3dToXYZCoords(cbPos);
+				VesPosition.SetX(CBVector.Vector3dX() + XFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				VesPosition.SetY(CBVector.Vector3dY() + YFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				VesPosition.SetZ(CBVector.Vector3dZ() + ZFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				this.Vessel.SetPosition(VesPosition.ConvertXYZCoordsToVector3d(VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
 				
 			}
 		}
-		private double GetVesselAltitude(bool includePlanetRadius, Vessel v)
+		private static double GetVesselAltitude(bool includePlanetRadius, Vessel v)
 		{
 		    if(includePlanetRadius)
 		    {
@@ -36,20 +46,17 @@ namespace KerbalFuture
 		    }
 		    return v.altitude;
 		}
-		private double GetVesselLongPos(Vector3d pos)
+		private static double GetVesselLongPos(Vector3d pos)
 		{
 			return this.Vessel.GetLongitude(pos, false);
 		}
-		private double GetVesselLatPos(Vector3d pos)
+		private static double GetVesselLatPos(Vector3d pos)
 		{
 			return this.Vessel.GetLatitude(pos, false);
 		}
-		private double CalculateGravPot(CelestialBody cb)
+		private static double CalculateGravPot(CelestialBody cb)
 		{
-			gravPot = cb.gravParameter / Math.Pow(GetVesselAltitude(true, this.Vessel), 2);
-			
-
-		//	gravPot = 
+			return cb.gravParameter / Math.Pow(GetVesselAltitude(true, this.Vessel), 2);
 		}
 	}
 }
