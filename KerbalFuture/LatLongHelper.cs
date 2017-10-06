@@ -1,26 +1,26 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using KSP;
-using KerbalFuture;
+using static System.Math;
 
 namespace KerbalFuture
 {
 	class LatLongHelper : MonoBehaviour
 	{
-		public static double XFromLatLongAlt(double lat, double _long, double alt)
+
+		public static double XFromLatLongAlt(double _lat, double _long,
+											 double _alt)
 		{
-			return alt * Math.Cos(lat) * Math.Cos(_long);
+			return _alt * Cos(_lat) * Cos(_long);
 		}
-		public static double YFromLatLongAlt(double lat, double _long, double alt)
+
+		public static double YFromLatLongAlt(double _lat, double _long,
+											 double _alt)
 		{
-			return alt * Math.Cos(lat) * Math.Sin(_long);
+			return _alt * Cos(_lat) * Sin(_long);
 		}
-		public static double ZFromLatLongAlt(double lat, double alt)
+
+		public static double ZFromLatAlt(double _lat, double _alt)
 		{
-			return alt * Math.Cos(lat);
+			return _alt * Cos(_lat);
 		}
 	}
 }

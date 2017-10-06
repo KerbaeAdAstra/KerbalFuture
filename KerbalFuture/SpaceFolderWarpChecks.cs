@@ -1,32 +1,24 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using KSP;
-using KerbalFuture;
 
 namespace KerbalFuture
 {
-	class SpaceFolderVslChecks : MonoBehaviour
+	class SpaceFolderWarpChecks : MonoBehaviour
 	{
-		private bool gudToGo;
-		private double vesselDiameter;
-		public static void InitiateWarpCheck()//called by GUI, sets bool gudToGo
+		static bool goodToGo;
+		static double vesselDiameter;
+		public static void InitiateWarpCheck() //called by GUI, sets bool goodToGo
 		{
 			//If vessel !have Spatiofibrin, return
-			//if (ResourceAmountOnVessel("Spatiofibrin", CurrentVessel()) < ResourceAmountNeeded())
+			//if (ResourceAmountOnVessel("Spatiofibrin", CurrentVessel()) < 
+			// ResourceAmountNeeded())
 			//	return;
-			//If warpDrive.diameter < vesselSize, return
+			// If warpDrive.diameter < vesselSize, return
 			//
-			WarpVessel();
+			// WarpVessel();
 		}
-		public static bool WarpIsGo()//used by FlightDrive to allow warp
+		public static bool WarpIsGo()
 		{
-			if(gudToGo)
-				return true;
-			else
-				return false;
+			return goodToGo;
 		}
 	}
 }
