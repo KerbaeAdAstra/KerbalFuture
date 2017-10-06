@@ -18,7 +18,7 @@ namespace KerbalFuture
 		{
 			return alt * Math.Cos(lat) * Math.Sin(_long);
 		}
-		public static double ZFromLatLongAlt(dobule lat, double alt)
+		public static double ZFromLatLongAlt(double lat, double alt)
 		{
 			return alt * Math.Cos(lat);
 		}
