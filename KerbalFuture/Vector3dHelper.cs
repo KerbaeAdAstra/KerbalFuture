@@ -1,17 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using KSP;
-using KerbalFuture;
 
 namespace KerbalFuture
 {
 	class Vector3dHelper : MonoBehaviour
 	{
-		private double v3dX, v3dY, v3dZ;
-		
+		double v3dX, v3dY, v3dZ;
+
 		public static void ConvertVector3dToXYZCoords(Vector3d v3d)
 		{
 			v3dX = v3d.x;

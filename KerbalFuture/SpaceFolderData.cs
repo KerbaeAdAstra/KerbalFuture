@@ -1,29 +1,34 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Reflection;
+using FinePrint.Utilities;
 using UnityEngine;
-using KSP;
-using KerbalFuture;
 
 namespace KerbalFuture
 {
 	class SpaceFolderData : MonoBehaviour
 	{
-		public static List<uint> vesselParts = FinePrint.Utilities.VesselUtilities.GetPartIDList(CurrentVessel());
+		public static List<uint> vesselParts = VesselUtilities.GetPartIDList(CurrentVessel());
 		
 		public static string DLLPath()
 		{
-			return System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+			return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		}
+
 		public static double ResourceAmountOnVessel(string resource, Vessel vessel)
 		{
-			return FinePrint.Utilities.VesselUtilities.VesselResourceAmount(resource, vessel);
+			return VesselUtilities.VesselResourceAmount(resource, vessel);
 		}
+
 		public static Vessel CurrentVessel()
 		{
 			return FlightGlobals.ActiveVessel;
 		}
-		//public static double ResourceAmountNeeded(Vessel vessel)
+
+		public static void ResourceAmountNeeded(Vessel vessel)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
