@@ -1,6 +1,7 @@
 using UnityEngine;
+using KerbalFuture;
 
-namespace KerbalFuture
+namespace SpaceFolder
 {
 	class Vector3dHelper : MonoBehaviour
 	{

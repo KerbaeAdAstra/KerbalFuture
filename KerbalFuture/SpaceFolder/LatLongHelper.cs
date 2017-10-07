@@ -1,7 +1,8 @@
 using UnityEngine;
 using static System.Math;
+using KerbalFuture;
 
-namespace KerbalFuture
+namespace SpaceFolder
 {
 	class LatLongHelper : MonoBehaviour
 	{

@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using static KerbalFuture.SpaceFolderWarpChecks;
+using KerbalFuture;
 
-namespace KerbalFuture
+namespace SpaceFolder
 {
 	class FlightDrive : VesselModule
 	{
@@ -12,7 +12,8 @@ namespace KerbalFuture
 		static CelestialBody warpBody;
 		static double warpLong, warpLat;
 		static double bodyGravPot;
-
+		var vesselData;
+		
 		public void WarpVessel()
 		{
 			if (WarpIsGo())
