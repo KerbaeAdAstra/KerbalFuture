@@ -12,7 +12,6 @@ namespace SpaceFolder
 		static CelestialBody warpBody;
 		static double warpLong, warpLat;
 		static double bodyGravPot;
-		var vesselData;
 		
 		public void WarpVessel()
 		{

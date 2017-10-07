@@ -7,7 +7,7 @@ namespace SpaceFolder
 	{
 		static bool goodToGo;
 		static double vesselDiameter;
-		var vesData;
+		static var vesData;
 		
 		public static void InitiateWarpCheck() //called by GUI, sets bool goodToGo
 		{

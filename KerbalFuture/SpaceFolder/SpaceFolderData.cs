@@ -10,8 +10,8 @@ namespace SpaceFolder
 {
 	class SpaceFolderData : MonoBehaviour
 	{
-		private string activeVessel;
-		private string dllPath;
+		private static string activeVessel;
+		private static string dllPath;
 		
 		public static string DLLPath()
 		{
