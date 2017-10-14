@@ -22,9 +22,5 @@ namespace SpaceFolder
 		{
 			return VesselUtilities.VesselResourceAmount(resource, vessel);
 		}
-		public static Vessel CurrentVessel()
-		{
-			return FlightGlobals.activeVessel;
-		}
 	}
 }

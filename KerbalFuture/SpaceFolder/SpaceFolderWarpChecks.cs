@@ -16,10 +16,10 @@ namespace SpaceFolder
 		public static void InitiateWarpCheck() //called by GUI, sets bool goodToGo
 		{
 			//constructs a new VesselData class
-			vesData = new VesselData(CurrentVessel());
+			vesData = new VesselData(FlightGlobals.activeVessel);
 			int spaceFolderClassID = SpaceFolderEngine.ModuleClassID();
 			//Checks if the current vessel has a SpaceFolderEngine
-			if (!vesData.VesselContainsModule(CurrentVessel(), SpaceFolderEngine.spaceFolderClassID))
+			if (!vesData.VesselContainsModule(FlightGlobals.activeVessel, SpaceFolderEngine.spaceFolderClassID))
 			{
 				return;
 			}
@@ -27,7 +27,7 @@ namespace SpaceFolder
 			
 			//If vessel !have Spatiofibrin, return
 			//if (ResourceAmountOnVessel("Spatiofibrin", CurrentVessel()) <= 
-			//if (ResourceAmountOnVessel("Spatiofibrin", CurrentVessel()) < 
+			//if (ResourceAmountOnVessel("Spatiofibrin", FlightGlobals.activeVessel) < 
 			// ResourceAmountNeeded())
 			//	return;
 			// If warpDrive.diameter < vesselSize, return
