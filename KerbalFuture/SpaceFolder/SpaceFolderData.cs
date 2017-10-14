@@ -10,9 +10,9 @@ namespace SpaceFolder
 {
 	class SpaceFolderData : MonoBehaviour
 	{
-		private static string activeVessel;
 		private static string dllPath;
 		
+		//Depreciated, unused
 		public static string DLLPath()
 		{
 			dllPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -24,8 +24,7 @@ namespace SpaceFolder
 		}
 		public static Vessel CurrentVessel()
 		{
-			activeVessel = FlightGlobals.ActiveVessel;
-			return activeVessel;
+			return FlightGlobals.activeVessel;
 		}
 	}
 }

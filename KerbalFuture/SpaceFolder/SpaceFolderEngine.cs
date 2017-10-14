@@ -10,12 +10,19 @@ namespace SpaceFolder
 {
 	class SpaceFolderEngine : PartModule
 	{
-		[KSPField(isPersistant = true, guiName = "Warp Drive Size", guiActive = true, guiActiveEditor = true)]
-		private int warpDriveDiameter;
+		//Do not access directly, method below for that. 
+		[KSPField(isPersistant = true, guiActive = false)]
+		public float warpDriveDiameter;
 		
-		public override void OnLoad(ConfigNode node)
+		//Returns the ClassID of this PartModule.
+		public static int ModuleClassID
 		{
-			base.OnLoad(node);
+			return this.ClassID;
+		}
+		//Method to access warp drive diameter.
+		public static float WarpDriveDiameter()
+		{
+			return warpDriveDiameter;
 		}
 	}
 }
