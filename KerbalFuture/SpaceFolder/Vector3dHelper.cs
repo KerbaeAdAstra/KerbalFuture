@@ -7,11 +7,11 @@ namespace SpaceFolder
 	{
 		double v3dX, v3dY, v3dZ;
 
-		public static void ConvertVector3dToXYZCoords(Vector3d v3d)
+		public static void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z)
 		{
-			v3dX = v3d.x;
-			v3dY = v3d.y;
-			v3dZ = v3d.z;
+			x = v3d.x;
+			y = v3d.y;
+			z = v3d.z;
 		}
 		public static Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z)
 		{
@@ -29,8 +29,8 @@ namespace SpaceFolder
 		{
 			return v3dZ;
 		}
-		public double SetX(double x) {v3dX = x;}
-		public double SetY(double y) {v3dY = y;}
-		public double SetZ(double z) {v3dZ = z;}
+		public void SetX(double x) {v3dX = x;}
+		public void SetY(double y) {v3dY = y;}
+		public void SetZ(double z) {v3dZ = z;}
 	}
 }

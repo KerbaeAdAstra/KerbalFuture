@@ -15,7 +15,7 @@ namespace SpaceFolder
 		public float warpDriveDiameter;
 		
 		//Returns the ClassID of this PartModule.
-		public static int ModuleClassID
+		public static int ModuleClassID()
 		{
 			return this.ClassID;
 		}

@@ -21,6 +21,20 @@ namespace SpaceFolder
 		[KSPField(isPersistant = true)]
 		static float quadK;
 
+		[KSPField(isPersistant = true)]
+		static bool generated;
+
+		private static void GenerateValues()
+		{
+			if (generated)
+			{
+				return;
+			}
+			generated = true;
+			quadCoefficent = 0.1;
+			quadH = 10;
+			quadK = -5;
+		}
 		public static double SpaciofibrinWarpCalc(float[] engineSizes)
 		{
 			double returnAmount;
@@ -40,6 +54,7 @@ namespace SpaceFolder
 		}
 		public static void InitiateWarpCheck(float[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
+			GenerateValues();
 			warpEngineSizes.Clear();
 			vesselDiameter = vesDiameter;
 			goodToGo = false;
