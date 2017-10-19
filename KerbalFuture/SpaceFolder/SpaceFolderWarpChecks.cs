@@ -8,7 +8,6 @@ namespace SpaceFolder
 		static bool goodToGo;
 		static double vesselDiameter;
 		static var vesData;
-		static double[] warpEngineSizes;
 		static double maxWarpHoleSize;
 		static double spaciofibrinNeeded;
 		
@@ -53,15 +52,15 @@ namespace SpaceFolder
 			quadCoefficent = (double)quadCoefficent;
 			return (quadCoefficent * Math.Pow((engineSize - quadH), 2) + quadK);
 		}
+		private static double MaxWarpHoleSize(double[] engineSizes)
+		{
+			//TODO
+		}
 		public static void InitiateWarpCheck(double[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
-			warpEngineSizes.Clear();
 			vesselDiameter = vesDiameter;
 			goodToGo = false;
-			foreach(double d in engineSizes)
-			{
-				warpEngineSizes.Add(d);
-			}
+			//maxWarpHoleSize = TODO
 			//constructs a new VesselData class
 			vesData = new VesselData(FlightGlobals.activeVessel);
 			int spaceFolderClassID = SpaceFolderEngine.ModuleClassID();
@@ -71,10 +70,10 @@ namespace SpaceFolder
 				return;
 			}
 			//Checks the size of the SpaceFolderEngine module
-			
+			if()
 			//If vessel !have Spatiofibrin, return
 			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
-			if(ResourceAmountOnVessel("Spaciofibrin", FlightGlobals.activeVessel) < spaciofibrinNeeded)
+			if(ResourceAmountOnVessel("spatiofibrin", FlightGlobals.activeVessel) < spaciofibrinNeeded)
 			{
 				return;
 			}
