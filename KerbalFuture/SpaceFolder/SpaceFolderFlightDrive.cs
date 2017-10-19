@@ -15,6 +15,7 @@ namespace SpaceFolder
 		
 		public void WarpVessel()
 		{
+			double cbx, cby, cbz;
 			if (WarpIsGo())
 			{
 				vesBody = Vessel.mainBody;
@@ -26,10 +27,10 @@ namespace SpaceFolder
 				cbPos = warpBody.position;
 				Vector3dHelper CBVector = new Vector3dHelper();
 				Vector3dHelper VesPosition = new Vector3dHelper();
-				CBVector.ConvertVector3dToXYZCoords(cbPos);
-				VesPosition.SetX(CBVector.Vector3dX() + XFromLatLongAlt(warpLat, warpLong, bodyGravPot));
-				VesPosition.SetY(CBVector.Vector3dY() + YFromLatLongAlt(warpLat, warpLong, bodyGravPot));
-				VesPosition.SetZ(CBVector.Vector3dZ() + ZFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				CBVector.ConvertVector3dToXYZCoords(cbPos, cbx, cby, cbz);
+				VesPosition.SetX(cbx + XFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				VesPosition.SetY(cby + YFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				VesPosition.SetZ(cbz + ZFromLatLongAlt(warpLat, warpLong, bodyGravPot));
 				Vessel.SetPosition(VesPosition.ConvertXYZCoordsToVector3d(VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
 				
 			}

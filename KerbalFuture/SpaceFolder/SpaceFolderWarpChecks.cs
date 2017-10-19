@@ -6,10 +6,10 @@ namespace SpaceFolder
 	class SpaceFolderWarpChecks : MonoBehaviour
 	{
 		static bool goodToGo;
-		static float vesselDiameter;
+		static double vesselDiameter;
 		static var vesData;
-		static float[] warpEngineSizes;
-		static float maxWarpHoleSize;
+		static double[] warpEngineSizes;
+		static double maxWarpHoleSize;
 		static double spaciofibrinNeeded;
 		
 		[KSPField(isPersistant = true)]
@@ -24,6 +24,7 @@ namespace SpaceFolder
 		[KSPField(isPersistant = true)]
 		static bool generated;
 
+		//Depreciated
 		private static void GenerateValues()
 		{
 			if (generated)
@@ -35,32 +36,31 @@ namespace SpaceFolder
 			quadH = 10;
 			quadK = -5;
 		}
-		public static double SpaciofibrinWarpCalc(float[] engineSizes)
+		public static double SpaciofibrinWarpCalc(double[] engineSizes)
 		{
 			double returnAmount;
-			foreach(float f in engineSizes)
+			foreach(double d in engineSizes)
 			{
-				returnAmount += QuadCalc(f);
+				returnAmount += Math.pow(Math.E, d/5);//TODO, fix values
 			}
 			return returnAmount;
 		}
-		private static double QuadCalc(float engineSize)
+		//Depreciated
+		private static double QuadCalc(double engineSize)
 		{
-			engineSize = (double)engineSize;
 			quadH = (double)quadH;
 			quadK = (double)quadK;
 			quadCoefficent = (double)quadCoefficent;
 			return (quadCoefficent * Math.Pow((engineSize - quadH), 2) + quadK);
 		}
-		public static void InitiateWarpCheck(float[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
+		public static void InitiateWarpCheck(double[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
-			GenerateValues();
 			warpEngineSizes.Clear();
 			vesselDiameter = vesDiameter;
 			goodToGo = false;
-			foreach(float f in engineSizes)
+			foreach(double d in engineSizes)
 			{
-				warpEngineSizes.Add(f);
+				warpEngineSizes.Add(d);
 			}
 			//constructs a new VesselData class
 			vesData = new VesselData(FlightGlobals.activeVessel);

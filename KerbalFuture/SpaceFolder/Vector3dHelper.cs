@@ -17,6 +17,10 @@ namespace SpaceFolder
 		{
 			return Vector3d.Vector3d(x, y, z);
 		}
+		public static void ConvertXYZCoordsToVector3d(double x, double y, double z, ref Vector3d v3d)
+		{
+			v3d = Vector3d.Vector3d(x, y, z);
+		}
 		public double Vector3dX()
 		{
 			return v3dX;
