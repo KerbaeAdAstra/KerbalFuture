@@ -54,7 +54,55 @@ namespace SpaceFolder
 		}
 		private static double MaxWarpHoleSize(double[] engineSizes)
 		{
-			//TODO
+			List<double> dividers = new List<double>;
+			double divider = 0.1;
+			dividers.Add(0.8); dividers.Add(0.6); dividers.Add(0,4); dividers.Add(0.2);
+			int engineCount = 0;
+			double totSize = 0;
+			double realSize = 0;
+			foreach(double d in engineSizes)
+			{
+				totSize += d;
+			}
+			engineCount = engineSizes.Count();
+			engineSizes = SortedDoubleList(engineSizes);
+			for(int i = 0; i <= engineCount; i++)
+			{
+				if (i == 0)
+				{
+					realSize += engineSizes[i];
+				}
+				else if(i > 0 && i < 5)
+				{
+					realSize += (engineSizes[i] * dividers[i+1]);
+				}
+				else
+				{
+					realSize += engineSizes[i] * divider;
+					divider = divider/2;
+				}
+			}
+		}
+		public static double[] BigToSmallSortedDoubleList(double[] list)
+		{
+			List<double> sortedList = new List<double>;
+			while(list.Count() != 0)
+			{
+				sortedList.Add(list.Min());
+				list.Remove(list.Min());
+			}
+			sortedList.Reverse();
+			return sortedList;
+		}
+		public static double[] SmallToBigSortedDoubleList(double[] list)
+		{
+			List<double> sortedList = new List<double>;
+			while(list.Count() != 0)
+			{
+				sortedList.Add(list.Min());
+				list.Remove(list.Min());
+			}
+			return sortedList;
 		}
 		public static void InitiateWarpCheck(double[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
@@ -80,9 +128,12 @@ namespace SpaceFolder
 			// ResourceAmountNeeded())
 			//	return;
 			// If warpDrive.diameter < vesselSize, return
-			//
-			// WarpVessel();
+			if(MaxWarpHoleSize(engineSizes) < vesselDiameter)
+			{
+				return;
+			}
 			goodToGo = true;
+			WarpVessel();
 		}
 	}
 }
