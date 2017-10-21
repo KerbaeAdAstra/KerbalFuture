@@ -64,7 +64,7 @@ namespace SpaceFolder
 			{
 				totSize += d;
 			}
-			engineCount = engineSizes.Count();
+			engineCount = engineSizes.Count;
 			engineSizes = SortedDoubleList(engineSizes);
 			for(int i = 0; i <= engineCount; i++)
 			{
@@ -86,7 +86,7 @@ namespace SpaceFolder
 		public static double[] BigToSmallSortedDoubleList(double[] list)
 		{
 			List<double> sortedList = new List<double>;
-			while(list.Count() != 0)
+			while(list.Count != 0)
 			{
 				sortedList.Add(list.Min());
 				list.Remove(list.Min());
@@ -97,7 +97,7 @@ namespace SpaceFolder
 		public static double[] SmallToBigSortedDoubleList(double[] list)
 		{
 			List<double> sortedList = new List<double>;
-			while(list.Count() != 0)
+			while(list.Count != 0)
 			{
 				sortedList.Add(list.Min());
 				list.Remove(list.Min());
@@ -117,8 +117,6 @@ namespace SpaceFolder
 			{
 				return;
 			}
-			//Checks the size of the SpaceFolderEngine module
-			if()
 			//If vessel !have Spatiofibrin, return
 			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
 			if(ResourceAmountOnVessel("spatiofibrin", FlightGlobals.activeVessel) < spaciofibrinNeeded)
