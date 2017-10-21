@@ -104,11 +104,14 @@ namespace SpaceFolder
 			}
 			return sortedList;
 		}
+		public static bool GoodToGo()
+		{
+			return goodToGo;
+		}
 		public static void InitiateWarpCheck(double[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
 			vesselDiameter = vesDiameter;
 			goodToGo = false;
-			//maxWarpHoleSize = TODO
 			//constructs a new VesselData class
 			vesData = new VesselData(FlightGlobals.activeVessel);
 			int spaceFolderClassID = SpaceFolderEngine.ModuleClassID();
@@ -119,12 +122,10 @@ namespace SpaceFolder
 			}
 			//If vessel !have Spatiofibrin, return
 			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
-			if(ResourceAmountOnVessel("spatiofibrin", FlightGlobals.activeVessel) < spaciofibrinNeeded)
+			if(vesData.ResourceAmountOnVessel("spatiofibrin", FlightGlobals.activeVessel) < spaciofibrinNeeded)
 			{
 				return;
 			}
-			// ResourceAmountNeeded())
-			//	return;
 			// If warpDrive.diameter < vesselSize, return
 			if(MaxWarpHoleSize(engineSizes) < vesselDiameter)
 			{

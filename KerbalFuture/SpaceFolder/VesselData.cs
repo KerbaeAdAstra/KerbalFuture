@@ -37,6 +37,10 @@ namespace SpaceFolder
 				}
 			}
 		}
+		public double ResourceAmountOnVessel(string resource, Vessel vessel)
+		{
+			return VesselUtilities.VesselResourceAmount(resource, vessel);
+		}
 		public bool VesselContainsModule(Vessel vessel, int classID)
 		{
 			UpdateVesselData(vessel);
@@ -55,6 +59,5 @@ namespace SpaceFolder
 				}
 			}
 		}
-		
 	}
 }

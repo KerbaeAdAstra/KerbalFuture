@@ -16,7 +16,7 @@ namespace SpaceFolder
 		public void WarpVessel()
 		{
 			double cbx, cby, cbz;
-			if (WarpIsGo())
+			if (GoodToGo())
 			{
 				vesBody = Vessel.mainBody;
 				vesHeight = (Vessel.alitiude + vesBody.Radius);
