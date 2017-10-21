@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KSP;
-using KerbalFuture;
 
 namespace SpaceFolder
 {
@@ -15,12 +14,12 @@ namespace SpaceFolder
 		public float warpDriveDiameter;
 		
 		//Returns the ClassID of this PartModule.
-		public static int ModuleClassID()
+		public int ModuleClassID()
 		{
 			return this.ClassID;
 		}
 		//Method to access warp drive diameter.
-		public static float WarpDriveDiameter()
+		public float WarpDriveDiameter()
 		{
 			return warpDriveDiameter;
 		}

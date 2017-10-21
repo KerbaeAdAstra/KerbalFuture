@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using KerbalFuture;
 using UnityEngine;
 
 namespace SpaceFolder
 {
 	class VesselData : MonoBehaviour
 	{
-		private var vesselParts;
-		private var vesselPartHashSet;
+		private PartSet vesselParts;
+		private HashSet vesselPartHashSet;
 		
 		public VesselData(Vessel vessel)
 		{
@@ -19,45 +18,9 @@ namespace SpaceFolder
 			vesselParts = new PartSet(vessel);
 			vesselPartHashSet = vesselParts.GetParts();
 		}
-		public bool VesselContainsModule(Vessel vessel, string className)
-		{
-			UpdateVesselData(vessel);
-			var p;
-			for(int i = 0; i < vesselPartHashSet.Count(); i++)
-			{
-				p = vesselPartHashSet[i];
-				var partModuleList = new PartModuleList(p);
-				if(partModuleList.Contains(className)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-		}
 		public double ResourceAmountOnVessel(string resource, Vessel vessel)
 		{
-			return VesselUtilities.VesselResourceAmount(resource, vessel);
-		}
-		public bool VesselContainsModule(Vessel vessel, int classID)
-		{
-			UpdateVesselData(vessel);
-			var p;
-			for(int i = 0; i < vesselPartHashSet.Count(); i++)
-			{
-				p = vesselPartHashSet[i];
-				var partModuleList = new PartModuleList(p);
-				if(partModuleList.Contains(classID)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
+			return FinePrint.Utilities.VesselUtilities.VesselResourceAmount(resource, vessel);
 		}
 	}
 }

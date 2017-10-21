@@ -1,5 +1,4 @@
 using UnityEngine;
-using KerbalFuture;
 
 namespace SpaceFolder
 {
@@ -15,11 +14,12 @@ namespace SpaceFolder
 		}
 		public static Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z)
 		{
-			return Vector3d.Vector3d(x, y, z);
+			Vector3d v3d = new Vector3d(x, y, z);
+			return v3d;
 		}
 		public static void ConvertXYZCoordsToVector3d(double x, double y, double z, ref Vector3d v3d)
 		{
-			v3d = Vector3d.Vector3d(x, y, z);
+			v3d = new Vector3d(x, y, z);
 		}
 		public double Vector3dX()
 		{

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using KerbalFuture;
 
 namespace SpaceFolder
 {
@@ -13,48 +12,50 @@ namespace SpaceFolder
 		static double warpLong, warpLat;
 		static double bodyGravPot;
 		
-		public void WarpVessel()
+		public void WarpVessel(Vessel v)
 		{
 			double cbx, cby, cbz;
-			if (GoodToGo())
+			if (SpaceFolderWarpChecks.GoodToGo())
 			{
-				vesBody = Vessel.mainBody;
-				vesHeight = (Vessel.alitiude + vesBody.Radius);
+				vesBody = v.mainBody;
+				vesHeight = (v.altitude + vesBody.Radius);
 				warpBody = GUI.ChosenBody();
 				warpLong = GUI.ChosenLat();
 				warpLat = GUI.ChosenLong();
-				bodyGravPot = CalculateGravPot(vesBody);
+				bodyGravPot = CalculateGravPot(vesBody, v);
 				cbPos = warpBody.position;
 				Vector3dHelper CBVector = new Vector3dHelper();
 				Vector3dHelper VesPosition = new Vector3dHelper();
+				LatLongHelper LLH = new LatLongHelper();
 				CBVector.ConvertVector3dToXYZCoords(cbPos, cbx, cby, cbz);
-				VesPosition.SetX(cbx + XFromLatLongAlt(warpLat, warpLong, bodyGravPot));
-				VesPosition.SetY(cby + YFromLatLongAlt(warpLat, warpLong, bodyGravPot));
-				VesPosition.SetZ(cbz + ZFromLatLongAlt(warpLat, warpLong, bodyGravPot));
-				Vessel.SetPosition(VesPosition.ConvertXYZCoordsToVector3d(VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
-				
+				VesPosition.SetX(cbx + LLH.XFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				VesPosition.SetZ(cbz + LLH.ZFromLatLongAlt(warpLat, warpLong, bodyGravPot));
+				v.SetPosition(VesPosition.ConvertXYZCoordsToVector3d(VesPosition.Vector3dX(), VesPosition.Vector3dY(), VesPosition.Vector3dZ()), true);
 			}
 		}
 		static double GetVesselAltitude(bool includePlanetRadius, Vessel v)
 		{
 			if (includePlanetRadius)
 			{
-				return v.altitude + v.mainBody.Radius();
+				return v.altitude + v.mainBody.Radius;
 			}
 			return v.altitude;
 		}
-		static double GetVesselLongPos(Vector3d pos)
+		//Unused
+		static double GetVesselLongPos(Vector3d pos, Vessel v)
 		{
-			return Vessel.GetLongitude(pos, false);
+			return v.GetLongitude(pos, false);
 		}
-		static double GetVesselLatPos(Vector3d pos)
+		//Unused
+		static double GetVesselLatPos(Vector3d pos, Vessel v)
 		{
-			return Vessel.GetLatitude(pos, false);
+			return v.GetLatitude(pos, false);
 		}
-		static double CalculateGravPot(CelestialBody cb)
+		static double CalculateGravPot(CelestialBody cb, Vessel v)
 		{
 			return cb.gravParameter / Math.Pow(GetVesselAltitude
-											   (true, Vessel), 2);
+											   (true, v), 2);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using KerbalFuture;
+using System.Math;
 
 namespace SpaceFolder
 {
@@ -7,34 +7,9 @@ namespace SpaceFolder
 	{
 		static bool goodToGo;
 		static double vesselDiameter;
-		static var vesData;
 		static double maxWarpHoleSize;
 		static double spaciofibrinNeeded;
 		
-		[KSPField(isPersistant = true)]
-		static float quadCoefficent;
-
-		[KSPField(isPersistant = true)]
-		static float quadH;
-
-		[KSPField(isPersistant = true)]
-		static float quadK;
-
-		[KSPField(isPersistant = true)]
-		static bool generated;
-
-		//Depreciated
-		private static void GenerateValues()
-		{
-			if (generated)
-			{
-				return;
-			}
-			generated = true;
-			quadCoefficent = 0.1;
-			quadH = 10;
-			quadK = -5;
-		}
 		public static double SpaciofibrinWarpCalc(double[] engineSizes)
 		{
 			double returnAmount;
@@ -43,14 +18,6 @@ namespace SpaceFolder
 				returnAmount += Math.pow(Math.E, d/5);//TODO, fix values
 			}
 			return returnAmount;
-		}
-		//Depreciated
-		private static double QuadCalc(double engineSize)
-		{
-			quadH = (double)quadH;
-			quadK = (double)quadK;
-			quadCoefficent = (double)quadCoefficent;
-			return (quadCoefficent * Math.Pow((engineSize - quadH), 2) + quadK);
 		}
 		private static double MaxWarpHoleSize(double[] engineSizes)
 		{
@@ -85,7 +52,7 @@ namespace SpaceFolder
 		}
 		public static double[] BigToSmallSortedDoubleList(double[] list)
 		{
-			List<double> sortedList = new List<double>;
+			List<double> sortedList = new List<double>();
 			while(list.Count != 0)
 			{
 				sortedList.Add(list.Min());
@@ -96,7 +63,7 @@ namespace SpaceFolder
 		}
 		public static double[] SmallToBigSortedDoubleList(double[] list)
 		{
-			List<double> sortedList = new List<double>;
+			List<double> sortedList = new List<double>();
 			while(list.Count != 0)
 			{
 				sortedList.Add(list.Min());
@@ -110,19 +77,20 @@ namespace SpaceFolder
 		}
 		public static void InitiateWarpCheck(double[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
+			FlightGlobals fgs = new FlightGlobals();
 			vesselDiameter = vesDiameter;
 			goodToGo = false;
 			//constructs a new VesselData class
-			vesData = new VesselData(FlightGlobals.activeVessel);
+			VesselData vesData = new VesselData(fgs.activeVessel);
 			int spaceFolderClassID = SpaceFolderEngine.ModuleClassID();
 			//Checks if the current vessel has a SpaceFolderEngine
-			if (!vesData.VesselContainsModule(FlightGlobals.activeVessel, spaceFolderClassID))
+			if (!vesData.VesselContainsModule(fgs.activeVessel, spaceFolderClassID))
 			{
 				return;
 			}
 			//If vessel !have Spatiofibrin, return
 			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
-			if(vesData.ResourceAmountOnVessel("spatiofibrin", FlightGlobals.activeVessel) < spaciofibrinNeeded)
+			if(vesData.ResourceAmountOnVessel("spatiofibrin", fgs.activeVessel) < spaciofibrinNeeded)
 			{
 				return;
 			}
@@ -132,7 +100,7 @@ namespace SpaceFolder
 				return;
 			}
 			goodToGo = true;
-			WarpVessel();
+			WarpVessel(fgs.activeVessel);
 		}
 	}
 }
