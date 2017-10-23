@@ -1,5 +1,7 @@
 using UnityEngine;
-using System.Math;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceFolder
 {
@@ -10,20 +12,19 @@ namespace SpaceFolder
 		static double maxWarpHoleSize;
 		static double spaciofibrinNeeded;
 		
-		public static double SpaciofibrinWarpCalc(double[] engineSizes)
+		public static double SpaciofibrinWarpCalc(List<double> engineSizes)
 		{
-			double returnAmount;
+			double returnAmount = 0;
 			foreach(double d in engineSizes)
 			{
-				returnAmount += Math.pow(Math.E, d/5);//TODO, fix values
+				returnAmount += Math.Pow(Math.E, d/5);//TODO, fix values
 			}
 			return returnAmount;
 		}
-		private static double MaxWarpHoleSize(double[] engineSizes)
+		private static double MaxWarpHoleSize(List<double> engineSizes)
 		{
-			List<double> dividers = new List<double>;
+			List<double> dividers = new List<double>(){0.8, 0.6, 0.4, 0.2};
 			double divider = 0.1;
-			dividers.Add(0.8); dividers.Add(0.6); dividers.Add(0,4); dividers.Add(0.2);
 			int engineCount = 0;
 			double totSize = 0;
 			double realSize = 0;
@@ -31,8 +32,8 @@ namespace SpaceFolder
 			{
 				totSize += d;
 			}
-			engineCount = engineSizes.Count;
-			engineSizes = SortedDoubleList(engineSizes);
+			engineCount = engineSizes.Count();
+			engineSizes = BigToSmallSortedDoubleList(engineSizes);
 			for(int i = 0; i <= engineCount; i++)
 			{
 				if (i == 0)
@@ -49,11 +50,12 @@ namespace SpaceFolder
 					divider = divider/2;
 				}
 			}
+			return realSize;
 		}
-		public static double[] BigToSmallSortedDoubleList(double[] list)
+		public static List<double> BigToSmallSortedDoubleList(List<double> list)
 		{
 			List<double> sortedList = new List<double>();
-			while(list.Count != 0)
+			while(list.Count() != 0)
 			{
 				sortedList.Add(list.Min());
 				list.Remove(list.Min());
@@ -61,10 +63,10 @@ namespace SpaceFolder
 			sortedList.Reverse();
 			return sortedList;
 		}
-		public static double[] SmallToBigSortedDoubleList(double[] list)
+		public static List<double> SmallToBigSortedDoubleList(List<double> list)
 		{
 			List<double> sortedList = new List<double>();
-			while(list.Count != 0)
+			while(list.Count() != 0)
 			{
 				sortedList.Add(list.Min());
 				list.Remove(list.Min());
@@ -75,7 +77,7 @@ namespace SpaceFolder
 		{
 			return goodToGo;
 		}
-		public static void InitiateWarpCheck(double[] engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
+		public static void InitiateWarpCheck(List<double> engineSizes, float vesDiameter) //called by GUI, sets bool goodToGo
 		{
 			FlightGlobals fgs = new FlightGlobals();
 			vesselDiameter = vesDiameter;
@@ -83,11 +85,6 @@ namespace SpaceFolder
 			//constructs a new VesselData class
 			VesselData vesData = new VesselData(fgs.activeVessel);
 			int spaceFolderClassID = SpaceFolderEngine.ModuleClassID();
-			//Checks if the current vessel has a SpaceFolderEngine
-			if (!vesData.VesselContainsModule(fgs.activeVessel, spaceFolderClassID))
-			{
-				return;
-			}
 			//If vessel !have Spatiofibrin, return
 			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
 			if(vesData.ResourceAmountOnVessel("spatiofibrin", fgs.activeVessel) < spaciofibrinNeeded)
@@ -100,7 +97,7 @@ namespace SpaceFolder
 				return;
 			}
 			goodToGo = true;
-			WarpVessel(fgs.activeVessel);
+			FlightDrive.WarpVessel(fgs.activeVessel);
 		}
 	}
 }

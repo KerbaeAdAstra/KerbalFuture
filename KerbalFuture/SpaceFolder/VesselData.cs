@@ -6,7 +6,7 @@ namespace SpaceFolder
 	class VesselData : MonoBehaviour
 	{
 		private PartSet vesselParts;
-		private HashSet vesselPartHashSet;
+		private HashSet<Part> vesselPartHashSet;
 		
 		public VesselData(Vessel vessel)
 		{

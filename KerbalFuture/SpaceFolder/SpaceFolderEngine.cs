@@ -14,9 +14,10 @@ namespace SpaceFolder
 		public float warpDriveDiameter;
 		
 		//Returns the ClassID of this PartModule.
-		public int ModuleClassID()
+		public static int ModuleClassID()
 		{
-			return this.ClassID;
+			SpaceFolderEngine sfe = new SpaceFolderEngine();
+			return sfe.ClassID;
 		}
 		//Method to access warp drive diameter.
 		public float WarpDriveDiameter()
