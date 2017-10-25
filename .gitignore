@@ -25,6 +25,7 @@ autom4te.cache/
 *.user
 *.tar.gz
 *.bak
+*.save.*
 tarballs/
 test-results/
 Thumbs.db
