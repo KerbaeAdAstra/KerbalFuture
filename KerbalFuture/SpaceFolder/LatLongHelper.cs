@@ -1,9 +1,9 @@
 using UnityEngine;
-using static System.Math;
+using System;
 
 namespace SpaceFolder
 {
-	class LatLongHelper : MonoBehaviour
+	class LatLongHelper
 	{
 		public double XFromLatLongAlt(double _lat, double _long,
 											 double _alt)
