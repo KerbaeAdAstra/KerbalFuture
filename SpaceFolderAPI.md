@@ -37,14 +37,14 @@
 
 ### SpaceFolderWarpChecks
 #### Public Static Methods
-* double SpaciofibrinWarpCalc(List<double[]> engineSizes)
+* double SpaciofibrinWarpCalc(List<double>[] engineSizes)
 * List<double> BigToSmallSortedDoubleList(List<double> list)
 * List<double> SmallToBigSortedDoubleList(List<double> list)
-* double ElectricityWarpCalc(List<double[]> engineInfo)
+* double ElectricityWarpCalc(List<double>[] engineInfo)
 * bool GoodToGo()
 * void InitiateWarpCheck(List<double>[] engineSizes, float vesDiameter)
 #### Private Static Methods
-* double MaxWarpHoleSize(List<double[]> engineSizes)
+* double MaxWarpHoleSize(List<double>[] engineSizes)
 #### Private Static Fields
 * bool goodToGo
 * double vesselDiameter

@@ -12,7 +12,7 @@ namespace SpaceFolder
 		static double maxWarpHoleSize;
 		static double spaciofibrinNeeded;
 		
-		public static double SpaciofibrinWarpCalc(List<double[]> engineSizes)
+		public static double SpaciofibrinWarpCalc(List<double>[] engineSizes)
 		{
 			double returnAmount = 0;
 			for(int i = 0; i < engineSizes.Count(); i++)
@@ -22,10 +22,10 @@ namespace SpaceFolder
 			}
 			return returnAmount;
 		}
-		private static double MaxWarpHoleSize(List<double[]> engineSizes)
+		private static double MaxWarpHoleSize(List<double>[] engineSizes)
 		{
 			List<double> dividers = new List<double>(){0.8, 0.6, 0.4, 0.2};
-			double diveder = 0.1;
+			double divider = 0.1;
 			List<double> unmodEngineSize = new List<double>();
 			int engineCount = 0;
 			unmodEngineSize = BigToSmallSortedDoubleList(unmodEngineSize);
@@ -51,9 +51,9 @@ namespace SpaceFolder
 				}
 				else
 				{
-					realSize += unmodEngineSizes[i] * divider;
+					realSize += unmodEngineSize[i] * divider;
 					divider = divider/2;
-				}
+				}	
 			}
 			return realSize;
 		}
@@ -78,7 +78,7 @@ namespace SpaceFolder
 			}
 			return sortedList;
 		}
-		public static double ElectricityWarpCalc(List<double[]> engineInfo)
+		public static double ElectricityWarpCalc(List<double>[] engineInfo)
 		{
 			double returnAmount = 0;
 			for(int i = 0; i < engineInfo.Count(); i++)
@@ -101,13 +101,13 @@ namespace SpaceFolder
 			//constructs a new VesselData class
 			VesselData vesData = new VesselData(fgs.activeVessel);
 			//If vessel !have Spatiofibrin, return
-			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
+			double spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
 			if(vesData.ResourceAmountOnVessel("spatiofibrin", fgs.activeVessel) < spaciofibrinNeeded)
 			{
 				return;
 			}
-			electricityNeeded = ElectricityWarpCalc(engineSizes);
-			if(vesData.ResourceAmountOnVessel("Electricity, fgs.activeVessel) < electricityNeeded)
+			double electricityNeeded = ElectricityWarpCalc(engineSizes);
+			if(vesData.ResourceAmountOnVessel("Electricity", fgs.activeVessel) < electricityNeeded)//TODO, name may not be right
 			{
 				return;
 			}
