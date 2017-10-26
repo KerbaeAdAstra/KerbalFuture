@@ -9,8 +9,8 @@ namespace SpaceFolder
 	{
 		static bool goodToGo;
 		static double vesselDiameter;
-		static double maxWarpHoleSize;
 		static double spaciofibrinNeeded;
+		static double electricityNeeded;
 		
 		public static double SpaciofibrinWarpCalc(List<double>[] engineSizes)
 		{
@@ -27,7 +27,6 @@ namespace SpaceFolder
 			List<double> dividers = new List<double>(){0.8, 0.6, 0.4, 0.2};
 			double divider = 0.1;
 			List<double> unmodEngineSize = new List<double>();
-			int engineCount = 0;
 			unmodEngineSize = BigToSmallSortedDoubleList(unmodEngineSize);
 			for(int i = 0; i < engineSizes.Count(); i++)
 			{
@@ -101,12 +100,12 @@ namespace SpaceFolder
 			//constructs a new VesselData class
 			VesselData vesData = new VesselData(fgs.activeVessel);
 			//If vessel !have Spatiofibrin, return
-			double spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
+			spaciofibrinNeeded = SpaciofibrinWarpCalc(engineSizes);
 			if(vesData.ResourceAmountOnVessel("spatiofibrin", fgs.activeVessel) < spaciofibrinNeeded)
 			{
 				return;
 			}
-			double electricityNeeded = ElectricityWarpCalc(engineSizes);
+			electricityNeeded = ElectricityWarpCalc(engineSizes);
 			if(vesData.ResourceAmountOnVessel("Electricity", fgs.activeVessel) < electricityNeeded)//TODO, name may not be right
 			{
 				return;

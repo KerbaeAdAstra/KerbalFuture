@@ -18,14 +18,12 @@ namespace SpaceFolder
 			if (SpaceFolderWarpChecks.GoodToGo())
 			{
 				vesBody = v.mainBody;
-				vesHeight = (v.altitude + vesBody.Radius);
 //TODO
 				//warpBody = KFGUI.ChosenBody();
 				//warpLong = KFGUI.ChosenLat();
 				//warpLat = KFGUI.ChosenLong();
 				bodyGravPot = CalculateGravPot(vesBody, v);
 				cbPos = warpBody.position;
-				Vector3dHelper CBVector = new Vector3dHelper();
 				Vector3dHelper VesPosition = new Vector3dHelper();
 				LatLongHelper LLH = new LatLongHelper();
 				Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, ref cby, ref cbz);
