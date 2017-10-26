@@ -8,18 +8,18 @@ namespace SpaceFolder
 		public double XFromLatLongAlt(double _lat, double _long,
 											 double _alt)
 		{
-			return _alt * Cos(_lat) * Cos(_long);
+			return _alt * Math.Cos(_lat) * Math.Cos(_long);
 		}
 
 		public double YFromLatLongAlt(double _lat, double _long,
 											 double _alt)
 		{
-			return _alt * Cos(_lat) * Sin(_long);
+			return _alt * Math.Cos(_lat) * Math.Sin(_long);
 		}
 
 		public double ZFromLatAlt(double _lat, double _alt)
 		{
-			return _alt * Cos(_lat);
+			return _alt * Math.Cos(_lat);
 		}
 	}
 }
