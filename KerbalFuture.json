@@ -58,8 +58,8 @@
 	],
 	"resources": {
 		"homepage": "https://kerbaeadastra.github.io",
-		"bugtracker": "http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture/issues",
-		"repository": "http://220.231.207.81:591/KerbaeAdAstra/KerbalFuture",
+		"bugtracker": "http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/issues",
+		"repository": "http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture",
 		"ci": "",
 		"spacedock": ""
 	}

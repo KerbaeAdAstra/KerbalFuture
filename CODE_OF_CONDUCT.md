@@ -1,6 +1,6 @@
 # Kerbae ad Astra Code of Conduct
 
-The Kerbae ad Astra group wishes to extend the warmest welcome to any and all contributors as possible. In order to accomplish this, we ask the following things from you.
+The Kerbae ad Astra group wishes to extend the warmest welcome to any and all contributors. In order to accomplish this, we ask the following things from you.
 
 ## IRC Channel
 
@@ -15,7 +15,8 @@ When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, acce
 * Keep all posts on topic, and for any confidential information, personal message the user.
 * Political statements of any kind will not be tolerated.
 * Posting other users' personal information (doxxing) is forbidden.
-* To restate all of the above, keep posts on topic and SFW [Safe For Work], and respect other users' beliefs and practices.
+
+To restate all of the above, keep all posts on topic and SFW [Safe For Work], and respect other users' beliefs and practices.
 
 ## GitLab
 
@@ -43,7 +44,7 @@ We (the staff members) are committed to keeping Kerbae ad Astra and all related 
 
 ### Consequences: IRC Channel
 
-The consequences for misconduct are available on the IRC channel by typing the command '/msg ChanServ taxonomy #kerbaeadastra' in the chat bar.
+Punishments for misconduct are issued at the staff members' discretion.
 
 ### Consequences: GitLab
 
