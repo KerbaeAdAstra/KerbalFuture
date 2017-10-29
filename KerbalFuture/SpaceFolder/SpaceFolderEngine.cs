@@ -1,4 +1,3 @@
-
 namespace SpaceFolder
 {
 	class SpaceFolderEngine : PartModule
