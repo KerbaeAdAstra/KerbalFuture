@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using KSP;
-
 namespace SpaceFolder
 {
 	class SpaceFolderEngine : PartModule
@@ -14,7 +9,7 @@ namespace SpaceFolder
 		public float warpDriveDiameter;
 
 		[KSPField(isPersistant = true, guiActive = false)]
-		public int engineMultiplier;
+		public float engineMultiplier;
 		
 		//Returns the ClassID of this PartModule.
 		public static int ModuleClassID()
@@ -28,7 +23,7 @@ namespace SpaceFolder
 			return warpDriveDiameter;
 		}
 		//Method to accesss Tier
-		public int EngineMultiplier()
+		public float EngineMultiplier()
 		{
 			return engineMultiplier;
 		}
