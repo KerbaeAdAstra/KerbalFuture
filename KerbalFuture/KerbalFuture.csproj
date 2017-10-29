@@ -40,5 +40,13 @@
       <HintPath>..\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LatLongHelper.cs" />
+    <Compile Include="SpaceFolderData.cs" />
+    <Compile Include="SpaceFolderEngine.cs" />
+    <Compile Include="SpaceFolderFlightDrive.cs" />
+    <Compile Include="SpaceFolderWarpChecks.cs" />
+    <Compile Include="Vector3dHelper.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
