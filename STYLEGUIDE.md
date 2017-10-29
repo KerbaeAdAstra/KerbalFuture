@@ -15,7 +15,7 @@
 * Class, method, property, control structure, et cetera bodies shall always be contained by curly brackets, even if they contain only one statement.
 * Bracketed blocks shall begin the line after the control structure or declaration, e.g.,
 
-```csharp
+```cs
 class Foo
 {
     //…
