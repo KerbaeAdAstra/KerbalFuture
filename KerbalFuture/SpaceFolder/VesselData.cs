@@ -5,10 +5,10 @@ namespace SpaceFolder
 {
 	class VesselData : MonoBehaviour
 	{
-        PartSet vesselParts;
-        HashSet<Part> vesselPartHashSet;
+		PartSet vesselParts;
+		HashSet<Part> vesselPartHashSet;
 
-        public VesselData(Vessel vessel)
+		public VesselData(Vessel vessel)
 		{
 			vesselParts = new PartSet(vessel);
 			vesselPartHashSet = vesselParts.GetParts();
@@ -18,8 +18,8 @@ namespace SpaceFolder
 			vesselParts = new PartSet(vessel);
 			vesselPartHashSet = vesselParts.GetParts();
 		}
-        public double ResourceAmountOnVessel(string resource, Vessel vessel) => 
-        FinePrint.Utilities.VesselUtilities.VesselResourceAmount
-                 (resource, vessel);
-    }
+		public double ResourceAmountOnVessel(string resource, Vessel vessel) => 
+		FinePrint.Utilities.VesselUtilities.VesselResourceAmount
+				 (resource, vessel);
+	}
 }

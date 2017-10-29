@@ -19,45 +19,45 @@ namespace SpaceFolder
 			{
 				double modifiedVal = engineSizes[i][0] * engineSizes[i][1];
 				returnAmount += Math.Pow(Math.E, modifiedVal/5);
-                // TODO, fix values
+				// TODO, fix values
 			}
 			return returnAmount;
 		}
-        static double MaxWarpHoleSize(List<double>[] engineSizes)
-        {
-            List<double> dividers = new List<double> { 0.8, 0.6, 0.4, 0.2 };
-            double divider = 0.1;
-            List<double> unmodEngineSize = new List<double>();
-            unmodEngineSize.Sort();
-            unmodEngineSize.Reverse();
-            for (int i = 0; i < engineSizes.Count(); i++)
-            {
-                unmodEngineSize.Add(engineSizes[i][0]);
-            }
-            double totSize = 0;
-            double realSize = 0;
-            for (int i = 0; i < unmodEngineSize.Count(); i++)
-            {
-                totSize += unmodEngineSize[i];
-            }
-            for (int i = 0; i <= unmodEngineSize.Count(); i++)
-            {
-                if (i == 0)
-                {
-                    realSize += unmodEngineSize[i];
-                }
-                else if (i > 0 && i < 5)
-                {
-                    realSize += (unmodEngineSize[i] * dividers[i - 1]);
-                }
-                else
-                {
-                    realSize += unmodEngineSize[i] * divider;
-                    divider = divider / 2;
-                }
-            }
-            return realSize;
-        }
+		static double MaxWarpHoleSize(List<double>[] engineSizes)
+		{
+			List<double> dividers = new List<double> { 0.8, 0.6, 0.4, 0.2 };
+			double divider = 0.1;
+			List<double> unmodEngineSize = new List<double>();
+			unmodEngineSize.Sort();
+			unmodEngineSize.Reverse();
+			for (int i = 0; i < engineSizes.Count(); i++)
+			{
+				unmodEngineSize.Add(engineSizes[i][0]);
+			}
+			double totSize = 0;
+			double realSize = 0;
+			for (int i = 0; i < unmodEngineSize.Count(); i++)
+			{
+				totSize += unmodEngineSize[i];
+			}
+			for (int i = 0; i <= unmodEngineSize.Count(); i++)
+			{
+				if (i == 0)
+				{
+					realSize += unmodEngineSize[i];
+				}
+				else if (i > 0 && i < 5)
+				{
+					realSize += (unmodEngineSize[i] * dividers[i - 1]);
+				}
+				else
+				{
+					realSize += unmodEngineSize[i] * divider;
+					divider = divider / 2;
+				}
+			}
+			return realSize;
+		}
 		public static double ElectricityWarpCalc(List<double>[] engineInfo)
 		{
 			double returnAmount = 0;
@@ -69,10 +69,10 @@ namespace SpaceFolder
 			returnAmount *= 300;
 			return returnAmount;
 		}
-        public static bool GoodToGo() => goodToGo;
-        public static void InitiateWarpCheck(List<double>[] engineSizes,
-                                             float vesDiameter)
-        // called by GUI, sets bool goodToGo
+		public static bool GoodToGo() => goodToGo;
+		public static void InitiateWarpCheck(List<double>[] engineSizes,
+											 float vesDiameter)
+		// called by GUI, sets bool goodToGo
 		{
 			FlightGlobals fgs = new FlightGlobals();
 			vesselDiameter = vesDiameter;
@@ -82,13 +82,13 @@ namespace SpaceFolder
 			// If vessel !have Spatiofibrin, return
 			spatiofibrinNeeded = SpatiofibrinWarpCalc(engineSizes);
 			if (vesData.ResourceAmountOnVessel("spatiofibrin", fgs.activeVessel)
-                < spatiofibrinNeeded)
+				< spatiofibrinNeeded)
 			{
 				return;
 			}
 			electricityNeeded = ElectricityWarpCalc(engineSizes);
 			if (vesData.ResourceAmountOnVessel("Electricity", fgs.activeVessel) 
-                < electricityNeeded) // TODO, name may not be right
+				< electricityNeeded) // TODO, name may not be right
 			{
 				return;
 			}

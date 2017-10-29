@@ -26,15 +26,15 @@ namespace SpaceFolder
 				Vector3dHelper VesPosition = new Vector3dHelper();
 				LatLongHelper LLH = new LatLongHelper();
 				Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, 
-                                                          ref cby, ref cbz);
+														  ref cby, ref cbz);
 				VesPosition.SetX(cbx + LLH.XFromLatLongAlt(warpLat, warpLong, 
-                                                           bodyGravPot));
+														   bodyGravPot));
 				VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
-                                                           bodyGravPot));
+														   bodyGravPot));
 				VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
 				v.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
-                    VesPosition.Vector3dX(), VesPosition.Vector3dY(),
-                    VesPosition.Vector3dZ()), true);
+					VesPosition.Vector3dX(), VesPosition.Vector3dY(),
+					VesPosition.Vector3dZ()), true);
 			}
 		}
 		static double GetVesselAltitude(bool includePlanetRadius, Vessel v)
@@ -45,7 +45,7 @@ namespace SpaceFolder
 			}
 			return v.altitude;
 		}
-        static double CalculateGravPot(CelestialBody cb, Vessel v) =>
-        cb.gravParameter / Math.Pow(GetVesselAltitude(true, v), 2);
-    }
+		static double CalculateGravPot(CelestialBody cb, Vessel v) =>
+		cb.gravParameter / Math.Pow(GetVesselAltitude(true, v), 2);
+	}
 }
