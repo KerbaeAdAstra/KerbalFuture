@@ -14,7 +14,7 @@ namespace SpaceFolder
 		public float warpDriveDiameter;
 
 		[KSPField(isPersistant = true, guiActive = false)]
-		public int engineTier;
+		public int engineMultiplier;
 		
 		//Returns the ClassID of this PartModule.
 		public static int ModuleClassID()
@@ -28,9 +28,9 @@ namespace SpaceFolder
 			return warpDriveDiameter;
 		}
 		//Method to accesss Tier
-		public int EngineTier()
+		public int EngineMultiplier()
 		{
-			return engineTier;
+			return engineMultiplier;
 		}
 	}
 }
