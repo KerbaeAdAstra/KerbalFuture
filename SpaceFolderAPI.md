@@ -32,8 +32,10 @@
 * int ModuleClassID()
 #### Public Methods
 * float WarpDriveDiameter()
+* float EngineMultiplier()
 #### Public Fields
 * float warpDriveDiameter
+* float engineMultiplier
 
 ### SpaceFolderFlightDrive
 #### Public Static Methods
