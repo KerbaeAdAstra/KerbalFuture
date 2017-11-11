@@ -41,12 +41,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LatLongHelper.cs" />
-    <Compile Include="SpaceFolderData.cs" />
-    <Compile Include="SpaceFolderEngine.cs" />
-    <Compile Include="SpaceFolderFlightDrive.cs" />
-    <Compile Include="SpaceFolderWarpChecks.cs" />
-    <Compile Include="Vector3dHelper.cs" />
+    <Compile Include="SpaceFolder\LatLongHelper.cs" />
+    <Compile Include="SpaceFolder\SpaceFolderEngine.cs" />
+    <Compile Include="SpaceFolder\SpaceFolderFlightDrive.cs" />
+    <Compile Include="SpaceFolder\SpaceFolderWarpChecks.cs" />
+    <Compile Include="SpaceFolder\Vector3dHelper.cs" />
+    <Compile Include="SpaceFolder\VesselData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
