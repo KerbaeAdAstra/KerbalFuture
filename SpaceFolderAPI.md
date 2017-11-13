@@ -30,9 +30,11 @@
 ### SpaceFolderEngine
 #### Public Static Methods
 * int ModuleClassID()
+
 #### Public Methods
 * float WarpDriveDiameter()
 * float EngineMultiplier()
+
 #### Public Fields
 * float warpDriveDiameter
 * float engineMultiplier
@@ -40,11 +42,13 @@
 ### SpaceFolderFlightDrive
 #### Public Static Methods
 * void WarpVessel(Vessel v)
+
 #### Private Static Functions
 * double GetVesselAltitude(bool includePlanetRadius, Vessel v)
 * double GetVesselLongPos(Vector3d pos, Vessel v)
 * double GetVesselLatPos(Vector3d pos, Vessel v)
 * double CalculateGravPot(CelestialBody cb, Vessel v)
+
 #### Private Static Fields
 * Vector3d cbPos
 * double vesHeight
@@ -62,8 +66,10 @@
 * double ElectricityWarpCalc(List<double>[] engineInfo)
 * bool GoodToGo()
 * void InitiateWarpCheck(List<double>[] engineSizes, float vesDiameter)
+
 #### Private Static Methods
 * double MaxWarpHoleSize(List<double>[] engineSizes)
+
 #### Private Static Fields
 * bool goodToGo
 * double vesselDiameter
@@ -75,6 +81,7 @@
 * void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z)
 * Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z)
 * void ConvertXYZCoordsToVector3d(double x, double y, double z, ref Vector3d v3d)
+
 #### Public Methods
 * double Vector3dX()
 * double Vector3dY()
@@ -82,6 +89,7 @@
 * void SetX(double x)
 * void SetY(double y)
 * void SetZ(double z)
+
 #### Private Fields
 * double v3dX
 * double v3dY
@@ -90,9 +98,11 @@
 ### VesselData
 #### Constructors and Deconstructors
 * VesselData(Vessel vessel)
+
 #### Public Methods
 * void UpdateVesselData(Vessel vessel)
 * double ResourceAmountOnVessel(string resource, Vessel vessel)
+
 #### Private Fields
 * PartSet vesselParts
 * HashSet<Part> vesselPartHashSet
