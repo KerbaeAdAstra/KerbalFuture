@@ -1,0 +1,24 @@
+Frameshift:
+The frameshift drive dodges relativity by moving space instead of spaceships. 
+Through compression and rarefaction of spacetime, a bubble of space is squirted along, carrying a ship or fleet within. 
+Frameshift drives achieve apparent velocities of hundreds of c. 
+The frameshift drive will move anything its distortion toroid can encircle. 
+FSDs take power roughly proportional to the fourth power of the bubble radius. 
+This means that operation gets expensive fast, and movement of huge objects is impractical. 
+FSDs can be engaged at any point within gravity wells of reasonable curvature, though the extraordinary tidal forces of objects such as black holes may distort the bubble enough to cause problems with its contents.
+Most of the calculations necessary for engagement are done in engineering. 
+A frameshift vessel can be almost as dumb as a rock. 
+All the action of a FSD is contained within the toroid, so if you can power it, you can glue it onto a burrito. 
+Ships within frameshift bubbles have a very poor view of the outside world which mostly takes the form of extraordinarily energetic particles. 
+They cannot see other objects outside of their bubbles. 
+However, they are easily detectable by static sensors by the fringes of their bow shocks, which manifest themselves as fountains of high-energy particles and photons. 
+The distortion also makes them visible to gravimetric sensors.
+Flight is relatively gentle to the crew, unless they stray too closely to the walls. 
+Tidal forces near the walls are violent and liable to rip ships asunder.
+Supply of FSDs is relatively free, as the primary challenges to manufacturing are in the active element (requiring exotic matter). 
+However, FSDs later in later stages of development enjoy very small XM needs.
+Disengagement of a FSD after a long travel is highly dangerous, as the bow shock built up over the entire course of its operation is suddenly thrown free. 
+Frameshift astrogators term this gamma-ray burst the "gamma flash." 
+Skilled tacticians might make use of the gamma flash in assaults, though it is largely useless when defending, as the energy scales with operating duration.
+Frameshifting is fundamentally incompatible with continuous transfer of information or of radio. 
+Courier ships are absolutely essential, although some factions are conducting research into communication via quantum entanglement.
