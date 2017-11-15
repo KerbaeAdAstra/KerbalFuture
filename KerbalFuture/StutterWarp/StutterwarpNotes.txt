@@ -1,0 +1,22 @@
+StutterWarp
+Stutterwarp drives pleat space before them in a regular sinusoidal wave. They then punch a hole through one of the pleats. However, they can only tunnel through half the phase, and must travel the rest of the way conventionally. Stutterwarp drives can achieve contraction factors (derived from amplitude and frequency of the wave) in the tens of thousands. They must use subluminal drives to push through this contraction. Apparent velocities in the hundreds of c are not uncommon, and with sufficiently advanced reaction drive technology, some vessels approach a thousand times the speed of light.
+Vessels are easier to move the smaller they are, but there is no fundamental limit to the size of vessel which may be moved.
+As stutterwarp is split into two components (wave generator and weaver), extremely small ships can piggyback off of larger vessels. Generation of useful waves requires huge amounts of continuous power. However, weaving is relatively cheap.
+Stutterwarp is engageable at any point in space regardless of gravitational characteristics. Contraction is, however, aided by the Doppler effect when working up a gradient. Stutterwarp is computationally trivial. Skilled pilots can do it with a slide rule.
+Ships under way are blindingly visible to both static and moving sensors. The gravitational noise is similar to a piercing pure tone, and instantly notable.
+Stutterwarp can cause minor nausea under the dynamic gravity. This is not an issue for most seasoned spacers.
+Construction of wave generators requires the ever-elusive spatiofibrin. Weavers, however, are nearly trivial to build.
+Clever strategists might make use of stutterwarp's curious effects when used in large groups. The interference of several wave generators is such that numerous weaver-equipped vessels could tag along without changing the noise level significantly. If an admiral makes a habit of including a certain number of tag-alongs, but changes this quantity, he could project force where there is none and slip hidden fleets under the guise of patrol groups.
+
+
+Regular Sine Wave
+A sine wave or sinusoid is a mathematical curve that describes a smooth repetitive oscillation. A sine wave is a continuous wave. It is named after the function sine, of which it is the graph. It occurs often in pure and applied mathematics, as well as physics, engineering, signal processing and many other fields. Its most basic form as a function of time (t) is:
+
+y(t) = Asin(2 pi f t + cp) = Asin(w t + cp)
+where:
+
+A = the amplitude, the peak deviation of the function from zero.
+f = the ordinary frequency, the number of oscillations (cycles) that occur each second of time.
+ω = 2πf, the angular frequency, the rate of change of the function argument in units of radians per second
+cp= the phase, specifies (in radians) where in its cycle the oscillation is at t = 0.
+When cp is non-zero, the entire waveform appears to be shifted in time by the amount cp/ω seconds. A negative value represents a delay, and a positive value represents an advance.
