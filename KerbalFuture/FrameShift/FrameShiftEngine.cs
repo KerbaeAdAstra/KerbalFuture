@@ -4,5 +4,8 @@ namespace FrameShift
 	{
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float warpDriveDiameter;
+		
+		[KSPField(isPersistant = true, guiActive = false)]
+		public float electricityNeededForWarp;
 	}
 }
