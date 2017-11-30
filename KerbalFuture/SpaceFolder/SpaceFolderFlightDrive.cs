@@ -11,7 +11,7 @@ namespace SpaceFolder
 		static double warpLong, warpLat;
 		static double bodyGravPot;
 		
-		public static void WarpVessel(Vessel v)
+		public static void WarpVessel(Vessel v, double maxWarpHoleSize)
 		{
 			double cbx = 0, cby = 0, cbz = 0;
 			if (SpaceFolderWarpChecks.GoodToGo())
@@ -25,6 +25,7 @@ namespace SpaceFolder
 				cbPos = warpBody.position;
 				Vector3dHelper VesPosition = new Vector3dHelper();
 				LatLongHelper LLH = new LatLongHelper();
+				PartDestruction.PartDestruction.TrimParts(v, maxWarpHoleSize);
 				Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, 
 														  ref cby, ref cbz);
 				VesPosition.SetX(cbx + LLH.XFromLatLongAlt(warpLat, warpLong, 

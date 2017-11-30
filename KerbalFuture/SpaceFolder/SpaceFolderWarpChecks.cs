@@ -98,7 +98,7 @@ namespace SpaceFolder
 				return;
 			}
 			goodToGo = true;
-			FlightDrive.WarpVessel(fgs.activeVessel);
+			FlightDrive.WarpVessel(fgs.activeVessel, MaxWarpHoleSize(engineSizes));
 		}
 	}
 }
