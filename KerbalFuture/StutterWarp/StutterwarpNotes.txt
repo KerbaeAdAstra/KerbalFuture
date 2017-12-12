@@ -20,3 +20,6 @@ f = the ordinary frequency, the number of oscillations (cycles) that occur each 
 ω = 2πf, the angular frequency, the rate of change of the function argument in units of radians per second
 cp= the phase, specifies (in radians) where in its cycle the oscillation is at t = 0.
 When cp is non-zero, the entire waveform appears to be shifted in time by the amount cp/ω seconds. A negative value represents a delay, and a positive value represents an advance.
+
+*******************************************************************
+

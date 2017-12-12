@@ -3,9 +3,9 @@ namespace StutterWarp
 	class StutterWarpWaveGenerator : PartModule
 	{
 		[KSPField(isPersistant = true, guiActive = false)]
-		public float spatiofibrinNeeded;
+		public float electricityConsumption;
 		
 		[KSPField(isPersistant = true, guiActive = false)]
-		public float electricityNeeded;
+		public float segfaultMultiplier;
 	}
 }
