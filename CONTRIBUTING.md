@@ -1,6 +1,6 @@
 # Contributing to Kerbal Future
 
-First of all, thank you for considering contributing to Kerbal Future. We're a small team - only five people at the moment - so we can and will appreciate all the help we can get.
+First of all, thank you for considering contributing to Kerbal Future. We're a small team - only six people at the moment - so we can and will appreciate all the help we can get.
 
 Following these guidelines tells us that you respect our time. In turn, we'll reciprocate that respect by addressing your issue in a timely and friendly fashion.
 
