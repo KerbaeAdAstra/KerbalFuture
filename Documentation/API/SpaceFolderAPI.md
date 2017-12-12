@@ -14,17 +14,17 @@ VesselData.cs
 ## Classes
 
 ```cs
-class LatLongHelper {…}
-class SpaceFolderEngine : PartModule {…}
-class SpaceFolderWarpChecks : MonoBehaviour {…}
-class FlightDrive : VesselModule {…}
-class Vector3dHelper : MonoBehaviour {…}
-class VesselData : MonoBehaviour {…}
+class LatLongHelper {}
+class SpaceFolderEngine : PartModule {}
+class SpaceFolderWarpChecks : MonoBehaviour {}
+class FlightDrive : VesselModule {}
+class Vector3dHelper : MonoBehaviour {}
+class VesselData : MonoBehaviour {}
 ```
 
 ### `LatLongHelper`
 
-#### Public Methods
+#### Methods for `LatLongHelper`
 
 ```cs
 public double XFromLatLongAlt(double _lat, double _long, double _alt);
@@ -34,128 +34,106 @@ public double ZFromLatAlt(double _lat, double _alt);
 
 ### SpaceFolderEngine
 
-#### Public Static Methods
+#### Methods for `SpaceFolderEngine`
 
 ```cs
-int ModuleClassID();
+public static int ModuleClassID();
+public float WarpDriveDiameter();
 ```
 
-#### Public Methods
+#### Fields for `SpaceFolderEngine`
 
 ```cs
-float WarpDriveDiameter();
+public float warpDriveDiameter;
 ```
 
-#### Public Fields
+### `SpaceFolderFlightDrive`
+
+#### Methods for `SpaceFolderFlightDrive`
 
 ```cs
-float warpDriveDiameter;
+public static void WarpVessel(Vessel v);
+private static double GetVesselAltitude(bool includePlanetRadius, Vessel v);
+private static double GetVesselLongPos(Vector3d pos, Vessel v);
+private static double GetVesselLatPos(Vector3d pos, Vessel v);
+private static double CalculateGravPot(CelestialBody cb, Vessel v);
 ```
 
-### SpaceFolderFlightDrive
-
-#### Public Static Methods
+#### Fields for `SpaceFolderFlightDrive`
 
 ```cs
-void WarpVessel(Vessel v);
+private static Vector3d cbPos;
+private static double vesHeight;
+private static CelestialBody vesBody;
+private static CelestialBody warpBody;
+private static double warpLong;
+private static double warpLat;
+private static double bodyGravPot;
 ```
 
-#### Private Static Functions
+### `SpaceFolderWarpChecks`
+
+#### Methods for `SpaceFolderWarpChecks`
 
 ```cs
-double GetVesselAltitude(bool includePlanetRadius, Vessel v);
-double GetVesselLongPos(Vector3d pos, Vessel v);
-double GetVesselLatPos(Vector3d pos, Vessel v);
-double CalculateGravPot(CelestialBody cb, Vessel v);
+public static double SpatiofibrinWarpCalc(List<double>[] engineSizes);
+public static double ElectricityWarpCalc(List<double>[] engineInfo);
+public static bool GoodToGo();
+public static void InitiateWarpCheck(List<double>[] engineSizes, float vesDiameter);
+private static double MaxWarpHoleSize(List<double>[] engineSizes);
 ```
 
-#### Private Static Fields
+#### Fields for `SpaceFolderWarpChecks`
 
 ```cs
-Vector3d cbPos;
-double vesHeight;
-CelestialBody vesBody;
-CelestialBody warpBody;
-double warpLong;
-double warpLat;
-double bodyGravPot;
+private static bool goodToGo;
+private static double vesselDiameter;
+private static double maxWarpHoleSize;
+private static double spaciofibrinNeeded;
 ```
 
-### SpaceFolderWarpChecks
+### `Vector3dHelper`
 
-#### Public Static Methods
+#### Methods for `Vector3dHelper`
 
 ```cs
-double SpatiofibrinWarpCalc(List<double>[] engineSizes);
-List<double> BigToSmallSortedDoubleList(List<double> list);
-List<double> SmallToBigSortedDoubleList(List<double> list);
-double ElectricityWarpCalc(List<double>[] engineInfo);
-bool GoodToGo();
-void InitiateWarpCheck(List<double>[] engineSizes, float vesDiameter);
+public static void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z);
+public static Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z);
+public static void ConvertXYZCoordsToVector3d(double x, double y, double z, ref Vector3d v3d);
+public double Vector3dX();
+public double Vector3dY();
+public double Vector3dZ();
+public void SetX(double x);
+public void SetY(double y);
+public void SetZ(double z);
 ```
 
-#### Private Static Methods
+#### Fields for `Vector3dHelper`
 
 ```cs
-double MaxWarpHoleSize(List<double>[] engineSizes);
+private double v3dX;
+private double v3dY;
+private double v3dZ;
 ```
 
-#### Private Static Fields
+### `VesselData`
+
+#### Constructors
 
 ```cs
-bool goodToGo;
-double vesselDiameter;
-double maxWarpHoleSize;
-double spaciofibrinNeeded;
+public VesselData(Vessel vessel);
 ```
 
-### Vector3dHelper
-
-#### Public Static Methods
+#### Methods for `VesselData`
 
 ```cs
-void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z);
-Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z);
-void ConvertXYZCoordsToVector3d(double x, double y, double z, ref Vector3d v3d);
+public void UpdateVesselData(Vessel vessel);
+public double ResourceAmountOnVessel(string resource, Vessel vessel);
 ```
 
-#### Public Methods
+#### Fields for `VesselData`
 
 ```cs
-double Vector3dX();
-double Vector3dY();
-double Vector3dZ();
-void SetX(double x);
-void SetY(double y);
-void SetZ(double z);
-```
-
-#### Private Fields
-
-```cs
-double v3dX;
-double v3dY;
-double v3dZ;
-```
-
-### VesselData
-
-#### Constructors and Deconstructors
-
-```cs
-VesselData(Vessel vessel);
-```
-
-#### Public Methods
-
-```cs
-void UpdateVesselData(Vessel vessel);
-double ResourceAmountOnVessel(string resource, Vessel vessel);
-```
-
-#### Private Fields
-
-```cs
-PartSet vesselParts;
-HashSet<Part> vesselPartHashSet;
+private PartSet vesselParts;
+private HashSet<Part> vesselPartHashSet;
 ```
