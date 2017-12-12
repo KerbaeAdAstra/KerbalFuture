@@ -45,22 +45,6 @@
 
 #### Engines
 
-* ☒Resistojet Engine
-* ☒Resistojet RCS Thruster
-* ☒Electrostatic Ion Engine
-* ☒Electromagnetic Ion Engine
-* ☒Solar Moth
-* ☒Fission Fragment Drive
-* ☒Orion Drive
-* ☒Solar Sail
-* ☒Remote-Beam Drive
-* ☒Photon Drive
-* ☒Fusion Drive
-* ☒Ramscoop Drive
-* ☒Ramscoop Augmented Interstellar Rocket
-* ☒Thermal Antimatter Drive
-* ☒Antimatter-Induced Fusion Drive
-* ☒Beam-Core Antimatter Drive
 * ☒Spatial Turbine
 
 #### Reactors & Support
