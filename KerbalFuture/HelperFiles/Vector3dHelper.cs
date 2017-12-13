@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpaceFolder
+namespace Fuck
 {
 	class Vector3dHelper : MonoBehaviour
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace SpaceFolder
+namespace Fuck
 {
 	class LatLongHelper
 	{

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SpaceFolder
+namespace Fuck
 {
 	class VesselData : MonoBehaviour
 	{

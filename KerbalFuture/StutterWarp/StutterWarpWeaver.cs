@@ -1,6 +1,6 @@
 namespace StutterWarp
 {
-	class StutterWarpWaveGenerator : PartModule
+	class Weaver : PartModule
 	{
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float electricityConsumption;
