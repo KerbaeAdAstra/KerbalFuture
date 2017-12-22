@@ -1,8 +1,6 @@
-using UnityEngine;
-
-namespace Fuck
+namespace Hlpr
 {
-	class Vector3dHelper : MonoBehaviour
+	class Vector3dHelper
 	{
 		double v3dX, v3dY, v3dZ;
 

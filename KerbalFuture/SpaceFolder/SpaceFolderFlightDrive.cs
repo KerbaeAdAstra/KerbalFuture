@@ -1,4 +1,5 @@
 using System;
+using Hlpr;
 
 namespace SpaceFolder
 {
@@ -11,7 +12,7 @@ namespace SpaceFolder
 		static double warpLong, warpLat;
 		static double bodyGravPot;
 		
-		public static void WarpVessel(Vessel v)
+		public static bool WarpVessel(Vessel v)
 		{
 			double cbx = 0, cby = 0, cbz = 0;
 			if (SpaceFolderWarpChecks.GoodToGo())
@@ -19,8 +20,8 @@ namespace SpaceFolder
 				vesBody = v.mainBody;
 //TODO
 				//warpBody = KFGUI.ChosenBody();
-				//warpLong = KFGUI.ChosenLat();
-				//warpLat = KFGUI.ChosenLong();
+				//warpLong = KFGUI.ChosenLong();
+				//warpLat = KFGUI.ChosenLat();
 				bodyGravPot = CalculateGravPot(vesBody, v);
 				cbPos = warpBody.position;
 				Vector3dHelper VesPosition = new Vector3dHelper();
@@ -35,17 +36,15 @@ namespace SpaceFolder
 				v.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 					VesPosition.Vector3dX(), VesPosition.Vector3dY(),
 					VesPosition.Vector3dZ()), true);
+				return true;
 			}
+			else
+				return false;
 		}
-		static double GetVesselAltitude(bool includePlanetRadius, Vessel v)
+		static double CalculateGravPot(CelestialBody cb, Vessel v)
 		{
-			if (includePlanetRadius)
-			{
-				return v.altitude + v.mainBody.Radius;
-			}
-			return v.altitude;
+			LatLongHelper CGPLLH = new LatLongHelper();
+			return cb.gravParameter / CGPLLH.GetVesselAltitude(true, v);
 		}
-		static double CalculateGravPot(CelestialBody cb, Vessel v) =>
-		cb.gravParameter / Math.Pow(GetVesselAltitude(true, v), 2);
 	}
 }

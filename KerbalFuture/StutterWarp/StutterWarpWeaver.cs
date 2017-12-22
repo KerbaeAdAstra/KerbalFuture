@@ -4,7 +4,6 @@ namespace StutterWarp
 	{
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float electricityConsumption;
-		
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float segfaultMultiplier;
 	}

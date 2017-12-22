@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fuck
+namespace Hlpr
 {
 	class VesselData : MonoBehaviour
 	{
