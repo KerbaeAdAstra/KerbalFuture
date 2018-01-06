@@ -9,21 +9,10 @@ namespace SpaceFolder
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float engineMultiplier;
 		
-		//Returns the ClassID of this PartModule.
-		public static int ModuleClassID()
+		public double[] SFDEngineValues()
 		{
-			SpaceFolderEngine sfe = new SpaceFolderEngine();
-			return sfe.ClassID;
-		}
-		//Method to access warp drive diameter.
-		public float WarpDriveDiameter()
-		{
-			return warpDriveDiameter;
-		}
-		//Method to accesss Tier
-		public float EngineMultiplier()
-		{
-			return engineMultiplier;
+			double[] array = new double[2] {(double)this.warpDriveDiameter, (double)this.engineMultiplier};
+			return array;
 		}
 	}
 }
