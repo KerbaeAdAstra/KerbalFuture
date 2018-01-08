@@ -1,18 +1,19 @@
 using System;
 using Hlpr;
+//using KFGUI; TODO
 
 namespace SpaceFolder
 {
 	class FlightDrive : VesselModule
 	{
-		static Vector3d cbPos;
-		static double vesHeight;
-		static CelestialBody vesBody;
-		static CelestialBody warpBody;
-		static double warpLong, warpLat;
-		static double bodyGravPot;
+		Vector3d cbPos;
+		double vesHeight;
+		CelestialBody vesBody;
+		CelestialBody warpBody;
+		double warpLong, warpLat;
+		double bodyGravPot;
 		
-		public static void WarpVessel(Vessel v)
+		public void WarpVessel(Vessel v)
 		{
 			double cbx = 0, cby = 0, cbz = 0;
 			vesBody = v.mainBody;
@@ -35,7 +36,7 @@ namespace SpaceFolder
 				VesPosition.Vector3dX(), VesPosition.Vector3dY(),
 				VesPosition.Vector3dZ()), true);
 		}
-		static double CalculateGravPot(CelestialBody cb, Vessel v)
+		double CalculateGravPot(CelestialBody cb, Vessel v)
 		{
 			LatLongHelper CGPLLH = new LatLongHelper();
 			return cb.gravParameter / CGPLLH.GetVesselAltitude(true, v);

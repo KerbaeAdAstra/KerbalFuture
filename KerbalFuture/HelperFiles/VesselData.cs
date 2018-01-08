@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Hlpr
 {
-	class VesselData : MonoBehaviour
+	class VesselData
 	{
 		PartSet vesselParts;
 		HashSet<Part> vesselPartHashSet;

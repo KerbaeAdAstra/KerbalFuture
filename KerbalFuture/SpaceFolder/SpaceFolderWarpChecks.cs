@@ -8,8 +8,7 @@ namespace SpaceFolder
 {
 	class SpaceFolderWarpChecks : MonoBehaviour
 	{
-		public bool CheckWarp(Vessel v)
-		// called by GUI, sets bool goodToGo
+		public bool CheckWarp(Vessel v)//called by GUI
 		{
 			FlightGlobals fgs = new FlightGlobals();
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacilities.VAB, v.Parts);//TODO get vessel launch building and use that instead of just EditorFacilities.VAB
@@ -21,12 +20,12 @@ namespace SpaceFolder
 			engineInfo = GetEngineValues(v);
 			// If vessel !have Spatiofibrin, return
 			double spatiofibrinNeeded = SpatiofibrinWarpCalc(engineInfo);
-			if (vesData.ResourceAmountOnVessel("spatiofibrin", v) < spatiofibrinNeeded)
+			if (vesData.ResourceAmountOnVessel("Spatiofibrin", v) < spatiofibrinNeeded)
 			{
 				return;
 			}
 			double electricityNeeded = ElectricityWarpCalc(engineInfo);
-			if (vesData.ResourceAmountOnVessel("Electricity", v) 
+			if (vesData.ResourceAmountOnVessel("ElectricCharge", v) 
 				< electricityNeeded) // TODO, name may not be right
 			{
 				return;
@@ -38,7 +37,7 @@ namespace SpaceFolder
 			}
 			FlightDrive.WarpVessel(v);
 		}
-		List<double[]> GetEngineValues(Vessel v)
+		List<double[]> GetEngineValues(Vessel v)//array is in order of {engineSize, modifier}
 		{
 			List<Part> list = new List<Part>();
 			List<double[]> returnList = new List<double[]>();

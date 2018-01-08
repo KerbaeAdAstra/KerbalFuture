@@ -12,38 +12,60 @@ namespace StutterWarp
 		public bool CheckWarp(Vessel v)
 		{
 			FlightGlobals fgs = new FlightGlobals();
-			VesselData vesData = new VesselData(fgs.activeVessel);
+			VesselData vesData = new VesselData(v);
+			
+			FlightDrive.WarpVessel(v);
 		}
-		float[] GetWaveAndWeaverValues(Vessel v)//WaveGen, then Weaver. Weaver starts at index 6.
+		//Calculation functions
+		double SpatiofibrinCalc(List<double[]> waveGenValues)
 		{
-			float[] arr = new float[8];
-			GetWaveGenValues(v).CopyTo(arr, 0);
-			GetWeaverValues(v).CopyTo(arr, 6);
-			return arr;
+			
 		}
-		float[] GetWaveGenValues(Vessel v)//in order of sfNeeded, ecNeeded, maxWavelength, minWavelength, maxAmplitude, minAmplitude
+		double ElectricityCalc(List<double[]> waveGenValues, double amplitude)
+		{
+			/*total energy for initialization: (Ik(x^2))/(nE)
+			*where:
+			*I is interference between wavegens
+			*k is Hooke's constant of spacetime
+			*x is amplitude (from GUI, set by player)
+			*n is number of wavegens
+			*E is efficiency of the wavegen
+			*/
+			int n = waveGenValues.GetLength(0);
+			int I, E;
+		}
+		double SegFaultCalc(double wavelength, double amplitude, List<double[]> weaverValues)
+		{
+			
+		}
+		//Value getting functions
+		List<double[]> GetWaveGenValues(Vessel v)//in order of sfNeeded, ecNeeded, maxWavelength, minWavelength, maxAmplitude, minAmplitude
 		{
 			List<Part> list = new List<Part>();
-			list = v.Parts;//there exist both Vessel.parts and Vessel.Parts, we are using the second one because the first one becomes unloaded when the focus is not on the vessel. 
+			list = v.Parts;//there exist both Vessel.parts and Vessel.Parts, we are using the second one because the first one becomes unloaded when the focus is not on the vessel.
+			List<double[]> returnList = new List<double[]>();
 			for(int i = 0; i < list.Count; i++)
 			{
 				if(list[i].Modules.Contains("WaveGenerator"))
 				{
-					return list[i].Modules["WaveGenerator"].ValueList();
+					returnList.Add(list[i].Modules["WaveGenerator"].ValueList());
 				}
 			}
+			return returnList;
 		}
-		float[] GetWeaverValues(Vessel v)
+		List<double[]> GetWeaverValues(Vessel v)
 		{
 			List<Part> list = new List<Part>();
 			list = v.Parts;
+			List<double[]> returnList = new List<double[]>();
 			for(int i = 0; i < list.Count; i++)
 			{
 				if(list[i].Modules.Contains("Weaver"))
 				{
-					return list[i].Modules["Weaver"].ValueList();
+					returnlist.Add(list[i].Modules["Weaver"].ValueList());
 				}
 			}
+			return returnList;
 		}
 	}
 }

@@ -7,9 +7,10 @@ namespace StutterWarp
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float segfaultMultiplier;
 		
-		public float[] ValueList()
+		public double[] ValueList()
 		{
-			float[] array = new float[2] {this.electricityConsumption, this.segfaultMultiplier};
+			double[] array = new double[2] {(double)this.electricityConsumption, 
+				(double)this.segfaultMultiplier};
 			return array;
 		}
 	}
