@@ -19,7 +19,6 @@ namespace Hlpr
 			vesselPartHashSet = vesselParts.GetParts();
 		}
 		public double ResourceAmountOnVessel(string resource, Vessel vessel) => 
-		FinePrint.Utilities.VesselUtilities.VesselResourceAmount
-				 (resource, vessel);
+	    	FinePrint.Utilities.VesselUtilities.VesselResourceAmount(resource, vessel);
 	}
 }
