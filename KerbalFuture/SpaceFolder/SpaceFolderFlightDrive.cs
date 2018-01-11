@@ -26,11 +26,11 @@ namespace SpaceFolder
 			Vector3dHelper VesPosition = new Vector3dHelper();
 			LatLongHelper LLH = new LatLongHelper();
 			Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, 
-													  ref cby, ref cbz);
+				ref cby, ref cbz);
 			VesPosition.SetX(cbx + LLH.XFromLatLongAlt(warpLat, warpLong, 
-													   bodyGravPot));
+				bodyGravPot));
 			VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
-													   bodyGravPot));
+			   bodyGravPot));
 			VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
 			v.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX(), VesPosition.Vector3dY(),
