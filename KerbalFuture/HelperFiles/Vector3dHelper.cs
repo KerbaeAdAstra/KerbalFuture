@@ -10,7 +10,7 @@ namespace Hlpr
 		    	x = v3d.x;
 		    	y = v3d.y;
 		    	z = v3d.z;
-	        	}
+		    }
 		public static Vector3d ConvertXYZCoordsToVector3d(double x, double y,
 			double z)
 	    	=> new Vector3d(x, y, z);
