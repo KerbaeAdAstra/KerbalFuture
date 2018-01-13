@@ -2,13 +2,14 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Tuples
 using Hlpr
 
 namespace SpaceFolder
 {
 	class SpaceFolderWarpChecks : MonoBehaviour
 	{
-		public bool CheckWarp(Vessel v)//called by GUI
+		public bool CheckWarp(Vessel v, bool warpVesselAfterCheck)//called by GUI
 		{
 			FlightGlobals fgs = new FlightGlobals();
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacilities.VAB, v.Parts);//TODO get vessel launch building and use that instead of just EditorFacilities.VAB
@@ -22,20 +23,25 @@ namespace SpaceFolder
 			double spatiofibrinNeeded = SpatiofibrinWarpCalc(engineInfo);
 			if (vesData.ResourceAmountOnVessel("Spatiofibrin", v) < spatiofibrinNeeded)
 			{
-				return;
+				return false;
 			}
 			double electricityNeeded = ElectricityWarpCalc(engineInfo);
 			if (vesData.ResourceAmountOnVessel("ElectricCharge", v) 
-				< electricityNeeded) // TODO, name may not be right
+				< electricityNeeded)
 			{
-				return;
+				return false;
 			}
 			// If warpDrive.diameter < vesselSize, return
 			if (MaxWarpHoleSize(engineInfo) < vesselDiameter)
 			{
-				return;
+				return false;
 			}
-			FlightDrive.WarpVessel(v);
+			if(warpVesselAfterCheck)
+			{
+				v.
+				FlightDrive.WarpVessel(v);//switchable so that it can be called to check if the warp is valid without actually warping
+			}
+			return true;
 		}
 		List<double[]> GetEngineValues(Vessel v)//array is in order of {engineSize, modifier}
 		{

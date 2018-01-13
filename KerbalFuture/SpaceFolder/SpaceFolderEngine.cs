@@ -5,7 +5,6 @@ namespace SpaceFolder
 		//Do not access directly, method below for that. 
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float warpDriveDiameter;
-
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float engineMultiplier;
 		

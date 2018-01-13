@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Hlpr
 {
-	class VesselData
+	class VesselData //not really used except for the function ResourceAmountOnVessel
 	{
 		PartSet vesselParts;
 		HashSet<Part> vesselPartHashSet;

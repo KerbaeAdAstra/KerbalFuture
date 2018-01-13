@@ -5,8 +5,6 @@ namespace StutterWarp
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float spatiofibrinNeeded;
 		[KSPField(isPersistant = true, guiActive = false)]
-		public float electricityNeeded;
-		[KSPField(isPersistant = true, guiActive = false)]
 		public float maxWavelength;
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float minWavelength;
@@ -17,7 +15,7 @@ namespace StutterWarp
 		[KSPField(isPersistant = true, guiActive = false)]
 		public float efficiency; //between 0 and 1
 		[KSPField(isPersistant = true, guiActive = false)]
-		public float interference; //between 0 and 1
+		public float interference; //greater than 1
 		
 		public double[] ValueList()
 		{

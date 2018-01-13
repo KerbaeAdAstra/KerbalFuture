@@ -1,4 +1,5 @@
 using System;
+using System.Tuples;
 using Hlpr;
 //using KFGUI; TODO
 
@@ -13,15 +14,15 @@ namespace SpaceFolder
 		double warpLong, warpLat;
 		double bodyGravPot;
 		
-		public void WarpVessel(Vessel v)
+		internal void WarpVessel(Tuple<Part, double, double>[])//the tuple is a 3 item dictionary. Here it is representing a list of parts and two doubles. The doubles are, in order, electricity and spatiofibrin usage
 		{
 			double cbx = 0, cby = 0, cbz = 0;
-			vesBody = v.mainBody;
+			vesBody = this.vessel.mainBody;
 //TODO
 			//warpBody = KFGUI.ChosenBody();
 			//warpLong = KFGUI.ChosenLong();
 			//warpLat = KFGUI.ChosenLat();
-			bodyGravPot = CalculateGravPot(vesBody, v);
+			bodyGravPot = CalculateGravPot(vesBody, this.vessel);
 			cbPos = warpBody.position;
 			Vector3dHelper VesPosition = new Vector3dHelper();
 			LatLongHelper LLH = new LatLongHelper();
@@ -32,7 +33,7 @@ namespace SpaceFolder
 			VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
 			   bodyGravPot));
 			VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
-			v.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
+			this.vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX(), VesPosition.Vector3dY(),
 				VesPosition.Vector3dZ()), true);
 		}
