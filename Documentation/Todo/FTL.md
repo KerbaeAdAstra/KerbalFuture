@@ -2,7 +2,7 @@
 
 ## Plugin
 
-- [x] Spacefolder Drive
+- [ ] Spacefolder Drive
 - [ ] Frameshift Drive
 - [ ] Polyspatial Drive
 - [ ] Stutterwarp Drive
