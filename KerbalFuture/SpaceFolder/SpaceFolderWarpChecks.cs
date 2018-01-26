@@ -38,7 +38,7 @@ namespace SpaceFolder
 			}
 			if(warpVesselAfterCheck)
 			{
-				v.
+				List<Tuple(Part, double, double)> partTupleList = new Tuple(Part, double, double);
 				FlightDrive.WarpVessel(v);//switchable so that it can be called to check if the warp is valid without actually warping
 			}
 			return true;

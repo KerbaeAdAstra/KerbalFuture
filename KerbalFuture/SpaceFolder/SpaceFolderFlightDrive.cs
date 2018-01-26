@@ -14,8 +14,10 @@ namespace SpaceFolder
 		double warpLong, warpLat;
 		double bodyGravPot;
 		
-		internal void WarpVessel(Tuple<Part, double, double>[])//the tuple is a 3 item dictionary. Here it is representing a list of parts and two doubles. The doubles are, in order, electricity and spatiofibrin usage
+		internal void WarpVessel(List<Tuple(Part, double, double)> partValueList)//the tuple is a 3 item dictionary. Here it is representing a list of parts and two doubles. The doubles are, in order, electricity and spatiofibrin usage
 		{
+			//It is a list of Tuples where, the Part is the warp drive that is requesting the fuel
+			//The two doubles are the fuel amounts requested
 			double cbx = 0, cby = 0, cbz = 0;
 			vesBody = this.vessel.mainBody;
 //TODO
@@ -33,6 +35,10 @@ namespace SpaceFolder
 			VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
 			   bodyGravPot));
 			VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
+			for(int i = 0; i < partValueList.Count; i++)
+			{
+				UseElectricity(partValueList[i].item1, partValueList[i].item2);
+			}
 			this.vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX(), VesPosition.Vector3dY(),
 				VesPosition.Vector3dZ()), true);
@@ -41,6 +47,10 @@ namespace SpaceFolder
 		{
 			LatLongHelper CGPLLH = new LatLongHelper();
 			return cb.gravParameter / CGPLLH.GetVesselAltitude(true, v);
+		}
+		void UseElectricity(Part part, double amount)
+		{
+			part.RequestResource("Electricity", amount);
 		}
 	}
 }
