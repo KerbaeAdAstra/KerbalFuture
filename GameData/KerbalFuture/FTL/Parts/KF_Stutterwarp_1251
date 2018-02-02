@@ -1,0 +1,43 @@
+PART
+{
+	name = KF_Spacefolder_1251
+	module = Part
+	author = the Kerbae ad Astra group
+
+	MODEL
+	{
+		model = // TODO
+        scale = 1
+        texture = // TODO
+	}
+
+	rescaleFactor = 1
+	node_stack_top = // x,y,z,angx,angy,angz,size // TODO
+	node_stack_bottom = // x,y,z,angx,angy,angz,size // TODO
+	TechRequired = // TODO
+	entryCost = // TODO
+	cost = // TODO
+	Category = Engines
+	subcategory = 0
+	title = SWD-1251 Small Stutterwarp Drive
+	manufacturer = // TODO
+	description = The stutterwarp drive "pleats" spacetime, allowing a ship to "punch" a hole through the pleat, enabling FTL travel. This stutterwarp drive is designed for vessels smaller than 5 meters in length. Vessels larger than that will be reduced to their constituent particles when attempting to warp.
+	attachRules = // attachment rules: stack, srfAttach, allowStack, allowSrfAttach, allowCollision // TODO
+	mass = // TODO
+    heatConductivity = // TODO
+	skinInternalConductionMult = // TODO
+	emissiveConstant = // TODO
+	dragModelType = default
+	maximum_drag = // TODO
+	minimum_drag = // TODO
+	angularDrag = // TODO
+	crashTolerance = // TODO
+	maxTemp = // TODO
+	bulkheadProfiles = size1
+    tags = // TODO
+	
+	MODULE
+	{
+		//INSERT_STUTTERWARP_HERE
+	}
+}
