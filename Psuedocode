@@ -1,0 +1,22 @@
+//Subroutine gets called by activate button
+OldXVelicity:=(XVelocity);
+OldYVelicity:=(YVelocity);
+OldZVelicity:=(ZVelocity);
+Repeat until Deactivated:False;
+Begin
+XVelocity:=(OldXVelicity);
+YVelocity:=(OldYVelicity);
+ZVelocity:=(OldZVelicity)+25000;
+End
+XVelocity:=(OldXVelicity);
+YVelocity:=(OldYVelicity);
+ZVelocity:=(OldZVelicity);
+Exit;
+
+//Parallel Thread
+Repeat Untill Deactivated:True
+Begin
+If *Thebuttenpressed* then deactivated:=True else;
+If EC<ReqEC then deactivated:=true else;
+If EM<ReqEM then deactivated:=true else;
+End
