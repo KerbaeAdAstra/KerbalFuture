@@ -5,7 +5,7 @@ using Hlpr;
 
 namespace SpaceFolder
 {
-	class FlightDrive : VesselModule
+	class FlightDrive : PartModule
 	{
 		Vector3d cbPos;
 		double vesHeight;
@@ -13,6 +13,7 @@ namespace SpaceFolder
 		CelestialBody warpBody;
 		double warpLong, warpLat;
 		double bodyGravPot;
+		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
 		internal void WarpVessel(List<Tuple(Part, double, double)> partValueList)//the tuple is a 3 item dictionary. Here it is representing a list of parts and two doubles. The doubles are, in order, electricity and spatiofibrin usage
 		{
