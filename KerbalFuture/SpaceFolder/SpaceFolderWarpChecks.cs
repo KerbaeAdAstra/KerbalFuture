@@ -2,8 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Tuples
-using Hlpr
+using Hlpr;
 
 namespace SpaceFolder
 {
@@ -24,7 +23,8 @@ namespace SpaceFolder
 			{
 				return false;
 			}
-			double electricityNeeded = ElectricityWarpCalc(engineList);
+			List<Tuple<Part, double>> warpTupleList = new List<Tuple<Part, double>>();
+			double electricityNeeded = ElectricityWarpCalc(engineList, out warpTupleList);
 			if (vesData.ResourceAmountOnVessel("ElectricCharge", v) 
 				< electricityNeeded)
 			{
@@ -37,9 +37,29 @@ namespace SpaceFolder
 			}
 			if(warpVesselAfterCheck)
 			{
-				FlightDrive.WarpVessel(v);//switchable so that it can be called to check if the warp is valid without actually warping
+				bool vmexists = false;
+				VesselModule vm = GetVMInstance(v, ref vmexists);
+				if(vmexists && (vm != null))//double check just to make sure it works
+				{
+					vm.WarpVessel(warpTupleList, electricityNeeded);//switchable so that it can be called to check if the warp is valid without actually warping
+					return true;
+				}
+				else
+					return false;
 			}
-			return true;
+		}
+		VesselModule GetVMInstance(Vessel v, ref bool exists)
+		{
+			List<VesselModule> vms = new List<VesselModule>();
+			vms = v.VesselModules;
+			//Create a temp instance of FlightDrive for checking
+			FlightDrive TEMPfd = new FlightDrive();
+			for(int i = 0; i < vms.Count; i++)
+			{
+				if(Object.ReferenceEquals(vms[i].GetType(), TEMPfd.GetType()))
+					return vms[i];
+			}
+			return null;//returns null if an instance doesn't exist
 		}
 		List<Part> EngineList(Vessel v)//use list[i].Modules["SpaceFolderEngine"].field; to get specific values
 		{
@@ -78,18 +98,27 @@ namespace SpaceFolder
 			}
 			return returnAmount;
 		}
-		double ElectricityWarpCalc(List<Part> engines)
+		double ElectricityWarpCalc(List<Part> engines, out List<Tuple<Part, double>> partECPercent)
 		{
 			double returnAmount = 0;
+			List<Tuple<Part, double>> partECUsage = new List<Tuple<Part, double>>();
 			List<double[]> engineInfo = new List<double[]>();
 			for(int i = 0; i < engines.Count; i++)
 				engineInfo.Add(GetEngineValues(engines[i]));
 			for(int i = 0; i < engineInfo.GetLength(0); i++)
 			{
 				double modifiedVal = engineInfo[i][0] * engineInfo[i][1];
-				returnAmount += Math.Pow(Math.E, modifiedVal/5);//TODO: fix values
+				Tuple<Part, double> tempTup = new Tuple<Part, double>(engines[i], Math.Pow(Math.E, modifiedVal/5)*300);
+				partECUsage.Add(tempTup);
+				returnAmount += Math.Pow(Math.E, modifiedVal/5)*300;//TODO: fix values
 			}
-			returnAmount *= 300;
+			List<Tuple<Part, double>> partECPercentReturn = new List<Tuple<Part, double>>();
+			for(int i = 0; i < partECUsage.Count; i++)
+			{
+				Tuple<Part, double> temptup = new Tuple<Part, double>(partECUsage[i].item1, partECUsage[i].item2/returnAmount);
+				partECPercentReturn.Add(temptup);
+			}
+			partECPercent = partECPercentReturn;
 			return returnAmount;
 		}
 		double MaxWarpHoleSize(List<Part> engines)

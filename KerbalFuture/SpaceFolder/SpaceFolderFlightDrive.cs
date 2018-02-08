@@ -1,11 +1,13 @@
 using System;
-using System.Tuples;
+using System.Collections.Generic;
+using System.Linq;
 using Hlpr;
+using FinePrint;
 //using KFGUI; TODO
 
 namespace SpaceFolder
 {
-	class FlightDrive : PartModule
+	class FlightDrive : VesselModule
 	{
 		Vector3d cbPos;
 		double vesHeight;
@@ -15,10 +17,10 @@ namespace SpaceFolder
 		double bodyGravPot;
 		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
-		internal void WarpVessel(List<Tuple(Part, double, double)> partValueList)//the tuple is a 3 item dictionary. Here it is representing a list of parts and two doubles. The doubles are, in order, electricity and spatiofibrin usage
+		internal void WarpVessel(List<Tuple<Part, double/*percentage of ec usage*/>> driveList, double ecToUse)
 		{
-			//It is a list of Tuples where, the Part is the warp drive that is requesting the fuel
-			//The two doubles are the fuel amounts requested
+			if(!FinePrint.Utilities.VesselUtilities.VesselHasModuleName("SpaceFolderEngine", this.vessel)) //Checks to make sure that the vessel actually has a spacefolder drive
+				return;
 			double cbx = 0, cby = 0, cbz = 0;
 			vesBody = this.vessel.mainBody;
 //TODO
@@ -36,9 +38,10 @@ namespace SpaceFolder
 			VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
 			   bodyGravPot));
 			VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
-			for(int i = 0; i < partValueList.Count; i++)
+			//Use electricity
+			for(int i = 0; i < driveList.Count; i++)
 			{
-				UseElectricity(partValueList[i].item1, partValueList[i].item2);
+				UseElectricity(driveList[i].item1, driveList[i].item2*ecToUse);
 			}
 			this.vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX(), VesPosition.Vector3dY(),
