@@ -1,4 +1,4 @@
-﻿namespace Hlpr
+﻿namespace KerbalFuture.Utils
 {
     public class Tuple<T1, T2>
     {

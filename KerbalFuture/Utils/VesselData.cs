@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Hlpr
+namespace KerbalFuture.Utils
 {
-	class VesselData //not really used except for the function ResourceAmountOnVessel
+	internal class VesselData //not really used except for the function ResourceAmountOnVessel
 	{
-		PartSet vesselParts;
+		private PartSet vesselParts;
 		HashSet<Part> vesselPartHashSet;
 
 		public VesselData(Vessel vessel)
