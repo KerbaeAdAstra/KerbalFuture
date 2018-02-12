@@ -1,8 +1,8 @@
 using System;
 
-namespace Hlpr
+namespace KerbalFuture.Utils
 {
-	class LatLongHelper
+	internal class LatLongHelper
 	{
 		public double XFromLatLongAlt(double _lat, double _long, double _alt)
         => _alt * Math.Cos(_lat) * Math.Cos(_long);
@@ -15,10 +15,7 @@ namespace Hlpr
 		
 		public double GetVesselAltitude(bool includePlanetRadius, Vessel v)
 		{
-			if (includePlanetRadius)
-			{
-				return v.altitude + v.mainBody.Radius;
-			}
+			if (includePlanetRadius) return v.altitude + v.mainBody.Radius;
 			return v.altitude;
 		}
 	}
