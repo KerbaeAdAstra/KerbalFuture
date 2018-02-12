@@ -1,58 +1,47 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Hlpr;
-using FinePrint;
-//using KFGUI; TODO
+using FinePrint.Utilities;
+using KerbalFuture.Utils;
 
-namespace SpaceFolder
+// using KFGUI; TODO
+
+namespace KerbalFuture.SpaceFolder
 {
-	class FlightDrive : VesselModule
+	internal class FlightDrive : VesselModule
 	{
-		Vector3d cbPos;
+		private Vector3d cbPos;
 		double vesHeight;
-		CelestialBody vesBody;
+		private CelestialBody vesBody;
 		CelestialBody warpBody;
 		double warpLong, warpLat;
-		double bodyGravPot;
+		private double bodyGravPot;
 		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
-		internal void WarpVessel(List<Tuple<Part, double/*percentage of ec usage*/>> driveList, double ecToUse)
+		internal void WarpVessel(IEnumerable<Tuple<Part, double>> driveList, double ecToUse)
 		{
-			if(!FinePrint.Utilities.VesselUtilities.VesselHasModuleName("SpaceFolderEngine", this.vessel)) //Checks to make sure that the vessel actually has a spacefolder drive
-				return;
+			// Checks to make sure that the vessel actually has a spacefolder drive
+			if (!VesselUtilities.VesselHasModuleName("SpaceFolderEngine", vessel)) return;
 			double cbx = 0, cby = 0, cbz = 0;
-			vesBody = this.vessel.mainBody;
-//TODO
-			//warpBody = KFGUI.ChosenBody();
-			//warpLong = KFGUI.ChosenLong();
-			//warpLat = KFGUI.ChosenLat();
-			bodyGravPot = CalculateGravPot(vesBody, this.vessel);
+			vesBody = vessel.mainBody;
+			// TODO
+			// warpBody = KFGUI.ChosenBody();
+			// warpLong = KFGUI.ChosenLong();
+			// warpLat = KFGUI.ChosenLat();
+			bodyGravPot = CalculateGravPot(vesBody, vessel);
 			cbPos = warpBody.position;
 			Vector3dHelper VesPosition = new Vector3dHelper();
 			LatLongHelper LLH = new LatLongHelper();
-			Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, 
-				ref cby, ref cbz);
-			VesPosition.SetX(cbx + LLH.XFromLatLongAlt(warpLat, warpLong, 
-				bodyGravPot));
-			VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
-			   bodyGravPot));
-			VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
-			//Use electricity
-			for(int i = 0; i < driveList.Count; i++)
-			{
-				UseElectricity(driveList[i].item1, driveList[i].item2*ecToUse);
-			}
-			this.vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
-				VesPosition.Vector3dX(), VesPosition.Vector3dY(),
-				VesPosition.Vector3dZ()), true);
+			Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, ref cby, ref cbz);
+			VesPosition.Vector3dX = cbx + LLH.XFromLatLongAlt(warpLat, warpLong, bodyGravPot);
+			VesPosition.Vector3dY = cby + LLH.YFromLatLongAlt(warpLat, warpLong, bodyGravPot);
+			VesPosition.Vector3dZ = cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot);
+			// Use electricity
+			foreach (Tuple<Part, double> t in driveList) UseElectricity(t.item1, t.item2 * ecToUse);
+			vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
+				VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
 		}
-		double CalculateGravPot(CelestialBody cb, Vessel v)
-		{
-			LatLongHelper CGPLLH = new LatLongHelper();
-			return cb.gravParameter / CGPLLH.GetVesselAltitude(true, v);
-		}
-		void UseElectricity(Part part, double amount)
+		private static double CalculateGravPot(CelestialBody cb, Vessel v)
+			=> cb.gravParameter / new LatLongHelper().GetVesselAltitude(true, v);
+		private static void UseElectricity(Part part, double amount)
 		{
 			part.RequestResource("Electricity", amount);
 		}
