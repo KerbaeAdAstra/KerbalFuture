@@ -17,19 +17,25 @@ namespace SpaceFolder
 			//Get the engine info
 			List<Part> engineList = new List<Part>();
 			engineList = EngineList(v);
+			List<Tuple<Part, double, string, string>> warpTupleList = new List<Tuple<Part, double, string, string>>();
+			List<Tuple<Part, double>> engineTupleList = new List<Tuple<Part, double>>();
 			// If vessel !have Spatiofibrin, return
 			double spatiofibrinNeeded = SpatiofibrinWarpCalc(engineList);
 			if (vesData.ResourceAmountOnVessel("Spatiofibrin", v) < spatiofibrinNeeded)
 			{
 				return false;
 			}
-			List<Tuple<Part, double>> warpTupleList = new List<Tuple<Part, double>>();
-			double electricityNeeded = ElectricityWarpCalc(engineList, out warpTupleList);
+			double electricityNeeded = ElectricityWarpCalc(engineList, out engineTupleList);
+			warpTupleList = PopulateWarpTupleList(engineTupleList);
+			if(!CheckResources(vesData, warpTupleList))
+				return false;
+			/*
 			if (vesData.ResourceAmountOnVessel("ElectricCharge", v) 
 				< electricityNeeded)
 			{
 				return false;
 			}
+			*/
 			// If warpDrive.diameter < vesselSize, return
 			if (MaxWarpHoleSize(engineList) < vesselDiameter)
 			{
@@ -48,6 +54,36 @@ namespace SpaceFolder
 					return false;
 			}
 		}
+		bool CheckResources(VesselData vesData, List<Tuple<Part, double, string, string>> warpTupleList)
+		{
+			HashSet<string> resourcesUsed = new HashSet<string>();
+			HashSet<string> catalystsUsed = new HashSet<string>();
+			for(int i = 0; i < warpTupleList.Count; i++)//populates hashsets
+			{
+				resourcesUsed.Add(warpTupleList[i].item3);
+				catalystsUsed.Add(warpTupleList[i].item4);
+			}
+			List<Tuple<string, double>> resourceKeyList = new List<Tuple<string, double>>();
+			for(int i = 0; i < resourcesUsed.Count; i++)
+			{
+				for(int j = 0; j < warpTupleList.Count; j++)
+				{
+					if(resourcesUsed[i] == warpTupleList[j].item3)
+					{
+						Tuple<string, double> resourceAndAmount = new Tuple<string, double>(resourcesUsed[i], )
+					}
+				}
+			}
+		}
+		List<Tuple<Part, double, string, string>> PopulateWarpTupleList(List<Tuple<Part, double>> engineListWithECUsage)
+		{
+			List<Tuple<Part, double, string, string>> returnList = new List<Tuple<Part, double, string, string>>();
+			for(int i = 0; i < engineListWithECUsage.Count; i++)
+			{
+				Tuple<Part, double, string, string> tempTup = new Tuple<Part, double, string, string>(engineListWithECUsage[i].item1, engineListWithECUsage[i].item2, engineListWithECUsage[i].item1.Modules["SpaceFolderEngine"].mainResource, engineListWithECUsage[i].item1.Modules["SpaceFolderEngine"].catalyst);
+				returnList.Add(tempTup);
+			}
+		}
 		VesselModule GetVMInstance(Vessel v, ref bool exists)
 		{
 			List<VesselModule> vms = new List<VesselModule>();
@@ -56,7 +92,7 @@ namespace SpaceFolder
 			FlightDrive TEMPfd = new FlightDrive();
 			for(int i = 0; i < vms.Count; i++)
 			{
-				if(Object.ReferenceEquals(vms[i].GetType(), TEMPfd.GetType()))
+				if(System.Object.ReferenceEquals(vms[i].GetType(), TEMPfd.GetType()))
 					return vms[i];
 			}
 			return null;//returns null if an instance doesn't exist
@@ -78,9 +114,9 @@ namespace SpaceFolder
 			List<double[]> returnList = new List<double[]>();
 			for(int i = 0; i < list.Count; i++)
 			{
-				if(list[i].Modules.Contains("SpaceFolderEngine"))
+				if(p.Modules.Contains("SpaceFolderEngine"))
 				{
-					returnList.Add(list[i].Modules["SpaceFolderEngine"].SFDEngineValues());
+					returnList.Add(p.Modules["SpaceFolderEngine"].SFDEngineValues());
 				}
 			}
 			return returnList;
@@ -98,7 +134,7 @@ namespace SpaceFolder
 			}
 			return returnAmount;
 		}
-		double ElectricityWarpCalc(List<Part> engines, out List<Tuple<Part, double>> partECPercent)
+		double ElectricityWarpCalc(List<Part> engines, out List<Tuple<Part, double, string, string>> partECPercent)
 		{
 			double returnAmount = 0;
 			List<Tuple<Part, double>> partECUsage = new List<Tuple<Part, double>>();
