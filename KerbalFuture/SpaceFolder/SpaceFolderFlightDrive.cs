@@ -37,16 +37,12 @@ namespace KerbalFuture.SpaceFolder
 			// Use electricity
 			for(int i = 0; i < driveList.Count; i++)
 			{
-				UseElectricity(driveList[i].item1, driveList[i].item2*ecToUse, driveList[i].item3);
+				WarpHelp.UseElectricity(driveList[i].item1, driveList[i].item2*ecToUse, driveList[i].item3);
 			}
 			vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
 		}
 		private static double CalculateGravPot(CelestialBody cb, Vessel v)
 			=> cb.gravParameter / new LatLongHelper().GetVesselAltitude(true, v);
-		private static void UseElectricity(Part part, double amount, string resource)
-		{
-			part.RequestResource(resource, amount);
-		}
 	}
 }

@@ -8,11 +8,10 @@ namespace KerbalFuture.Utils
 			y = v3d.y;
 			z = v3d.z;
 		}
-		public static Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z) => new Vector3d(x, y, z);
+		public static Vector3d ConvertXYZCoordsToVector3d(double x, double y, double z) => new Vector3d(x, y, z);//returning Vector3d, lambda appropriate
 		public static void ConvertXYZCoordsToVector3d(double x, double y, double z, ref Vector3d v3d)
-			=> v3d = new Vector3d(x, y, z);
-		public double Vector3dX { get; set; }
-		public double Vector3dY { get; set; }
-		public double Vector3dZ { get; set; }
+		{
+			v3d = new Vector3d(x, y, z);//not returning, lambda not used
+		}
 	}
 }

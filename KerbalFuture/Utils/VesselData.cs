@@ -6,18 +6,20 @@ namespace KerbalFuture.Utils
 	{
 		private PartSet vesselParts;
 		HashSet<Part> vesselPartHashSet;
+		Vessel vesDataVessel { get; private set; } //private set so it can be set when constructed, but not by anything else
 
 		public VesselData(Vessel vessel)
 		{
 			vesselParts = new PartSet(vessel);
 			vesselPartHashSet = vesselParts.GetParts();
+			vesDataVessel = vessel;
 		}
-		public void UpdateVesselData(Vessel vessel)
+		public void UpdateVesselData()
 		{
-			vesselParts = new PartSet(vessel);
+			vesselParts = new PartSet(vesDataVessel);
 			vesselPartHashSet = vesselParts.GetParts();
 		}
-		public double ResourceAmountOnVessel(string resource, Vessel vessel) => 
-	    	FinePrint.Utilities.VesselUtilities.VesselResourceAmount(resource, vessel);
+		public double ResourceAmountOnVessel(string resource) => 
+	    	FinePrint.Utilities.VesselUtilities.VesselResourceAmount(resource, vesDataVessel);
 	}
 }
