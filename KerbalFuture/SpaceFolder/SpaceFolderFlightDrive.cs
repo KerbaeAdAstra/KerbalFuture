@@ -16,7 +16,7 @@ namespace KerbalFuture.SpaceFolder
 		private double bodyGravPot;
 		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
-		internal void WarpVessel(IEnumerable<Tuple<Part, double>> driveList, double ecToUse)
+		internal void WarpVessel(List<Tuple<Part, double, string, string>> driveList, double ecToUse)//second double in the tuple list is the percentege of ec that the specific engine used
 		{
 			// Checks to make sure that the vessel actually has a spacefolder drive
 			if (!VesselUtilities.VesselHasModuleName("SpaceFolderEngine", vessel)) return;
@@ -35,15 +35,14 @@ namespace KerbalFuture.SpaceFolder
 			VesPosition.Vector3dY = cby + LLH.YFromLatLongAlt(warpLat, warpLong, bodyGravPot);
 			VesPosition.Vector3dZ = cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot);
 			// Use electricity
-			foreach (Tuple<Part, double> t in driveList) UseElectricity(t.item1, t.item2 * ecToUse);
+			for(int i = 0; i < driveList.Count; i++)
+			{
+				WarpHelp.UseElectricity(driveList[i].item1, driveList[i].item2*ecToUse, driveList[i].item3);
+			}
 			vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
 		}
 		private static double CalculateGravPot(CelestialBody cb, Vessel v)
 			=> cb.gravParameter / new LatLongHelper().GetVesselAltitude(true, v);
-		private static void UseElectricity(Part part, double amount)
-		{
-			part.RequestResource("Electricity", amount);
-		}
 	}
 }

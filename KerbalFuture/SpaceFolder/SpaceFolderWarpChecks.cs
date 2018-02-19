@@ -13,23 +13,33 @@ namespace SpaceFolder
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacilities.VAB, v.Parts);//TODO get vessel launch building and use that instead of just EditorFacilities.VAB
 			double vesselDiameter = sc.shipSize.x;//seen of forum post https://forum.kerbalspaceprogram.com/index.php?/topic/116071-getting-vessel-size/&do=findComment&comment=2067825 that the x value is the diameter of the ship. Thanks Thomas P!
 			// constructs a new VesselData class
-			VesselData vesData = new VesselData(v);
+			VesselData vesData = new VesselData(v);//creates a custom vesseldata instance
 			//Get the engine info
 			List<Part> engineList = new List<Part>();
-			engineList = EngineList(v);
+			engineList = EngineList(v);//sets the list of parts to the vessel part list
+			//Tuples from custom class Tuple.cs, as .NET 3.5 doesn't have tuples yet
+			List<Tuple<Part, double, string, string>> warpTupleList = new List<Tuple<Part, double, string, string>>();//used later, filled from engineTupleList below
+			List<Tuple<Part, double>> engineTupleList = new List<Tuple<Part, double>>();//That's a part and the corrosponding amount of electricity needed for it to run
 			// If vessel !have Spatiofibrin, return
+			/*
 			double spatiofibrinNeeded = SpatiofibrinWarpCalc(engineList);
 			if (vesData.ResourceAmountOnVessel("Spatiofibrin", v) < spatiofibrinNeeded)
 			{
 				return false;
 			}
-			List<Tuple<Part, double>> warpTupleList = new List<Tuple<Part, double>>();
-			double electricityNeeded = ElectricityWarpCalc(engineList, out warpTupleList);
+			//Taken care of with CheckResources()
+			*/ 
+			double electricityNeeded = ElectricityWarpCalc(engineList, false, out engineTupleList);//sets engineTupleList with a list of Part, amount
+			warpTupleList = PopulateWarpTupleList(engineTupleList);//creates the quaduple with <Part, amount, mainResource, catalyst>
+			if(!CheckResources(vesData, warpTupleList))
+				return false;
+			/*
 			if (vesData.ResourceAmountOnVessel("ElectricCharge", v) 
 				< electricityNeeded)
 			{
 				return false;
 			}
+			*/
 			// If warpDrive.diameter < vesselSize, return
 			if (MaxWarpHoleSize(engineList) < vesselDiameter)
 			{
@@ -48,6 +58,49 @@ namespace SpaceFolder
 					return false;
 			}
 		}
+		bool CheckResources(VesselData vesData, List<Tuple<Part, double, string, string>> warpTupleList)
+		{
+			HashSet<string> resourcesUsed = new HashSet<string>();//HashSets only have one of each element, repeats are destroyed
+			HashSet<string> catalystsUsed = new HashSet<string>();
+			for(int i = 0; i < warpTupleList.Count; i++)//populates hashsets
+			{
+				resourcesUsed.Add(warpTupleList[i].item3);
+				catalystsUsed.Add(warpTupleList[i].item4);
+			}
+			List<Dictionary<string, double>> vesselResourceAmounts = new List<Dictionary<string, double>>();//New List<Dictionary<>> for the resource and the amount
+			for(int i = 0; i < resourcesUsed.Count; i++)
+			{
+				Dictionary<string, double> tempDict = new Dictionary<string, double>(resourcesUsed[i], vesData.ResourceAmountOnVessel(resourcesUsed[i]));
+				vesselResourceAmounts.Add(tempDict);
+			}
+			//Runs simulation of resources being used
+			for(int i = 0; i < resourcesUsed.Count; i++)//We're counting on the resources being in the right order, since they were created from each other
+			{
+				for(int j = 0; j < warpTupleList.Count; j++)
+				{
+					if(vesselResourceAmounts[i][0] == warpTupleList[j].item3)
+					{
+						vesselResourceAmounts[i][1] -= warpTupleList[j].item2;//'removes' resources from the 'vessel'
+					}
+				}
+			}
+			//Checks to make sure none of the resources are in the red
+			for(int i = 0; i < vesselResourceAmounts.Count; i++)
+			{
+				if(vesselResourceAmounts[i][1] < 0)
+					return false;
+			}
+			return true;//return true if everything went well
+		}
+		List<Tuple<Part, double, string, string>> PopulateWarpTupleList(List<Tuple<Part, double>> engineListWithECUsage)
+		{
+			List<Tuple<Part, double, string, string>> returnList = new List<Tuple<Part, double, string, string>>();
+			for(int i = 0; i < engineListWithECUsage.Count; i++)
+			{
+				Tuple<Part, double, string, string> tempTup = new Tuple<Part, double, string, string>(engineListWithECUsage[i].item1, engineListWithECUsage[i].item2, engineListWithECUsage[i].item1.Modules["SpaceFolderEngine"].mainResource, engineListWithECUsage[i].item1.Modules["SpaceFolderEngine"].catalyst);
+				returnList.Add(tempTup);
+			}
+		}
 		VesselModule GetVMInstance(Vessel v, ref bool exists)
 		{
 			List<VesselModule> vms = new List<VesselModule>();
@@ -56,7 +109,7 @@ namespace SpaceFolder
 			FlightDrive TEMPfd = new FlightDrive();
 			for(int i = 0; i < vms.Count; i++)
 			{
-				if(Object.ReferenceEquals(vms[i].GetType(), TEMPfd.GetType()))
+				if(System.Object.ReferenceEquals(vms[i].GetType(), TEMPfd.GetType()))
 					return vms[i];
 			}
 			return null;//returns null if an instance doesn't exist
@@ -75,15 +128,25 @@ namespace SpaceFolder
 		}
 		double[] GetEngineValues(Part p)//array is in order of {engineSize, modifier}
 		{
-			List<double[]> returnList = new List<double[]>();
-			for(int i = 0; i < list.Count; i++)
+			double[] returnList = new double[2];
+			if(p.Modules.Contains("SpaceFolderEngine"))
 			{
-				if(list[i].Modules.Contains("SpaceFolderEngine"))
-				{
-					returnList.Add(list[i].Modules["SpaceFolderEngine"].SFDEngineValues());
-				}
+				returnList[0] = p.Modules["SpaceFolderEngine"].warpDriveDiameter;
+				returnList[1] = p.Modules["SpaceFolderEngine"].engineMultiplier;
+				return returnList;
 			}
-			return returnList;
+			else
+			{
+				returnList[0] = returnList[1] = null;
+				return returnList;
+			}
+		}
+		double SpatiofibrinWarpCalc(Part engine)
+		{
+			double[] engineSize = new double[2];
+			engineSize[0] = GetEngineValues(engine)[0];
+			engineSize[1] = GetEngineValues(engine)[1];
+			return Math.Pow(Math.E, (engineSize[0]*engineSize[1])/5)
 		}
 		double SpatiofibrinWarpCalc(List<Part> engines)
 		{
@@ -97,6 +160,47 @@ namespace SpaceFolder
 				returnAmount += Math.Pow(Math.E, modifiedVal/5);
 			}
 			return returnAmount;
+		}
+		double ElectricityWarpCalc(Part engine)
+		{
+			double returnAmount = 0;
+			double[] engineInfo = new double[2];
+			engineInfo[0] = GetEngineValues(engine)[0];
+			engineInfo[1] = GetEngineValues(engine)[1];
+			double modifiedVal = engineInfo[0]*engineInfo[1];
+			returnAmount = Math.Pow(Math.E, modifiedVal/5)*300;
+			return returnAmount;
+		}
+		double ElectricityWarpCalc(List<Part> engines, bool outAsPercent, out List<Tuple<Part, double>> partECPercent)
+		{
+			double returnAmount = 0;
+			List<Tuple<Part, double>> partECUsage = new List<Tuple<Part, double>>();
+			List<double[]> engineInfo = new List<double[]>();
+			for(int i = 0; i < engines.Count; i++)
+				engineInfo.Add(GetEngineValues(engines[i]));
+			for(int i = 0; i < engineInfo.GetLength(0); i++)
+			{
+				double modifiedVal = engineInfo[i][0] * engineInfo[i][1];
+				Tuple<Part, double> tempTup = new Tuple<Part, double>(engines[i], Math.Pow(Math.E, modifiedVal/5)*300);
+				partECUsage.Add(tempTup);
+				returnAmount += Math.Pow(Math.E, modifiedVal/5)*300;//TODO: fix values
+			}
+			List<Tuple<Part, double>> partECPercentReturn = new List<Tuple<Part, double>>();
+			if(outAsPercent)//returns the List<Tuple<Part, double>> with the double being a percentage of the total EC used
+			{
+				for(int i = 0; i < partECUsage.Count; i++)
+				{
+					Tuple<Part, double> temptup = new Tuple<Part, double>(partECUsage[i].item1, partECUsage[i].item2/returnAmount);
+					partECPercentReturn.Add(temptup);
+				}
+				partECPercent = partECPercentReturn;
+				return returnAmount;
+			}
+			else//returns List<Tuple<Part, double>> with the amount of EC used
+			{
+				partECPercent = partECUsage;
+				return returnAmount;
+			}
 		}
 		double ElectricityWarpCalc(List<Part> engines, out List<Tuple<Part, double>> partECPercent)
 		{
