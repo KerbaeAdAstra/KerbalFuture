@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using FinePrint.Utilities;
 using KerbalFuture.Utils;
+using SpaceFolder;
 
 // using KFGUI; TODO
 
 namespace KerbalFuture.SpaceFolder
 {
-	internal class FlightDrive : VesselModule
+	class SpaceFolderFlightDrive : VesselModule
 	{
 		private Vector3d cbPos;
 		double vesHeight;
@@ -16,7 +17,7 @@ namespace KerbalFuture.SpaceFolder
 		private double bodyGravPot;
 		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
-		internal void WarpVessel(List<Tuple<Part, double, string, string>> driveList, double ecToUse)//second double in the tuple list is the percentege of ec that the specific engine used
+		void WarpVessel(IEnumerable<Tuple<Part, double, string, string>> driveList, double ecToUse)//second double in the tuple list is the percentege of ec that the specific engine used
 		{
 			// Checks to make sure that the vessel actually has a spacefolder drive
 			if (!VesselUtilities.VesselHasModuleName("SpaceFolderEngine", vessel)) return;
@@ -35,10 +36,8 @@ namespace KerbalFuture.SpaceFolder
 			VesPosition.Vector3dY = cby + LLH.YFromLatLongAlt(warpLat, warpLong, bodyGravPot);
 			VesPosition.Vector3dZ = cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot);
 			// Use electricity
-			for(int i = 0; i < driveList.Count; i++)
-			{
-				WarpHelp.UseElectricity(driveList[i].item1, driveList[i].item2*ecToUse, driveList[i].item3);
-			}
+			foreach (Tuple<Part, double, string, string> t in driveList)
+				WarpHelp.UseElectricity(t.item1, t.item2 * ecToUse, t.item3);
 			vessel.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
 				VesPosition.Vector3dX, VesPosition.Vector3dY, VesPosition.Vector3dZ), true);
 		}

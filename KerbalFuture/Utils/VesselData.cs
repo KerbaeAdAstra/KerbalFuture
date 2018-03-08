@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace KerbalFuture.Utils
 {
-	internal class VesselData //not really used except for the function ResourceAmountOnVessel
+	class VesselData //not really used except for the function ResourceAmountOnVessel
 	{
 		private PartSet vesselParts;
 		HashSet<Part> vesselPartHashSet;
-		Vessel vesDataVessel { get; private set; } //private set so it can be set when constructed, but not by anything else
+		Vessel vesDataVessel { get; } //private set so it can be set when constructed, but not by anything else
 
 		public VesselData(Vessel vessel)
 		{

@@ -1,6 +1,6 @@
 namespace KerbalFuture.SpaceFolder
 {
-	internal class SpaceFolderEngine : PartModule
+	class SpaceFolderEngine : PartModule
 	{
 		[KSPField]
 		public float warpDriveDiameter;

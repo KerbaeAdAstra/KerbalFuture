@@ -8,8 +8,8 @@
             this.item2 = item2;
         }
         
-        public T1 item1 { get; }
-        public T2 item2 { get; }
+        public T1 item1 { get; set; }
+        public T2 item2 { get; set; }
     }
 
     public class Tuple<T1, T2, T3> : Tuple<T1, T2>
@@ -19,7 +19,7 @@
             this.item3 = item3;
         }
         
-        public T3 item3 { get; }
+        public T3 item3 { get; set; }
     }
 
     public class Tuple<T1, T2, T3, T4> : Tuple<T1, T2, T3>
@@ -29,7 +29,7 @@
             this.item4 = item4;
         }
         
-        public T4 item4 { get; }
+        public T4 item4 { get; set; }
     }
 	
 	public class Tuple<T1, T2, T3, T4, T5> : Tuple<T1, T2, T3, T4>
@@ -39,7 +39,7 @@
             this.item5 = item5;
         }
         
-        public T5 item5 { get; }
+        public T5 item5 { get; set; }
 	}
 	
 	public class Tuple<T1, T2, T3, T4, T5, T6> : Tuple<T1, T2, T3, T4, T5>
@@ -49,6 +49,6 @@
             this.item6 = item6;
         }
         
-        public T6 item6 { get; }
+        public T6 item6 { get; set; }
 	}
 }

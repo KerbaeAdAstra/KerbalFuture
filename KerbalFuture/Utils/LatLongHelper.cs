@@ -2,7 +2,7 @@ using System;
 
 namespace KerbalFuture.Utils
 {
-	internal class LatLongHelper
+	class LatLongHelper
 	{
 		public double XFromLatLongAlt(double _lat, double _long, double _alt)
         => _alt * Math.Cos(_lat) * Math.Cos(_long);
