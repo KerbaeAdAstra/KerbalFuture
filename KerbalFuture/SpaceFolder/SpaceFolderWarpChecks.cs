@@ -43,7 +43,7 @@ namespace SpaceFolder
 			if (MaxWarpHoleSize(engineList) < vesselDiameter) return false;
 			if (!warpVesselAfterCheck) return false;
 			bool vmexists = false;
-			VesselModule vm = GetVMInstance(v, ref vmexists);
+			SpaceFolderFlightDrive vm = GetVMInstance(v, ref vmexists);
 			if (!vmexists || vm == null) return false;
 			vm.WarpVessel(warpTupleList, electricityNeeded);//switchable so that it can be called to check if the warp is valid without actually warping
 			return true;
@@ -84,13 +84,14 @@ namespace SpaceFolder
 		List<Tuple<Part, double, string, string>> PopulateWarpTupleList(IEnumerable<Tuple<Part, double>>
 			engineListWithECUsage)
 			=> engineListWithECUsage.Select(t => new Tuple<Part, double, string, string>(t.item1, t.item2,
-				t.item1.Modules["SpaceFolderEngine"].mainResource,
-				t.item1.Modules["SpaceFolderEngine"].catalyst)).ToList();
+				((SpaceFolderEngine)t.item1.Modules["SpaceFolderEngine"]).mainResource,
+				((SpaceFolderEngine)t.item1.Modules["SpaceFolderEngine"]).catalyst)).ToList();
 
-		VesselModule GetVMInstance(Vessel v, ref bool exists)
+		SpaceFolderFlightDrive GetVMInstance(Vessel v, ref bool exists)
 		{
 			List<VesselModule> vms = v.vesselModules;
-			return vms.FirstOrDefault(t => ReferenceEquals(t.GetType(), typeof(SpaceFolderFlightDrive)));
+			return (SpaceFolderFlightDrive) vms.FirstOrDefault(
+				t => ReferenceEquals(t.GetType(), typeof(SpaceFolderFlightDrive)));
 		}
 		List<Part> EngineList(IShipconstruct v)//use list[i].Modules["SpaceFolderEngine"].field; to get specific values
 			=> v.Parts.Where(t => t.Modules.Contains("SpaceFolderEngine")).ToList();
@@ -99,8 +100,8 @@ namespace SpaceFolder
 		{
 			double[] returnList = new double[2];
 			if (!p.Modules.Contains("SpaceFolderEngine")) return returnList;
-			returnList[0] = p.Modules["SpaceFolderEngine"].warpDriveDiameter;
-			returnList[1] = p.Modules["SpaceFolderEngine"].engineMultiplier;
+			returnList[0] = ((SpaceFolderEngine)p.Modules["SpaceFolderEngine"]).warpDriveDiameter;
+			returnList[1] = ((SpaceFolderEngine)p.Modules["SpaceFolderEngine"]).engineMultiplier;
 			return returnList;
 		}
 		double SpatiofibrinWarpCalc(Part engine)

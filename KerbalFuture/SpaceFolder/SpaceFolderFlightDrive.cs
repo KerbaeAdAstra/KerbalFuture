@@ -17,7 +17,7 @@ namespace KerbalFuture.SpaceFolder
 		private double bodyGravPot;
 		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
-		void WarpVessel(IEnumerable<Tuple<Part, double, string, string>> driveList, double ecToUse)//second double in the tuple list is the percentege of ec that the specific engine used
+		public void WarpVessel(IEnumerable<Tuple<Part, double, string, string>> driveList, double ecToUse)//second double in the tuple list is the percentege of ec that the specific engine used
 		{
 			// Checks to make sure that the vessel actually has a spacefolder drive
 			if (!VesselUtilities.VesselHasModuleName("SpaceFolderEngine", vessel)) return;
