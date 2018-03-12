@@ -195,7 +195,7 @@ namespace SpaceFolder
 			double divider = 0.1;
 			List<double> unmodEngineSize = new List<double>();
 			List<double[]> engineSizes = engines.Select(GetEngineValues).ToList();
-			foreach (var t in engineSizes)
+			foreach (double[] t in engineSizes)
 			{
 				unmodEngineSize.Add(t[0]);
 			}
