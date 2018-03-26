@@ -1,17 +1,16 @@
-namespace SpaceFolder
+namespace KerbalFuture.SpaceFolder
 {
 	class SpaceFolderEngine : PartModule
 	{
-		//Do not access directly, method below for that. 
-		[KSPField(isPersistant = true, guiActive = false)]
+		[KSPField]
 		public float warpDriveDiameter;
-		[KSPField(isPersistant = true, guiActive = false)]
-		public float engineMultiplier;
+		[KSPField]
+		public float engineMultiplier = 1;
+		[KSPField]
+		public string mainResource = "ElectricCharge";
+		[KSPField]
+		public string catalyst = "Spatiofibrin";
 		
-		public double[] SFDEngineValues()
-		{
-			double[] array = new double[2] {(double)this.warpDriveDiameter, (double)this.engineMultiplier};
-			return array;
-		}
+		public double[] SFDEngineValues() => new double[] {warpDriveDiameter, engineMultiplier};
 	}
 }
