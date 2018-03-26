@@ -1,6 +1,6 @@
 using System;
 
-namespace SpaceFolder
+namespace KerbalFuture.Utils
 {
 	class LatLongHelper
 	{
@@ -12,5 +12,11 @@ namespace SpaceFolder
 
 		public double ZFromLatAlt(double _lat, double _alt)
         => _alt * Math.Cos(_lat);
+		
+		public double GetVesselAltitude(bool includePlanetRadius, Vessel v)
+		{
+			if (includePlanetRadius) return v.altitude + v.mainBody.Radius;
+			return v.altitude;
+		}
 	}
 }
