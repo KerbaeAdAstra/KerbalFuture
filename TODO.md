@@ -6,17 +6,17 @@
 
 #### Computer Systems
 
-* ☒Quantum Core Housing
+* ☑Quantum Core Housing
 * ☑Quantum Computer Core
 * ☒Crude AI Core
 * ☒Reactive AI Core
-* ☒Sentient AI Core
+* ☑Sentient AI Core
 
 #### FTL Drives
 
 * ☒Frameshift Drive
-* ☑Polyspatial Drive
-* ☒Wormhole Drive
+* Polyspatial Drive
+* ☑Spacefolder Drive
 * ☒Stutterwarp Drive
 
 #### Missile Weapons
@@ -45,36 +45,20 @@
 
 #### Engines
 
-* ☒Resistojet Engine
-* ☒Resistojet RCS Thruster
-* ☒Electrostatic Ion Engine
-* ☒Electromagnetic Ion Engine
-* ☒Solar Moth
-* ☒Fission Fragment Drive
-* ☒Orion Drive
-* ☒Solar Sail
-* ☒Remote-Beam Drive
-* ☒Photon Drive
-* ☒Fusion Drive
-* ☒Ramscoop Drive
-* ☒Ramscoop Augmented Interstellar Rocket
-* ☒Thermal Antimatter Drive
-* ☒Antimatter-Induced Fusion Drive
-* ☒Beam-Core Antimatter Drive
 * ☒Spatial Turbine
 
 #### Reactors & Support
 
-* ☑MELTDOWN Fission Reactor
-* ☑URC Uranium Reprocessor
+* ☑Fission Reactor
+* ☑Uranium Reprocessor
 * ☑Radioactive Material Storage
-* ☑STELLARITE Fusion Reactor
-* ☑FILTER Semiheavy Water Extractor
-* ☑ZAP Semiheavy Water Electrolyzer
-* ☒ANNIHILIATE Antimatter Reactor
-* ☒LHC Antimatter Accelerator
-* ☒SINGULARITY Black Hole Reactor
-* ☒EVENTHORIZON Hawking Accelerator
+* ☑Fusion Reactor
+* ☑Semiheavy Water Extractor
+* ☑Semiheavy Water Electrolyzer
+* ☒Antimatter Reactor
+* ☒Antimatter Accelerator
+* ☒Black Hole Reactor
+* ☒Hawking Accelerator
 
 #### Radiators
 
@@ -91,7 +75,7 @@
 
 #### Life Support
 
-* ☒Virtomeat Farm
+* ☒Vitromeat Farm
 * ☑Algae Farm
 * ☑SCWOR
 * ☑Cooking Station
@@ -133,7 +117,8 @@
 * ☒Restriction of the Space Center to relevant scenes (modified QGT)
 * ☒Destruction of Launchpad and Runway (Original)
 * ☒FTL (Frameshift) (KSPI + Kerbalism)
-* ☒FTL (Polyspatial) (Original + Randomized code)
-* ☒FTL (Stutterwarp, Spacefolder) (Original)
+* ☒FTL (Polyspatial) (Original)
+* ☒FTL (Stutterwarp) (Original)
+* ☑FTL (Spacefolder) (Original)
 * ☒Future-style names in-game (Renamer code)
 * ☒Weapons (BDArmory)

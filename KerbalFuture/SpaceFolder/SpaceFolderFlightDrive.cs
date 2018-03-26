@@ -17,12 +17,31 @@ namespace KerbalFuture.SpaceFolder
 		private double bodyGravPot;
 		SpaceFolderWarpChecks insWarpChecks = new SpaceFolderWarpChecks();
 		
-		internal void WarpVessel(IEnumerable<Tuple<Part, double, string, string>> driveList, double ecToUse)//second double in the tuple list is the percentege of ec that the specific engine used
+		public static void WarpVessel(Vessel v, double maxWarpHoleSize)
 		{
 			// Checks to make sure that the vessel actually has a spacefolder drive
 			if (!VesselUtilities.VesselHasModuleName("SpaceFolderEngine", vessel))
 			{
-				return;
+				vesBody = v.mainBody;
+//TODO
+				//warpBody = KFGUI.ChosenBody();
+				//warpLong = KFGUI.ChosenLat();
+				//warpLat = KFGUI.ChosenLong();
+				bodyGravPot = CalculateGravPot(vesBody, v);
+				cbPos = warpBody.position;
+				Vector3dHelper VesPosition = new Vector3dHelper();
+				LatLongHelper LLH = new LatLongHelper();
+				PartDestruction.PartDestruction.TrimParts(v, maxWarpHoleSize);
+				Vector3dHelper.ConvertVector3dToXYZCoords(cbPos, ref cbx, 
+														  ref cby, ref cbz);
+				VesPosition.SetX(cbx + LLH.XFromLatLongAlt(warpLat, warpLong, 
+														   bodyGravPot));
+				VesPosition.SetY(cby + LLH.YFromLatLongAlt(warpLat, warpLong, 
+														   bodyGravPot));
+				VesPosition.SetZ(cbz + LLH.ZFromLatAlt(warpLat,  bodyGravPot));
+				v.SetPosition(Vector3dHelper.ConvertXYZCoordsToVector3d(
+					VesPosition.Vector3dX(), VesPosition.Vector3dY(),
+					VesPosition.Vector3dZ()), true);
 			}
 			double cbx = 0, cby = 0, cbz = 0;//gives meaningless values so they can be used in ref statements
 			vesBody = vessel.mainBody;//sets the current body to the vessel's body
