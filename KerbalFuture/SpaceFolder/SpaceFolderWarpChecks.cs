@@ -28,10 +28,13 @@ namespace SpaceFolder
 				return false;
 			}
 			//Taken care of with CheckResources()
-			*/ 
-			double electricityNeeded = ElectricityWarpCalc(engineList, false, out engineTupleList);//sets engineTupleList with a list of Part, amount
+			*/
+			double electricityNeeded = ElectricityWarpCalc(engineList, out engineTupleList);//sets engineTupleList with a list of Part, amount
 			warpTupleList = PopulateWarpTupleList(engineTupleList);//creates the quaduple with <Part, amount, mainResource, catalyst>
-			if (!CheckResources(vesData, warpTupleList)) return false;
+			if (!CheckResources(vesData, warpTupleList))
+			{
+				return false;
+			}
 			/*
 			if (vesData.ResourceAmountOnVessel("ElectricCharge", v) 
 				< electricityNeeded)
@@ -40,11 +43,20 @@ namespace SpaceFolder
 			}
 			*/
 			// If warpDrive.diameter < vesselSize, return
-			if (MaxWarpHoleSize(engineList) < vesselDiameter) return false;
-			if (!warpVesselAfterCheck) return false;
+			if (MaxWarpHoleSize(engineList) < vesselDiameter)
+			{
+				return false;//L43
+			}
+			if (!warpVesselAfterCheck)
+			{
+				return false;
+			}
 			bool vmexists = false;
 			SpaceFolderFlightDrive vm = GetVMInstance(v, ref vmexists);
-			if (!vmexists || vm == null) return false;
+			if (!vmexists || vm == null)
+			{
+				return false;
+			}
 			vm.WarpVessel(warpTupleList, electricityNeeded);//switchable so that it can be called to check if the warp is valid without actually warping
 			return true;
 
@@ -69,7 +81,10 @@ namespace SpaceFolder
 			{
 				foreach (Tuple<Part, double, string, string> t in warpTupleList)
 				{
-					if (kvp.Key != t.item3) continue;
+					if (kvp.Key != t.item3) 
+					{
+						continue;
+					}
 					double resourceAmount = kvp.Value;
 					resourceAmount -= t.item2;//'removes' resources from the 'vessel'
 					vesselResourceAmounts[kvp.Key] = resourceAmount;
@@ -77,25 +92,33 @@ namespace SpaceFolder
 			}
 			//Checks to make sure none of the resources are in the red
 			foreach (KeyValuePair<string, double> kvp in vesselResourceAmounts)
+			{
 				if (kvp.Value < 0)
+				{
 					return false;
+				}
+			}
 			return true;//return true if everything went well
 		}
-		List<Tuple<Part, double, string, string>> PopulateWarpTupleList(IEnumerable<Tuple<Part, double>>
-			engineListWithECUsage)
-			=> engineListWithECUsage.Select(t => new Tuple<Part, double, string, string>(t.item1, t.item2,
-				((SpaceFolderEngine)t.item1.Modules["SpaceFolderEngine"]).mainResource,
-				((SpaceFolderEngine)t.item1.Modules["SpaceFolderEngine"]).catalyst)).ToList();
-
+		List<Tuple<Part, double, string, string>> PopulateWarpTupleList(IEnumerable<Tuple<Part, double>> engineListWithECUsage)
+		{
+			List<Tuple<Part, double, string, string>> returnList = new List<Tuple<Part, double, string, string>>();
+			for(int i = 0; i < engineListWithECUsage.Count; i++)
+			{
+				Tuple<Part, double, string, string> tempTup = new Tuple<Part, double, string, string>(engineListWithECUsage[i].item1, engineListWithECUsage[i].item2, engineListWithECUsage[i].item1.Modules["SpaceFolderEngine"].mainResource, engineListWithECUsage[i].item1.Modules["SpaceFolderEngine"].catalyst);
+				returnList.Add(tempTup);
+			}
+		}
+		//TODO
 		SpaceFolderFlightDrive GetVMInstance(Vessel v, ref bool exists)
 		{
 			List<VesselModule> vms = v.vesselModules;
 			return (SpaceFolderFlightDrive) vms.FirstOrDefault(
 				t => ReferenceEquals(t.GetType(), typeof(SpaceFolderFlightDrive)));
 		}
+		//TODO
 		List<Part> EngineList(IShipconstruct v)//use list[i].Modules["SpaceFolderEngine"].field; to get specific values
 			=> v.Parts.Where(t => t.Modules.Contains("SpaceFolderEngine")).ToList();
-
 		double[] GetEngineValues(Part p)//array is in order of {engineSize, modifier}
 		{
 			double[] returnList = new double[2];
@@ -111,6 +134,7 @@ namespace SpaceFolder
 			engineSize[1] = GetEngineValues(engine)[1];
 			return Math.Pow(Math.E, engineSize[0] * engineSize[1] / 5);
 		}
+		//TODO
 		double SpatiofibrinWarpCalc(IEnumerable<Part> engines)
 		{
 			List<double[]> engineSizes = engines.Select(GetEngineValues).ToList();
@@ -128,7 +152,7 @@ namespace SpaceFolder
 		{
 			double returnAmount = 0;
 			List<Tuple<Part, double>> partECUsage = new List<Tuple<Part, double>>();
-			List<double[]> engineInfo = engines.Select(GetEngineValues).ToList();
+			List<double[]> engineInfo = engines.Select(GetEngineValues).ToList();//TODO
 			for(int i = 0; i < engineInfo.Count; i++)
 			{
 				double modifiedVal = engineInfo[i][0] * engineInfo[i][1];
@@ -140,7 +164,7 @@ namespace SpaceFolder
 			if (outAsPercent)//returns the List<Tuple<Part, double>> with the double being a percentage of the total EC used
 			{
 				partECPercentReturn.AddRange(partECUsage.Select(
-					t => new Tuple<Part, double>(t.item1, t.item2 / returnAmount)));
+					t => new Tuple<Part, double>(t.item1, t.item2 / returnAmount)));//TODO
 				partECPercent = partECPercentReturn;
 				return returnAmount;
 			}
@@ -151,7 +175,7 @@ namespace SpaceFolder
 		{
 			double returnAmount = 0;
 			List<Tuple<Part, double>> partECUsage = new List<Tuple<Part, double>>();
-			List<double[]> engineInfo = engines.Select(GetEngineValues).ToList();
+			List<double[]> engineInfo = engines.Select(GetEngineValues).ToList();//TODO
 			for(int i = 0; i < engineInfo.Count; i++)
 			{
 				double modifiedVal = engineInfo[i][0] * engineInfo[i][1];
@@ -159,6 +183,7 @@ namespace SpaceFolder
 				partECUsage.Add(tempTup);
 				returnAmount += Math.Pow(Math.E, modifiedVal/5)*300;//TODO: fix values
 			}
+			//TODO
 			List<Tuple<Part, double>> partECPercentReturn =
 				partECUsage.Select(t => new Tuple<Part, double>(t.item1, t.item2 / returnAmount)).ToList();
 			partECPercent = partECPercentReturn;
@@ -170,7 +195,10 @@ namespace SpaceFolder
 			double divider = 0.1;
 			List<double> unmodEngineSize = new List<double>();
 			List<double[]> engineSizes = engines.Select(GetEngineValues).ToList();
-			foreach (var t in engineSizes) unmodEngineSize.Add(t[0]);
+			foreach (double[] t in engineSizes)
+			{
+				unmodEngineSize.Add(t[0]);
+			}
 			double realSize = 0;
 			for (int i = 0; i <= unmodEngineSize.Count; i++)
 			{
