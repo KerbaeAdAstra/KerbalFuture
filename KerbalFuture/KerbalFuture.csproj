@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,21 +41,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StutterWarp\PartModules\StutterWarpWaveGenerator.cs" />
-    <Compile Include="StutterWarp\PartModules\StutterWarpWeaver.cs" />
-    <Compile Include="StutterWarp\StutterWarpFlightDrive.cs" />
-    <Compile Include="StutterWarp\StutterWarpWarpChecks.cs" />
-    <Compile Include="Utils\LatLongHelper.cs" />
+    <Compile Include="SpaceFolder\ModuleSpaceFolderDrive.cs" />
+    <Compile Include="SpaceFolder\SpaceFolderDriveData.cs" />
+    <Compile Include="SpaceFolder\SpaceFolderDriveVesselModule.cs" />
+    <Compile Include="SpaceFolder\SpaceFolderWarpData.cs" />
+    <Compile Include="Utils\Coords.cs" />
     <Compile Include="Utils\Tuple.cs" />
-    <Compile Include="Utils\Vector3dHelper.cs" />
-    <Compile Include="Utils\VesselData.cs" />
+    <Compile Include="Utils\VesselResourceSimulation.cs" />
     <Compile Include="Utils\WarpHelp.cs" />
-    <Compile Include="SpaceFolder\SpaceFolderEngine.cs" />
-    <Compile Include="SpaceFolder\SpaceFolderFlightDrive.cs" />
     <Compile Include="SpaceFolder\SpaceFolderWarpChecks.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="StutterWarp\StutterwarpNotes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
