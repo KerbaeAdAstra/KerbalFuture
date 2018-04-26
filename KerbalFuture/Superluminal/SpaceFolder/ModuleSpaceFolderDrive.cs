@@ -18,16 +18,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		public string catalyst = "Spatiofibrin";
 		
 		//Returns a readonly SpaceFolderDriveData with the part info
-		public SpaceFolderDriveData PartDriveData
-		{
-			get
-			{
-				return SpaceFolderDriveData(this.part
-					warpDriveDiameter,
-					engineMultiplier,
-					mainResource,
-					catalyst);
-			}
-		}
+		public SpaceFolderDriveData PartDriveData => new SpaceFolderDriveData(part, warpDriveDiameter, engineMultiplier, mainResource, catalyst);
 	}
 }

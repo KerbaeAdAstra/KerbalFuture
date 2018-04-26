@@ -1,3 +1,5 @@
+using System;
+
 namespace KerbalFuture.Utils
 {
 	public struct Coords
@@ -13,26 +15,8 @@ namespace KerbalFuture.Utils
 		public double Lon { get; }
 		public double Alt { get; }
 		public CelestialBody Body { get; }
-		public double XLoc
-		{
-			get
-			{
-				return Alt*Math.Sin(Lat)*Math.Cos(Lon);
-			}
-		}
-		public double YLoc
-		{
-			get
-			{
-				return Alt*Math.Sin(Lat)*Math.Sin(Lon);
-			}
-		}
-		public double ZLoc
-		{
-			get
-			{
-				return Alt*Math.Cos(Lat);
-			}
-		}
+		public double XLoc => Alt * Math.Sin(Lat) * Math.Cos(Lon);
+		public double YLoc => Alt * Math.Sin(Lat) * Math.Sin(Lon);
+		public double ZLoc => Alt * Math.Cos(Lat);
 	}
 }
