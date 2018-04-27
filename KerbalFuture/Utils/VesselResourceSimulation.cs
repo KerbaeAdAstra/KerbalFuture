@@ -22,7 +22,7 @@ namespace KerbalFuture.Utils
 		HashSet<string> cat = new HashSet<string>();
 		public Dictionary<string, double> ResDic { get; private set; }
 		public Dictionary<string, double> CatDic { get; private set; }
-		public bool? SimulationSuccessful { get; private set; }
+		public bool SimulationSuccessful { get; private set; }
 		void PopulateResourceSets()
 		{
 			foreach(Part p in drives)

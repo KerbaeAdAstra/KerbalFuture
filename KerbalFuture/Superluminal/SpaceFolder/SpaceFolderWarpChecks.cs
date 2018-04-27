@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using KerbalFuture.Utils;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class SpaceFolderWarpChecks
 	{
-		public static string WarpAvailable(SpaceFolderWarpData warpData, Vessel v = FlightGlobals.ActiveVessel)
+		public static string WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
 		{
 			//To warp, vessel needs SFD of correct size and resources
-			if(!VesselContainsSpaceFolderDrive(v))
+			if (!VesselContainsSpaceFolderDrive(v))
 			{
 				return "No drives found!";
 			}
@@ -19,57 +20,48 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			//TODO get vessel launch building and use that instead of just EditorFacilities.VAB
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacility.VAB, v.Parts);
 			double vesselDiameter = sc.shipSize.x;
-			IEnumerable<Part> sfdList = new IEnumerable<Part>();
+			IEnumerable<Part> sfdList = new List<Part>();
 			sfdList = VesselSpaceFolderDrives(v);
 			//Checks the vessel size vs the max warp hole size
-			if(vesselDiameter > MaxWarpHoleSize(sfdList))
+			if (vesselDiameter > MaxWarpHoleSize(sfdList))
 			{
 				return "Ship is too large!";
 			}
 			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList);
 			vrs.RunSimulation();
-			if(!vrs.SimulationSuccessful)
-			{
-				return "Not enough resources!";
-			}
-			return null;
+			return !vrs.SimulationSuccessful ? "Not enough resources!" : null;
 		}
 		public static double MaxWarpHoleSize(IEnumerable<Part> engines)
 		{
 			double[] dividers = { 0.8, 0.6, 0.4, 0.2 };
 			double divider = 0.1;
-			List<double> unmodEngineSize = new List<double>();
-			List<double[]> engineSizes = engines.Select(GetEngineValues).ToList();
-			foreach (double[] t in engineSizes)
-			{
-				unmodEngineSize.Add(t[0]);
-			}
 			double realSize = 0;
-			for (int i = 0; i <= unmodEngineSize.Count; i++)
+			List<SpaceFolderDriveData> driveData = engines.Select(p => ((ModuleSpaceFolderEngine) 
+				p.Modules["ModuleSpaceFolderEngine"]).PartDriveData).ToList();
+			for (int i = 0; i < driveData.Count; i++)
 			{
 				if (i == 0)
 				{
-					realSize += unmodEngineSize[i];
+					realSize += driveData[i].Diameter;
 				}
 				else if (i > 0 && i < 5)
 				{
-					realSize += unmodEngineSize[i] * dividers[i - 1];
+					realSize += driveData[i].Diameter * dividers[i - 1];
 				}
 				else
 				{
-					realSize += unmodEngineSize[i] * divider;
-					divider = divider / 2;
+					realSize += driveData[i].Diameter * divider;
+					divider /= 2;
 				}
 			}
-			unmodEngineSize.Sort();
-			unmodEngineSize.Reverse();
+
 			return realSize;
 		}
 		public static bool VesselContainsSpaceFolderDrive(Vessel v)
 		{
-			foreach(Part p in v.Parts)
+			foreach (Part p in v.Parts)
 			{
-				if(p.Modules.Contains<ModuleSpaceFolderDrive>())
+				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
 				{
 					return true;
 				}
@@ -79,29 +71,22 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		public static bool VesselContainsSpaceFolderDrive(Vessel v, out List<Part> partsWithModule)
 		{
 			List<Part> outList = new List<Part>();
-			foreach(Part p in v.Parts)
+			foreach (Part p in v.Parts)
 			{
-				if(p.Modules.Contains<ModuleSpaceFolderDrive>())
+				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
 				{
 					outList.Add(p);
 				}
 			}
 			partsWithModule = outList;
-			if(outList.Count > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return outList.Count > 0;
 		}
 		public static IEnumerable<Part> VesselSpaceFolderDrives(Vessel v)
 		{
 			List<Part> outList = new List<Part>();
 			foreach(Part p in v.Parts)
 			{
-				if(p.Modules.Contains<ModuleSpaceFolderDrive>())
+				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
 				{
 					outList.Add(p);
 				}
@@ -109,7 +94,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			return outList;
 		}
 		public static double MainResourceWarpCalc(SpaceFolderDriveData driveData)
-			=> Math.Pow(Math.E, driveData.Diameter*driveData.Multiplier/5)*300;
+			=> Math.Pow(Math.E, driveData.Diameter * driveData.Multiplier / 5) * 300;
 		
 	}
 }
