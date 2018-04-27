@@ -14,11 +14,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		//Dictionary of the part and its respective participation in the warp
 		private Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
 		//Warps the vessel, using resources
-		public bool WarpVessel(SpaceFolderWarpData warpData, out string fault)
+		public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
 		{
 			driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
-			fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
-			if(fault != null)
+			int internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
+			if(internFault != 0)
 			{
 				return false;
 			}

@@ -28,16 +28,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\KSP Mod stuff\KSP 1.4.2 dependencies\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\KSP Mod stuff\KSP 1.4.2 dependencies\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\KSP Mod stuff\KSP 1.4.2 dependencies\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\KSP Mod stuff\KSP 1.4.2 dependencies\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +46,9 @@
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderDriveVesselModule.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpChecks.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpData.cs" />
+    <Compile Include="Superluminal\SpaceFolder\WarpCheckErrors.cs" />
     <Compile Include="Utils\Coords.cs" />
+    <Compile Include="Utils\SimulationStatus.cs" />
     <Compile Include="Utils\Tuple.cs" />
     <Compile Include="Utils\VesselResourceSimulation.cs" />
     <Compile Include="Utils\WarpHelp.cs" />

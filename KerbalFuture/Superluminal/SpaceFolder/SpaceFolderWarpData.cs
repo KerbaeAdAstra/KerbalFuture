@@ -5,11 +5,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public struct SpaceFolderWarpData
 	{
-		public SpaceFolderWarpData(Vessel vesselToWarp = FlightGlobals.ActiveVessel,
-			Vector3d currentLocation = FlightGlobals.ActiveVessel.GetWorldPos3D(),
+		public SpaceFolderWarpData(Vessel vesselToWarp,
+			Vector3d currentLocation,
 			Vector3d warpLocation,
 			double timeToWarp,
-			CelestialBody currentCelestialBody = FlightGlobals.ActiveVessel.mainBody,
+			CelestialBody currentCelestialBody,
 			CelestialBody warpCelestialBody)
 		{
 			_VesselToWarp = vesselToWarp;
@@ -58,7 +58,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			get
 			{
-				return _CurrentCelestialBody
+                return _CurrentCelestialBody;
 			}
 		}
 		public CelestialBody WarpCelestialBody

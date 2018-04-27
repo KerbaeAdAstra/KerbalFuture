@@ -7,12 +7,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class SpaceFolderWarpChecks
 	{
-		public static string WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
+		public static int WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
 		{
+            int bitwiseReturn = 0;
 			//To warp, vessel needs SFD of correct size and resources
 			if (!VesselContainsSpaceFolderDrive(v))
 			{
-				return "No drives found!";
+                bitwiseReturn += (int)Error.DrivesNotFound;
 			}
 			//seen on forum post: 
 			//https://forum.kerbalspaceprogram.com/index.php?/topic/116071-getting-vessel-size/&do=findComment&comment=2067825
@@ -20,16 +21,20 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			//TODO get vessel launch building and use that instead of just EditorFacilities.VAB
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacility.VAB, v.Parts);
 			double vesselDiameter = sc.shipSize.x;
-			IEnumerable<Part> sfdList = new List<Part>();
+			List<Part> sfdList = new List<Part>();
 			sfdList = VesselSpaceFolderDrives(v);
 			//Checks the vessel size vs the max warp hole size
 			if (vesselDiameter > MaxWarpHoleSize(sfdList))
 			{
-				return "Ship is too large!";
+                bitwiseReturn += (int)Error.VesselTooLarge;
 			}
 			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList);
 			vrs.RunSimulation();
-			return !vrs.SimulationSuccessful ? "Not enough resources!" : null;
+			if(vrs.Status != SimulationStatus.Succeeded)
+            {
+                bitwiseReturn += (int)Error.InsufficientResources;
+            }
+            return bitwiseReturn;
 		}
 		public static double MaxWarpHoleSize(IEnumerable<Part> engines)
 		{
@@ -81,7 +86,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			partsWithModule = outList;
 			return outList.Count > 0;
 		}
-		public static IEnumerable<Part> VesselSpaceFolderDrives(Vessel v)
+		public static List<Part> VesselSpaceFolderDrives(Vessel v)
 		{
 			List<Part> outList = new List<Part>();
 			foreach(Part p in v.Parts)
