@@ -12,89 +12,24 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			CelestialBody currentCelestialBody,
 			CelestialBody warpCelestialBody)
 		{
-			_VesselToWarp = vesselToWarp;
-			_CurrentLocation = currentLocation;
-			_WarpLocation = warpLocation;
-			_TimeToWarp = timeToWarp;
-			_CurrentCelestialBody = currentCelestialBody;
-			_WarpCelestialBody = warpCelestialBody;
+			VesselToWarp = vesselToWarp;
+			CurrentLocation = currentLocation;
+			WarpLocation = warpLocation;
+			TimeToWarp = timeToWarp;
+			CurrentCelestialBody = currentCelestialBody;
+			WarpCelestialBody = warpCelestialBody;
 		}
-		private Vessel _VesselToWarp;
-		private Vector3d _CurrentLocation;
-		private Vector3d _WarpLocation;
-		private double _TimeToWarp;
-		private CelestialBody _CurrentCelestialBody;
-		private CelestialBody _WarpCelestialBody;
-		
-		public Vessel VesselToWarp
-		{
-			get
-			{
-				return _VesselToWarp;
-			}
-		}
-		public Vector3d CurrentLocation
-		{
-			get
-			{
-				return _CurrentLocation;
-			}
-		}
-		public Vector3d WarpLocation
-		{
-			get
-			{
-				return _WarpLocation;
-			}
-		}
-		public double TimeToWarp
-		{
-			get
-			{
-				return _TimeToWarp;
-			}
-		}
-		public CelestialBody CurrentCelestialBody
-		{
-			get
-			{
-                return _CurrentCelestialBody;
-			}
-		}
-		public CelestialBody WarpCelestialBody
-		{
-			get
-			{
-				return _WarpCelestialBody;
-			}
-		}
-		public double WarpDistance
-		{
-			get
-			{
-				return WarpHelp.Distance(CurrentLocation, WarpLocation);
-			}
-		}
-		public double WarpLocationXValue
-		{
-			get
-			{
-				return _WarpLocation.x;
-			}
-		}
-		public double WarpLocationYValue
-		{
-			get
-			{
-				return _WarpLocation.y;
-			}
-		}
-		public double WarpLocationZValue
-		{
-			get
-			{
-				return _WarpLocation.z;
-			}
-		}
+
+		public Vessel VesselToWarp { get; }
+		public Vector3d CurrentLocation { get; }
+		public Vector3d WarpLocation { get; }
+		public double TimeToWarp { get; }
+		public CelestialBody CurrentCelestialBody { get; }
+		public CelestialBody WarpCelestialBody { get; }
+
+		public double WarpDistance => WarpHelp.Distance(CurrentLocation, WarpLocation);
+		public double WarpLocationXValue => WarpLocation.x;
+		public double WarpLocationYValue => WarpLocation.y;
+		public double WarpLocationZValue => WarpLocation.z;
 	}
 }

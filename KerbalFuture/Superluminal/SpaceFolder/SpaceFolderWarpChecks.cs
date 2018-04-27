@@ -30,7 +30,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList);
 			vrs.RunSimulation();
-			if(vrs.Status != SimulationStatus.Succeeded)
+			if (vrs.Status != SimulationStatus.Succeeded)
             {
                 bitwiseReturn += (int)Error.InsufficientResources;
             }

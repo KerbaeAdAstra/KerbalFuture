@@ -57,9 +57,8 @@ namespace KerbalFuture.Utils
 		}
 		public static double VessselResourceTotal(Vessel v, string resource)
 		{
-			double amount = 0;
 			double maxAmount = 0;
-			v.GetConnectedResourceTotals(new PartResourceDefinition(resource).id, out amount, out maxAmount, false);
+			v.GetConnectedResourceTotals(new PartResourceDefinition(resource).id, out var amount, out maxAmount, false);
 			return amount;
 		}
 		public static double CalculateGravPot(CelestialBody cb, Vessel v)

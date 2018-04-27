@@ -18,7 +18,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
 			int internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
-			if(internFault != 0)
+			if (internFault != 0)
 			{
 				return false;
 			}
@@ -31,11 +31,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		private void UseWarpResources()
 		{
 			List<SpaceFolderDriveData> driveData = new List<SpaceFolderDriveData>();
-			foreach(Part p in driveList)
+			foreach (Part p in driveList)
 			{
 				driveData.Add(((ModuleSpaceFolderEngine)p.Modules["ModuleSpaceFolderEngine"]).PartDriveData);
 			}
-			foreach(SpaceFolderDriveData d in driveData)
+			foreach (SpaceFolderDriveData d in driveData)
 			{
 				double tempEC = SpaceFolderWarpChecks.MainResourceWarpCalc(d);
 				partECAmount.Add(d.DriveDataPart, tempEC);
@@ -46,11 +46,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		private void DistributeHeat()
 		{
 			//Adds heat
-			foreach(KeyValuePair<Part, double> kvp in partECAmount)
+			foreach (KeyValuePair<Part, double> kvp in partECAmount)
 			{
 				bool hadModuleCoreHeat = true;
 				//Iff MM doesn't work or this engine for whatever reason doesn't have a ModuleCoreHeat, we add one
-				if(!kvp.Key.Modules.Contains("ModuleCoreHeat"))
+				if (!kvp.Key.Modules.Contains("ModuleCoreHeat"))
 				{
 					hadModuleCoreHeat = false;
 					kvp.Key.AddModule("ModuleCoreHeat", true);
@@ -58,7 +58,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				//p.Modules.GetModule<ModuleSpaceFolderEngine>.PartDriveData
 				((ModuleCoreHeat)kvp.Key.Modules["ModuleCoreHeat"]).AddEnergyToCore(kvp.Value);
 				//Removes ModuleCoreHeat if the part didn't already have it
-				if(hadModuleCoreHeat)
+				if (hadModuleCoreHeat)
 				{
 					kvp.Key.RemoveModule(kvp.Key.Modules["ModuleCoreHeat"]);
 				}

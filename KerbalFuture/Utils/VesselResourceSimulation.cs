@@ -14,7 +14,7 @@ namespace KerbalFuture.Utils
 			drives = _drives;
 			PopulateResourceSets();
 		}
-		bool allPopulated = false;
+		bool allPopulated;
 		Vessel vessel;
 		List<Part> drives;
 		List<SpaceFolderDriveData> driveDatas = new List<SpaceFolderDriveData>();
@@ -65,42 +65,34 @@ namespace KerbalFuture.Utils
 		{
 			//RESOURCE Math.Pow(Math.E, [diameter] * [multiplier] / 5) * 300;
 			//CATALYST Math.Pow(Math.E, [diameter] * [multiplier] / 5);
-			foreach(SpaceFolderDriveData d in driveDatas)
+			foreach (SpaceFolderDriveData d in driveDatas)
 			{
 				//ResDic.Item[d.MainResource] -= MainResCalc(d.Diameter, d.Multiplier);
 				//CatDic.Item[d.Catalyst] -= CatCalc(d.Diameter, d.Multiplier);
-                foreach(KeyValuePair<string, double> kvp in ResDic)
+                foreach (KeyValuePair<string, double> kvp in ResDic)
                 {
-                    if(kvp.Key == d.MainResource)
-                    {
-                        ResDic.Remove(kvp.Key);
-                        ResDic.Add(d.MainResource, kvp.Value - MainResCalc(d.Diameter, d.Multiplier));
-                    }
+	                if (kvp.Key != d.MainResource) continue;
+	                ResDic.Remove(kvp.Key);
+	                ResDic.Add(d.MainResource, kvp.Value - MainResCalc(d.Diameter, d.Multiplier));
                 }
-                foreach(KeyValuePair<string, double> kvp in CatDic)
+                foreach (KeyValuePair<string, double> kvp in CatDic)
                 {
-                    if (kvp.Key == d.Catalyst)
-                    {
-                        CatDic.Remove(kvp.Key);
-                        CatDic.Add(d.Catalyst, kvp.Value - CatCalc(d.Diameter, d.Multiplier));
-                    }
+	                if (kvp.Key != d.Catalyst) continue;
+	                CatDic.Remove(kvp.Key);
+	                CatDic.Add(d.Catalyst, kvp.Value - CatCalc(d.Diameter, d.Multiplier));
                 }
 			}
 			foreach(KeyValuePair<string, double> kvp in ResDic)
 			{
-				if(kvp.Value < 0)
-				{
-					Status = SimulationStatus.Failed;
-					return;
-				}
+				if (!(kvp.Value < 0)) continue;
+				Status = SimulationStatus.Failed;
+				return;
 			}
 			foreach(KeyValuePair<string, double> kvp in CatDic)
 			{
-				if(kvp.Value < 0)
-				{
-                    Status = SimulationStatus.Succeeded;
-					return;
-				}
+				if (!(kvp.Value < 0)) continue;
+				Status = SimulationStatus.Succeeded;
+				return;
 			}
 		}
 	}
