@@ -7,6 +7,8 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class SpaceFolderWarpChecks
 	{
+        //Checks if the warp is avalible, returning a bitwise encoding of any errors encountered. 
+        //If the returned int is equal to 0 (zero), WarpAvalible has encountered no problems with warping. 
 		public static int WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
 		{
             int bitwiseReturn = 0;
@@ -28,7 +30,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			{
                 bitwiseReturn += (int)Error.VesselTooLarge;
 			}
-			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList);
+			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList, true);
 			vrs.RunSimulation();
 			if (vrs.Status != SimulationStatus.Succeeded)
             {
@@ -36,6 +38,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             }
             return bitwiseReturn;
 		}
+        //Calculates the maximum warp hole size producable for a set of engines
 		public static double MaxWarpHoleSize(IEnumerable<Part> engines)
 		{
 			double[] dividers = { 0.8, 0.6, 0.4, 0.2 };
@@ -62,6 +65,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 
 			return realSize;
 		}
+        //Checks if the vessel has a SpaceFolderDrive
 		public static bool VesselContainsSpaceFolderDrive(Vessel v)
 		{
 			foreach (Part p in v.Parts)
@@ -73,6 +77,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			return false;
 		}
+        //Checks and returns an out List<Part> of parts with SpaceFolderDrive
 		public static bool VesselContainsSpaceFolderDrive(Vessel v, out List<Part> partsWithModule)
 		{
 			List<Part> outList = new List<Part>();
@@ -86,6 +91,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			partsWithModule = outList;
 			return outList.Count > 0;
 		}
+        //Returns a list of SpaceFolderDrives
 		public static List<Part> VesselSpaceFolderDrives(Vessel v)
 		{
 			List<Part> outList = new List<Part>();
@@ -98,8 +104,5 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			return outList;
 		}
-		public static double MainResourceWarpCalc(SpaceFolderDriveData driveData)
-			=> Math.Pow(Math.E, driveData.Diameter * driveData.Multiplier / 5) * 300;
-		
 	}
 }

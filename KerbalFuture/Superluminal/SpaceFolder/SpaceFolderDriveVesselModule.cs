@@ -37,7 +37,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			foreach (SpaceFolderDriveData d in driveData)
 			{
-				double tempEC = SpaceFolderWarpChecks.MainResourceWarpCalc(d);
+				double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
 				partECAmount.Add(d.DriveDataPart, tempEC);
 				WarpHelp.UseResource(d.DriveDataPart, tempEC, d.MainResource);
 			}
@@ -64,5 +64,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				}
 			}
 		}
-	}
+        //Calculates the amount of main resource used
+        double MainResourceWarpCalc(double diameter, double multiplier) => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+    }
 }

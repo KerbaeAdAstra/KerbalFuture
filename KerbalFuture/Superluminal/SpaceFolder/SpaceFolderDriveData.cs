@@ -2,6 +2,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public struct SpaceFolderDriveData
 	{
+        //Constructor
 		public SpaceFolderDriveData(Part part, double diameter, double multiplier, string mainRes, string cat)
 		{
 			DriveDataPart = part;
@@ -10,10 +11,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			MainResource = mainRes;
 			Catalyst = cat;
 		}
-		public Part DriveDataPart { get; internal set; }
-		public double Diameter { get; internal set; }
-		public double Multiplier { get; internal set; }
-		public string MainResource { get; internal set; }
-		public string Catalyst { get; internal set; }
+        //Properties of struct, readonly
+		public Part DriveDataPart { get; }
+		public double Diameter { get; }
+		public double Multiplier { get; }
+		public string MainResource { get; }
+		public string Catalyst { get; }
 	}
 }
