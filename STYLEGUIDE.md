@@ -15,7 +15,7 @@
 * Class, method, property, control structure, et cetera bodies shall always be contained by curly brackets, even if they contain only one statement.
 * Bracketed blocks shall begin the line after the control structure or declaration, e.g.,
 
-```cs
+```csharp
 class Foo
 {
     //…
@@ -25,6 +25,7 @@ class Foo
 * Indentation shall be one tab per rank.
 * Lines shall have a length not exceeding 80 characters.
 * Excessively long single lines shall be cut at logical points.
+* Access modifiers shall only be added if they overide the implicit access modifiers.
 
 ## Layout
 
@@ -37,5 +38,6 @@ class Foo
 
 * Single-line comments shall be on their own line, not appended to any other code.
 * Single-line comments shall use the double-slash notation `//`, as opposed to the block-comment notation, `/* … */`.
-* There shall be a block comment immediately preceding every method documenting said method.
+* There shall be a comment immediately preceding every method.
 * Comments within the body of a method shall precede the content in question and be preceded by an empty line themselves.
+
