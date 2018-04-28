@@ -16,7 +16,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
         public void Awake()
         {
-            Debug.Log('[KF] Startup for ' + this.Vessel.name.ToString());
+            Debug.Log("[KF] Startup for " + this.Vessel.name.ToString());
         }
         //Internal testing code
         internal bool WarpVessel(Vector3d location)
