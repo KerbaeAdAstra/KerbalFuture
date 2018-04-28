@@ -17,6 +17,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         UnitTests ut;
         protected override void OnStart()
         {
+            base.OnStart();
             Debug.Log("[KF] Startup for " + this.Vessel.name.ToString());
             ut = new UnitTests(this);
         }
@@ -26,7 +27,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             Debug.Log("[KF] Internal Warp Triggered!");
             vessel.SetPosition(location);
             return true;
-        }        // Warps the vessel, using resources
+        }
+        /*
+        // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
         {
             driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
@@ -80,5 +83,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         //Calculates the amount of main resource used
         private double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+            */
     }
 }
