@@ -1,4 +1,3 @@
-using System;
 using KerbalFuture.Utils;
 
 namespace KerbalFuture.Superluminal.SpaceFolder

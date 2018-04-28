@@ -7,13 +7,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 	[KSPAddon(KSPAddon.Startup.Flight, true)]
 	public class SpaceFolderDriveVesselModule : VesselModule
 	{
-		//1 Electric Charge is equal to 1kJ!
+		// 1 Electric Charge is equal to 1kJ\!
 		
-		//List of of drives on the vessel, updated/created on warp
-		private List<Part> driveList = new List<Part>();
-		//Dictionary of the part and its respective participation in the warp
-		private Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
-		//Warps the vessel, using resources
+		// List of of drives on the vessel, updated/created on warp
+		List<Part> driveList = new List<Part>();
+		// Dictionary of the part and its respective participation in the warp
+		Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
+		// Warps the vessel, using resources
 		public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
 		{
 			driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
@@ -27,7 +27,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			DistributeHeat();
 			return true;
 		}
-		//Uses resources from the drives in driveList
+		// Uses resources from the drives in driveList
 		private void UseWarpResources()
 		{
 			List<SpaceFolderDriveData> driveData = new List<SpaceFolderDriveData>();
@@ -42,22 +42,22 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				WarpHelp.UseResource(d.DriveDataPart, tempEC, d.MainResource);
 			}
 		}
-		//Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
+		// Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
 		private void DistributeHeat()
 		{
-			//Adds heat
+			// Adds heat
 			foreach (KeyValuePair<Part, double> kvp in partECAmount)
 			{
 				bool hadModuleCoreHeat = true;
-				//Iff MM doesn't work or this engine for whatever reason doesn't have a ModuleCoreHeat, we add one
+				// Iff MM doesn't work or this engine for whatever reason doesn't have a ModuleCoreHeat, we add one
 				if (!kvp.Key.Modules.Contains("ModuleCoreHeat"))
 				{
 					hadModuleCoreHeat = false;
 					kvp.Key.AddModule("ModuleCoreHeat", true);
 				}
-				//p.Modules.GetModule<ModuleSpaceFolderEngine>.PartDriveData
+				// p.Modules.GetModule<ModuleSpaceFolderEngine>.PartDriveData
 				((ModuleCoreHeat)kvp.Key.Modules["ModuleCoreHeat"]).AddEnergyToCore(kvp.Value);
-				//Removes ModuleCoreHeat if the part didn't already have it
+				// Removes ModuleCoreHeat if the part didn't already have it
 				if (hadModuleCoreHeat)
 				{
 					kvp.Key.RemoveModule(kvp.Key.Modules["ModuleCoreHeat"]);
@@ -65,6 +65,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 		}
         //Calculates the amount of main resource used
-        double MainResourceWarpCalc(double diameter, double multiplier) => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+        private double MainResourceWarpCalc(double diameter, double multiplier)
+	        => Math.Pow(Math.E, diameter * multiplier / 5)* 300;
     }
 }
