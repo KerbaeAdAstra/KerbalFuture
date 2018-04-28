@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using KerbalFuture.Utils;
+using KerbalFuture.UnitTests;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
@@ -13,8 +14,17 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		List<Part> driveList = new List<Part>();
 		// Dictionary of the part and its respective participation in the warp
 		Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
-		// Warps the vessel, using resources
-		public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
+        // Warps the vessel, using resources
+        public void Awake()
+        {
+            UnitTests.UnitTests.vesselModule = this;
+        }
+        internal bool WarpVessel(Vector3d location)
+        {
+            vessel.SetPosition(location);
+            return true;
+        }
+        public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
 		{
 			driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
 			int internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
