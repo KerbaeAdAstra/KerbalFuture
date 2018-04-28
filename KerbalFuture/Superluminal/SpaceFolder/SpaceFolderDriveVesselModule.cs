@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using KerbalFuture.Utils;
-using KerbalFuture.UnitTests;
+using UnityEngine;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
@@ -14,16 +14,18 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		List<Part> driveList = new List<Part>();
 		// Dictionary of the part and its respective participation in the warp
 		Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
-        // Warps the vessel, using resources
         public void Awake()
         {
-            UnitTests.UnitTests.vesselModule = this;
+            Debug.Log('[KF] Startup for ' + this.Vessel.name.ToString());
         }
+        //Internal testing code
         internal bool WarpVessel(Vector3d location)
         {
+            Debug.Log("[KF] Internal Warp Triggered!");
             vessel.SetPosition(location);
             return true;
         }
+        // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
 		{
 			driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());

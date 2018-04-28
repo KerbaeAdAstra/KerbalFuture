@@ -13,6 +13,7 @@ namespace KerbalFuture.UnitTests
         {
             if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
+                Debug.Log("[KF] Unit tests triggered");
                 vesselModule.WarpVessel(new Vector3d(40000, 2100000, 500000000));
             }
         }
