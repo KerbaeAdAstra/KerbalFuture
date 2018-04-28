@@ -9,16 +9,29 @@ namespace KerbalFuture.Utils
     {
         public UnitTests(SpaceFolderDriveVesselModule vm)
         {
-            Debug.Log("[KF] UnitTest created from vessel " + vm.Vessel.name.ToString());
+            instance++;
+            Debug.Log("[KF] UnitTest created from vessel " + vm.Vessel.name.ToString() + ", instance " + instance);
             vesselModule = vm;
         }
+        public void Awake()
+        {
+            Debug.Log("[KF] UnitTests awakened, instance is " + instance);
+        }
+        public void Start()
+        {
+            Debug.Log("[KF] UnitTests started, instance is " + instance);
+            t = Time.realtimeSinceStartup;
+        }
+        public static uint instance = 0;
+        public float t;
+        bool alreadywarped = false;
         public SpaceFolderDriveVesselModule vesselModule;
         public void Update()
         {
-            Debug.Log("[KF] UnitTest " + this.ToString() + " updating");
-            if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && vesselModule != null)
+            if(t + 1000 < Time.realtimeSinceStartup && !alreadywarped)
             {
-                Debug.Log("[KF] UnitTest " + this.ToString() + " 'Warp' triggered");
+                alreadywarped = true;
+                Debug.Log("[KF] UnitTest " + this.ToString() + " 'Warp' triggered, instance is " + instance);
                 vesselModule.WarpVessel(new Vector3d(40000, 2100000, 500000000));
             }
         }

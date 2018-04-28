@@ -15,17 +15,24 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Dictionary of the part and its respective participation in the warp
         Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
         UnitTests ut;
+        protected override void OnAwake()
+        {
+            base.OnAwake();
+            Debug.Log("[KF] Awake for " + this.Vessel.name.ToString());
+        }
         protected override void OnStart()
         {
             base.OnStart();
             Debug.Log("[KF] Startup for " + this.Vessel.name.ToString());
+            Debug.Log("[KF] Creating UnitTests");
             ut = new UnitTests(this);
+            Debug.Log("[KF] UnitTests created: ut.ToString()");
         }
         //Internal testing code
         internal bool WarpVessel(Vector3d location)
         {
             Debug.Log("[KF] Internal Warp Triggered!");
-            vessel.SetPosition(location);
+            Vessel.SetPosition(location);
             return true;
         }
         /*
