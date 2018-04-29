@@ -47,7 +47,6 @@
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpChecks.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpData.cs" />
     <Compile Include="Superluminal\SpaceFolder\WarpCheckErrors.cs" />
-    <Compile Include="UnitTests\UnitTests.cs" />
     <Compile Include="Utils\Coords.cs" />
     <Compile Include="Utils\SimulationStatus.cs" />
     <Compile Include="Utils\Tuple.cs" />

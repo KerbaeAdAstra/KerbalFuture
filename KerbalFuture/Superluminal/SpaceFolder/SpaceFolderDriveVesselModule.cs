@@ -1,3 +1,4 @@
+using KerbalFuture.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,14 +22,17 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         {
             if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
-                Debug.Log("[KF] Input gotten of 'U' and 'LAlt' or 'RAlt'. Warping vessel " + Vessel.GetName());
-                WarpVessel(new Vector3d(50000000, 30000000, 700000000));
+                Debug.Log("[KF] Input gotten of 'U' and 'LAlt' or 'RAlt'. Distributing heat to vessel " + Vessel.name);
+            }
+            if (Input.GetKey(KeyCode.P) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
+            {
+                Debug.Log("[KF] Input recieved of 'P' and 'LAlt' or 'RAlt'. Overloading vessel temperature");
             }
         }
         //Internal testing code
         internal bool WarpVessel(Vector3d location)
         {
-            Debug.Log("[KF] Internal Warp Triggered for vessel " + Vessel.GetName() + "!");
+            Debug.Log("[KF] Internal Warp Triggered for vessel " + Vessel.name + "!");
             Vessel.SetPosition(location);
             return true;
         }
@@ -46,6 +50,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             DistributeHeat();
             return true;
         }
+        
         // Uses resources from the drives in driveList
         private void UseWarpResources()
         {
@@ -64,6 +69,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
         private void DistributeHeat()
         {
+            Debug.Log("[KF] Distributing heat to vessel " + this.Vessel.name);
             // Adds heat
             foreach (KeyValuePair<Part, double> kvp in partECAmount)
             {
@@ -71,16 +77,20 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                 // Iff MM doesn't work or this engine for whatever reason doesn't have a ModuleCoreHeat, we add one
                 if (!kvp.Key.Modules.Contains("ModuleCoreHeat"))
                 {
+                    Debug.Log("[KF] Part " + kvp.Key.name + " does not contain ModuleCoreHeat. Adding");
                     hadModuleCoreHeat = false;
                     kvp.Key.AddModule("ModuleCoreHeat", true);
                 }
                 // p.Modules.GetModule<ModuleSpaceFolderEngine>.PartDriveData
+                Debug.Log("[KF] Adding " + kvp.Value + "kJ of heat to " + kvp.Key.name + ". Final part temperature is " + (kvp.Key.temperature + kvp.Value).ToString() + "C");
                 ((ModuleCoreHeat)kvp.Key.Modules["ModuleCoreHeat"]).AddEnergyToCore(kvp.Value);
                 // Removes ModuleCoreHeat if the part didn't already have it
                 if (hadModuleCoreHeat)
                 {
+                    Debug.Log("[KF] Part " + kvp.Key.name + " did not have ModuleCoreHeat. Removing.");
                     kvp.Key.RemoveModule(kvp.Key.Modules["ModuleCoreHeat"]);
                 }
+                
             }
         }
         //Calculates the amount of main resource used
