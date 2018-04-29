@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
-    [KSPAddon(KSPAddon.Startup.Flight, true)]
     public class SpaceFolderDriveVesselModule : VesselModule
     {
         // 1 Electric Charge is equal to 1kJ\!
@@ -13,45 +12,26 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         List<Part> driveList = new List<Part>();
         // Dictionary of the part and its respective participation in the warp
         Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
-        float startTime = 0f;
         protected override void OnStart()
         {
-            Debug.Log("[KF] Vessel module starting for " + this.Vessel.GetName());
             base.OnStart();
-            startTime = (float)Time.realtimeSinceStartup;
-            startTime += 480f;
+            Debug.Log("[KF] Vessel module starting for " + Vessel.name);
         }
         public void Update()
         {
             if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
-                try
-                {
-                    Debug.Log("[KF] Input gotten of 'U' and 'LAlt' or 'RAlt'. Warping vessel " + this.Vessel.GetName());
-                    WarpVessel(new Vector3d(50000000, 30000000, 700000000));
-                }
-                catch(NullReferenceException e)
-                {
-                    Debug.Log("Caught NRE " + e.ToString() + ", message is " + e.Message + ", source is " + e.Source + ", stacktrace is " + e.StackTrace + ", target site is " + e.TargetSite + ", inner exception is " + e.InnerException + ", data is " + e.Data.ToString());
-                }
+                Debug.Log("[KF] Input gotten of 'U' and 'LAlt' or 'RAlt'. Warping vessel " + Vessel.GetName());
+                WarpVessel(new Vector3d(50000000, 30000000, 700000000));
             }
         }
         //Internal testing code
         internal bool WarpVessel(Vector3d location)
         {
-            try
-            {
-                Debug.Log("[KF] Internal Warp Triggered for vessel " + Vessel.GetName() + "!");
-                Vessel.SetPosition(location);
-                return true;
-            }
-            catch (NullReferenceException e)
-            {
-                Debug.Log("Caught NRE " + e.ToString() + ", message is " + e.Message + ", source is " + e.Source + ", stacktrace is " + e.StackTrace + ", target site is " + e.TargetSite + ", inner exception is " + e.InnerException + ", data is " + e.Data.ToString());
-                return false;
-            }
+            Debug.Log("[KF] Internal Warp Triggered for vessel " + Vessel.GetName() + "!");
+            Vessel.SetPosition(location);
+            return true;
         }
-        /*
         // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
         {
@@ -106,6 +86,5 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         //Calculates the amount of main resource used
         private double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
-            */
     }
 }
