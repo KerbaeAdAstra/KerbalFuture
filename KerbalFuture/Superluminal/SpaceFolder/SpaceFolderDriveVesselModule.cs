@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using KerbalFuture.Utils;
 using UnityEngine;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
@@ -14,19 +13,21 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         List<Part> driveList = new List<Part>();
         // Dictionary of the part and its respective participation in the warp
         Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
-        UnitTests ut;
-        protected override void OnAwake()
-        {
-            base.OnAwake();
-            Debug.Log("[KF] Awake for " + this.Vessel.name.ToString());
-        }
+        float startTime = 0f;
         protected override void OnStart()
         {
+            Debug.Log("[KF] Vessel module starting");
             base.OnStart();
-            Debug.Log("[KF] Startup for " + this.Vessel.name.ToString());
-            Debug.Log("[KF] Creating UnitTests");
-            ut = new UnitTests(this);
-            Debug.Log("[KF] UnitTests created: ut.ToString()");
+            startTime = (float)Time.realtimeSinceStartup;
+            startTime += 480f;
+        }
+        public void Update()
+        {
+            if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
+            {
+                Debug.Log("[KF] Input gotten of 'U' and 'LAlt' or 'RAlt'. Warping vessel");
+                WarpVessel(new Vector3d(50000000, 30000000, 700000000));
+            }
         }
         //Internal testing code
         internal bool WarpVessel(Vector3d location)
