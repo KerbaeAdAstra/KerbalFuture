@@ -1,5 +1,8 @@
+using KerbalFuture.Superluminal.SpaceFolder;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace KerbalFuture.Utils
 {
@@ -53,17 +56,29 @@ namespace KerbalFuture.Utils
 			return v.altitude;
 		}
         // Gets a list of parts on a vessel with the specified PartModule
-		public static List<Part> PartsWithModule(Vessel v, PartModule pm)
+		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
 		{
-			List<Part> returnList = new List<Part>();
-			foreach (Part p in v.Parts)
-			{
-				if (p.Modules.Contains(pm.ClassID))
-				{
-					returnList.Add(p);
-				}
-			}
-			return returnList;
+            try
+            {
+                List<Part> returnList = new List<Part>();
+                foreach (Part p in v.Parts)
+                {
+                    IEnumerator ting = p.Modules.GetEnumerator();
+                    for(int i = 0; i < p.Modules.Count; i++)
+                    {
+                        if (ting.Current.GetType() == partModuleType) 
+                        {
+                            returnList.Add(p);
+                        }
+                    }
+                }
+                return returnList;
+            }
+            catch(NullReferenceException e)
+            {
+                Debug.Log("[KF] Shucks. NRE. " + e.Source + " " + e.Message + " " + e.InnerException + " " + e.StackTrace + " " + e.HelpLink + " " + e.Data + " " + e.GetBaseException().ToString());
+                return new List<Part>();
+            }
 		}
         // Gets the gravitation potential for a vessel above a celestial body
 		public static double CalculateGravPot(CelestialBody cb, Vessel v)

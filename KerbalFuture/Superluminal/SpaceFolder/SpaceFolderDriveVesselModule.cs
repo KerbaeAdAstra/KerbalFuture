@@ -22,7 +22,19 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         {
             if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
-
+                List<Part> partList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
+                foreach (Part p in partList)
+                {
+                    try
+                    {
+                        SpaceFolderDriveData data = p.Modules.GetModule<ModuleSpaceFolderEngine>().PartDriveData;
+                        Debug.Log("[KF] Ye got parts with SFD's! " + p.ToString() + " " + data.MainResource);
+                    }
+                    catch(NullReferenceException e)
+                    {
+                        Debug.Log("[KF] Shucks. NRE. " + e.Source + " " + e.Message + " " + e.InnerException + " " + e.StackTrace + " " + e.HelpLink + " " + e.Data + " " + e.GetBaseException().ToString());
+                    }
+                }
             }
         }
         //Internal testing code
@@ -32,15 +44,19 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             Vessel.SetPosition(location);
             return true;
         }
+        /*
         // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
         {
+            Debug.Log("[KF] Warp triggered from an external source for " + Vessel.name);
             driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
             int internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
             if (internFault != 0)
             {
+                Debug.Log("[KF] Fault discovered in warp checks with code " + internFault);
                 return false;
             }
+            Debug.Log("[KF] Warp checks successful, warping vessel " + Vessel.name + " now.");
             UseWarpResources();
             Vessel.SetPosition(warpData.WarpLocation);
             DistributeHeat();
@@ -49,7 +65,8 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Uses resources from the drives in driveList
         private void UseWarpResources()
         {
-            List<SpaceFolderDriveData> driveData = new List<SpaceFolderDriveData>();
+            Debug.Log("[KF] Using warp resources");
+            List <SpaceFolderDriveData> driveData = new List<SpaceFolderDriveData>();
             foreach (Part p in driveList)
             {
                 driveData.Add(((ModuleSpaceFolderEngine)p.Modules["ModuleSpaceFolderEngine"]).PartDriveData);
@@ -64,7 +81,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
         private void DistributeHeat()
         {
-            Debug.Log("[KF] Distributing heat to vessel " + this.Vessel.name);
+            Debug.Log("[KF] Distributing heat to vessel " + Vessel.name);
             // Adds heat
             foreach (KeyValuePair<Part, double> kvp in partECAmount)
             {
@@ -88,6 +105,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                 
             }
         }
+        */
         //Calculates the amount of main resource used
         private double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
