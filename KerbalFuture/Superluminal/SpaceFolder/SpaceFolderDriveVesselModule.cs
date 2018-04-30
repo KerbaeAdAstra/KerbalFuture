@@ -22,19 +22,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         {
             if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
-                List<Part> partList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine().GetType());
-                foreach (Part p in partList)
-                {
-                    try
-                    {
-                        SpaceFolderDriveData data = p.Modules.GetModule<ModuleSpaceFolderEngine>().PartDriveData;
-                        Debug.Log("[KF] Ye got parts with SFD's! " + p.ToString() + " " + data.MainResource);
-                    }
-                    catch(NullReferenceException e)
-                    {
-                        Debug.Log("[KF] Shucks. NRE. " + e.Source + " " + e.Message + " " + e.InnerException + " " + e.StackTrace + " " + e.HelpLink + " " + e.Data + " " + e.GetBaseException().ToString());
-                    }
-                }
+
             }
         }
         //Internal testing code
@@ -44,12 +32,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             Vessel.SetPosition(location);
             return true;
         }
-        /*
         // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
         {
             Debug.Log("[KF] Warp triggered from an external source for " + Vessel.name);
-            driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
+            driveList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine().GetType());
             int internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
             if (internFault != 0)
             {
@@ -66,10 +53,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         private void UseWarpResources()
         {
             Debug.Log("[KF] Using warp resources");
-            List <SpaceFolderDriveData> driveData = new List<SpaceFolderDriveData>();
+            List<SpaceFolderDriveData> driveData = new List<SpaceFolderDriveData>();
             foreach (Part p in driveList)
             {
-                driveData.Add(((ModuleSpaceFolderEngine)p.Modules["ModuleSpaceFolderEngine"]).PartDriveData);
+                driveData.Add(WarpHelp.SFDModuleFromPart(p).PartDriveData);
             }
             foreach (SpaceFolderDriveData d in driveData)
             {
@@ -105,7 +92,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                 
             }
         }
-        */
         //Calculates the amount of main resource used
         private double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
