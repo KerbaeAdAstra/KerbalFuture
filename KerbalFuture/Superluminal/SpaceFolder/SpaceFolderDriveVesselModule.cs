@@ -20,13 +20,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         }
         public void Update()
         {
-            if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
+            if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
-                Debug.Log("[KF] Input gotten of 'U' and 'LAlt' or 'RAlt'. Distributing heat to vessel " + Vessel.name);
-            }
-            if (Input.GetKey(KeyCode.P) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
-            {
-                Debug.Log("[KF] Input recieved of 'P' and 'LAlt' or 'RAlt'. Overloading vessel temperature");
+
             }
         }
         //Internal testing code
@@ -46,11 +42,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                 return false;
             }
             UseWarpResources();
-            vessel.SetPosition(warpData.WarpLocation);
+            Vessel.SetPosition(warpData.WarpLocation);
             DistributeHeat();
             return true;
         }
-        
         // Uses resources from the drives in driveList
         private void UseWarpResources()
         {
