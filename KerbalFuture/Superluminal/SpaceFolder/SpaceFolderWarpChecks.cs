@@ -69,7 +69,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			foreach (Part p in v.Parts)
 			{
-				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
+				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
 				{
 					return true;
 				}
@@ -82,7 +82,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			List<Part> outList = new List<Part>();
 			foreach (Part p in v.Parts)
 			{
-				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
+				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
 				{
 					outList.Add(p);
 				}
@@ -96,7 +96,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			List<Part> outList = new List<Part>();
 			foreach(Part p in v.Parts)
 			{
-				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
+				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
 				{
 					outList.Add(p);
 				}

@@ -64,11 +64,16 @@ namespace KerbalFuture.Utils
                 foreach (Part p in v.Parts)
                 {
                     IEnumerator ting = p.Modules.GetEnumerator();
+                    bool tingStatus = ting.MoveNext();
                     for(int i = 0; i < p.Modules.Count; i++)
                     {
                         if (ting.Current.GetType() == partModuleType) 
                         {
                             returnList.Add(p);
+                        }
+                        if(tingStatus)
+                        {
+                            tingStatus = ting.MoveNext();
                         }
                     }
                 }

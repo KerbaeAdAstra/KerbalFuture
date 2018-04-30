@@ -22,7 +22,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         {
             if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
             {
-                List<Part> partList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine());
+                List<Part> partList = WarpHelp.PartsWithModule(Vessel, new ModuleSpaceFolderEngine().GetType());
                 foreach (Part p in partList)
                 {
                     try
