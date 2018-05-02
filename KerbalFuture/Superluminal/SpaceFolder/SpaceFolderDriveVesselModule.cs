@@ -113,12 +113,12 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			{
 				return new List<SpaceFolderDriveData>();
 			}
-			List<SpaceFolderDriveData> noticeMeSenpai = new List<SpaceFolderDriveData>();
+			List<SpaceFolderDriveData> returnList = new List<SpaceFolderDriveData>();
 			foreach(Part p in SFDOnVessel(v))
 			{
-				noticeMeSenpai.Add(PartSFDData(p));
+				returnList.Add(PartSFDData(p));
 			}
-			return noticeMeSenpai;
+			return returnList;
 		}
 		//Calculates the amount of main resource used
 		private double MainResourceWarpCalc(double diameter, double multiplier)
