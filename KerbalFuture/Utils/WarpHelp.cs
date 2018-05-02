@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace KerbalFuture.Utils
 {
@@ -55,71 +56,8 @@ namespace KerbalFuture.Utils
 			}
 			return v.altitude;
 		}
-        // Gets a list of parts on a vessel with the specified PartModule
-		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
-		{
-            List<Part> returnList = new List<Part>();
-            foreach (Part p in v.Parts)
-            {
-                IEnumerator ting = p.Modules.GetEnumerator();
-                bool tingStatus = ting.MoveNext();
-                for(int i = 0; i < p.Modules.Count; i++)
-                {
-                    if (ting.Current.GetType() == partModuleType) 
-                    {
-                        returnList.Add(p);
-                    }
-                    if(tingStatus)
-                    {
-                        tingStatus = ting.MoveNext();
-                    }
-                }
-            }
-            return returnList;
-		}
-        //Gets the PartModule pm from a provided Part p
-        public static ModuleSpaceFolderEngine SFDModuleFromPart(Part p)
-        {
-            Debug.Log("[KF] Getting ModuleSFEngine from part " + p.name);
-            IEnumerator ting = p.Modules.GetEnumerator();
-            bool tingStatus = ting.MoveNext();
-            for (int i = 0; i < p.Modules.Count; i++)
-            {
-                Debug.Log("[KF] Trying to find the PartModule...");
-                if (ting.Current.GetType() == new ModuleSpaceFolderEngine().GetType())
-                {
-                    Debug.Log("[KF] Found the PartModule for part " + p.name + "!");
-                    return (ModuleSpaceFolderEngine)ting.Current;
-                }
-                else if(tingStatus)
-                {
-                    tingStatus = ting.MoveNext();
-                }
-            }
-            Debug.Log("[KF] PartModule not found in part " + p.name);
-            return null;
-        }
-        //Gets a list of SFDriveDatas from a vessel
-        public static List<SpaceFolderDriveData> DriveDataList(Vessel v)
-        {
-            List<SpaceFolderDriveData> returnList = new List<SpaceFolderDriveData>();
-            foreach(Part p in v.Parts)
-            {
-                ModuleSpaceFolderEngine em = SFDModuleFromPart(p);
-                if(em != null)
-                {
-                    returnList.Add(em.PartDriveData);
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            return returnList;
-        }
-        // Gets the gravitation potential for a vessel above a celestial body
+		// Gets the gravitation potential for a vessel above a celestial body
 		public static double CalculateGravPot(CelestialBody cb, Vessel v)
 			=> cb.gravParameter / GetVesselAltitude(true, v);
-
 	}
 }
