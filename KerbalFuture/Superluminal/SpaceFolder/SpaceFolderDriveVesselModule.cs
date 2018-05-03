@@ -32,13 +32,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             return true;
         }
         // Warps the vessel, using resources
-        public bool WarpVessel(SpaceFolderWarpData warpData, out int fault)
+        public bool WarpVessel(SpaceFolderWarpData warpData, out Error fault)
         {
             Debug.Log("[KF] Warp triggered from an external source for " + Vessel.name);
-            int internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
+            Error internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
             if (internFault != 0)
             {
-                Debug.Log("[KF] Fault discovered in warp checks with code " + internFault);
+                Debug.Log("[KF] Fault discovered in warp checks with code " + internFault.ToString());
                 return false;
             }
             Debug.Log("[KF] Warp checks successful, warping vessel " + Vessel.name + " now.");

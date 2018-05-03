@@ -8,13 +8,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 	{
         // Checks if the warp is avalible, returning a bitwise encoding of any errors encountered. 
         // If the returned int is equal to 0 (zero), WarpAvalible has encountered no problems with warping. 
-		public static int WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
+		public static Error WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
 		{
-            int retval = 0;
+			Error retval = Error.ClearForWarp;
 			// To warp, vessel needs SFD of correct size and resources
 			if (!VesselContainsSpaceFolderDrive(v))
 			{
-                retval += (int)Error.DrivesNotFound;
+                retval = Error.DrivesNotFound;
 			}
 			// seen on forum post: 
 			// https://forum.kerbalspaceprogram.com/index.php?/topic/116071-getting-vessel-size/&do=findComment&comment=2067825
@@ -27,13 +27,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			// Checks the vessel size vs the max warp hole size
 			if (vesselDiameter > MaxWarpHoleSize(sfdList))
 			{
-                retval += (int)Error.VesselTooLarge;
+				retval = Error.VesselTooLarge | retval;
 			}
 			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList, true);
 			vrs.RunSimulation();
 			if (vrs.Status != SimulationStatus.Succeeded)
             {
-                retval += (int)Error.InsufficientResources;
+                retval = Error.InsufficientResources | retval;
             }
             return retval;
 		}
@@ -75,20 +75,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				}
 			}
 			return false;
-		}
-        // Checks and returns an out List<Part> of parts with SpaceFolderDrive
-		public static bool VesselContainsSpaceFolderDrive(Vessel v, out List<Part> partsWithModule)
-		{
-			List<Part> outList = new List<Part>();
-			foreach (Part p in v.Parts)
-			{
-				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
-				{
-					outList.Add(p);
-				}
-			}
-			partsWithModule = outList;
-			return outList.Count > 0;
 		}
         // Returns a list of SpaceFolderDrives
 		public static List<Part> VesselSpaceFolderDrives(Vessel v)
