@@ -21,8 +21,8 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         {
 			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
 			{
-				VesselResourceSimulation vrs = new VesselResourceSimulation(Vessel, true);
-				Debug.Log("[KF] Vessel resource sim completed with exit code " + vrs.Status.ToString());
+				Error retErr = SpaceFolderWarpChecks.WarpAvailable(Vessel);
+				Debug.LogFormat("[KF] Error is #" + (int)retErr + " " + retErr.ToString()); 
 			}
 		}
         //Internal testing code
