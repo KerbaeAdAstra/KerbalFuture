@@ -1,53 +1,61 @@
 using System;
 using System.Collections.Generic;
 using KerbalFuture.Utils;
+using UnityEngine;
+using KerbalFuture.Superluminal.SpaceFolder;
+using System.Linq;
+using System.Collections;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class VesselResourceSimulation
 	{
 		// PartResourceDefinition
-		public VesselResourceSimulation(Vessel v, List<Part> _drives, bool autoSim)
+		public VesselResourceSimulation(Vessel v, bool autoSim)
 		{
+			Debug.Log("[KF] VesselResourceSimulation created for vessel: " + v.GetDisplayName());
 			Status = SimulationStatus.Working;
 			vessel = v;
-			drives = _drives;
+			driveDatas = SFWarpHelp.DriveDataList(v);
+			Debug.Log("[KF] Number of drive data's is: " + driveDatas.Count);
 			PopulateResourceSets();
             if (autoSim)
             {
-                RunSimulation();
+				Debug.Log("[KF] [VRS] autoSim is true, running simulation");
+				RunSimulation();
             }
 		}
         // The vessel being simulated
 		Vessel vessel;
         // A list of SpaceFolderDrives on the vessel
-		List<Part> drives;
+		List<Part> drives = new List<Part>();
         // A list of SpaceFolderDriveDatas for the list of parts
 		List<SpaceFolderDriveData> driveDatas = new List<SpaceFolderDriveData>();
         // Hashsets for the main resources and catalysts
 		HashSet<string> mainRes = new HashSet<string>();
 		HashSet<string> cat = new HashSet<string>();
-        // Resource dictionaries with the name and the amount
-		public Dictionary<string, double> ResDic { get; private set; }
-		public Dictionary<string, double> CatDic { get; private set; }
+		// Resource dictionaries with the name and the amount
+		Dictionary<string, double> ResDic = new Dictionary<string, double>();
+		Dictionary<string, double> CatDic = new Dictionary<string, double>();
         // The status of the current simulation
 		public SimulationStatus Status { get; private set; }
         // Fills the HashSets, creates resource dictionaries
 		void PopulateResourceSets()
 		{
-			foreach (Part p in drives)
+			Debug.Log("[KF] [VRS] Populating resource hash sets");
+			foreach (SpaceFolderDriveData d in driveDatas)
 			{
-				SpaceFolderDriveData data = p.Modules.GetModule<ModuleSpaceFolderEngine>().PartDriveData;
-				driveDatas.Add(data);
-				mainRes.Add(data.MainResource);
-				cat.Add(data.Catalyst);
-				CreateResourceDictionary();
-				CreateCatalystDictionary();
+				Debug.Log("[KF] data is: " + d.DriveDataPart.partName + " " + d.MainResource + " " + d.Catalyst);
+				mainRes.Add(d.MainResource);
+				cat.Add(d.Catalyst);
 			}
+			CreateResourceDictionary();
+			CreateCatalystDictionary();
 		}
         // Creates the Main Resource dictionary
 		void CreateResourceDictionary()
 		{
+			Debug.Log("[KF] [VRS] Creating resource dictionary");
 			foreach (string s in mainRes)
 			{
 				ResDic.Add(s, WarpHelp.ResourceAmountOnVessel(vessel, s));
@@ -56,6 +64,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Creates the Catalyst dictionary
 		void CreateCatalystDictionary()
 		{
+			Debug.Log("[KF] [VRS] Creating catalyst dictionary");
 			foreach (string s in cat)
 			{
 				CatDic.Add(s, WarpHelp.ResourceAmountOnVessel(vessel, s));
@@ -68,6 +77,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Runs a full simulation of resource usage for a warp
 		public void RunSimulation()
 		{
+			Debug.Log("[KF] [VRS] Running simulation");
+			Dictionary<string, double> ResDicCopy = new Dictionary<string, double>();
+			Dictionary<string, double> CatDicCopy = new Dictionary<string, double>();
 			// RESOURCE Math.Pow(Math.E, [diameter] * [multiplier] / 5) * 300;
 			// CATALYST Math.Pow(Math.E, [diameter] * [multiplier] / 5);
 			foreach (SpaceFolderDriveData d in driveDatas)
@@ -76,40 +88,61 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				// CatDic.Item[d.Catalyst] -= CatCalc(d.Diameter, d.Multiplier);
                 foreach (KeyValuePair<string, double> kvp in ResDic)
                 {
-                    if (kvp.Key != d.MainResource)
-                    {
-                        continue;
-                    }
-	                ResDic.Remove(kvp.Key);
-	                ResDic.Add(d.MainResource, kvp.Value - MainResCalc(d.Diameter, d.Multiplier));
+					if (kvp.Key != d.MainResource)
+					{
+						continue;
+					}
+					ResDicCopy.Add(d.MainResource, kvp.Value - MainResCalc(d.Diameter, d.Multiplier));
                 }
                 foreach (KeyValuePair<string, double> kvp in CatDic)
                 {
-                    if (kvp.Key != d.Catalyst)
-                    {
-                        continue;
-                    }
-	                CatDic.Remove(kvp.Key);
-	                CatDic.Add(d.Catalyst, kvp.Value - CatCalc(d.Diameter, d.Multiplier));
-                }
+					if (kvp.Key != d.Catalyst)
+					{
+						continue;
+					}
+					CatDicCopy.Add(d.Catalyst, kvp.Value - CatCalc(d.Diameter, d.Multiplier));
+				}
 			}
-			foreach (KeyValuePair<string, double> kvp in ResDic)
+			try
 			{
-                if (!(kvp.Value < 0))
-                {
-                    continue;
-                }
-				Status = SimulationStatus.Failed;
-				return;
+				foreach (KeyValuePair<string, double> kvp in ResDicCopy)
+				{
+					Debug.Log("[KF] In sector 4, looping");
+					if (kvp.Value >= 0)
+					{
+						Debug.Log("[KF] In sector 4, continuing");
+						continue;
+					}
+					Debug.Log("[KF] In sector 4, sim failed");
+					Status = SimulationStatus.Failed;
+					return;
+				}
 			}
-			foreach (KeyValuePair<string, double> kvp in CatDic)
+			catch(Exception e)
 			{
-                if (!(kvp.Value < 0))
-                {
-                    continue;
-                }
+				Debug.Log("[KF] Caught exeption " + e.Message + " " + e.Data + " in: sector 4");
+			}
+			Debug.Log("[KF] [VRS] CatDic is: " + CatDicCopy.Count + " " + CatDicCopy.ToString());
+			try
+			{
+				foreach (KeyValuePair<string, double> kvp in CatDicCopy)
+				{
+					Debug.Log("[KF] In sector 5, looping");
+					if (kvp.Value >= 0)
+					{
+						Debug.Log("[KF] In sector 5, continuing");
+						continue;
+					}
+					Debug.Log("[KF] In sector 5, sim failed");
+					Status = SimulationStatus.Failed;
+					return;
+				}
 				Status = SimulationStatus.Succeeded;
 				return;
+			}
+			catch(Exception e)
+			{
+				Debug.Log("[KF] Caught exeption " + e.Message + " " + e.Data + " in: sector 5");
 			}
 		}
 	}

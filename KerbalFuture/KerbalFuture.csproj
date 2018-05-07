@@ -42,12 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Superluminal\SpaceFolder\ModuleSpaceFolderDrive.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SFWarpHelp.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderDriveData.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderDriveVesselModule.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpData.cs" />
-	<Compile Include="Superluminal\SpaceFolder\VesselResourceSimulation.cs" />
-	<Compile Include="Superluminal\SpaceFolder\WarpCheckErrors.cs" />
-	<Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpChecks.cs" />
+    <Compile Include="Superluminal\SpaceFolder\VesselResourceSimulation.cs" />
+    <Compile Include="Superluminal\SpaceFolder\WarpCheckErrors.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpChecks.cs" />
     <Compile Include="Utils\Coords.cs" />
     <Compile Include="Utils\SimulationStatus.cs" />
     <Compile Include="Utils\Tuple.cs" />

@@ -19,11 +19,12 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         }
         public void Update()
         {
-            if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
-            {
-
-            }
-        }
+			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
+			{
+				VesselResourceSimulation vrs = new VesselResourceSimulation(Vessel, true);
+				Debug.Log("[KF] Vessel resource sim completed with exit code " + vrs.Status.ToString());
+			}
+		}
         //Internal testing code
         internal bool WarpVessel(Vector3d location)
         {
@@ -35,7 +36,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         public bool WarpVessel(SpaceFolderWarpData warpData, out Error fault)
         {
             Debug.Log("[KF] Warp triggered from an external source for " + Vessel.name);
-            Error internFault = fault = SpaceFolderWarpChecks.WarpAvailable(warpData, Vessel);
+            Error internFault = fault = SpaceFolderWarpChecks.WarpAvailable(Vessel);
             if (internFault != 0)
             {
                 Debug.Log("[KF] Fault discovered in warp checks with code " + internFault.ToString());
@@ -51,7 +52,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         private void UseWarpResources()
         {
             Debug.Log("[KF] Using warp resources");
-            foreach (SpaceFolderDriveData d in SFDDFromVessel(Vessel))
+            foreach (SpaceFolderDriveData d in SFWarpHelp.DriveDataList(Vessel))
             {
                 double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
                 partECAmount.Add(d.DriveDataPart, tempEC);
@@ -85,41 +86,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                 
             }
         }
-		//Drive data from part
-		private SpaceFolderDriveData PartSFDData(Part p)
-		{
-			if (p.Modules.Contains("ModuleSpaceFolderEngine"))
-			{
-				ModuleSpaceFolderEngine d = (ModuleSpaceFolderEngine)p.Modules["ModuleSpaceFolderEngine"];
-				return d.PartDriveData;
-			}
-			else
-			{
-				return new SpaceFolderDriveData(true);
-			}
-		}
-		//Parts with SFD's from vessel
-		private List<Part> SFDOnVessel(Vessel v)
-		{
-			IEnumerable<Part> sfds = from sfd in v.Parts
-									 where sfd.Modules.Contains("ModuleSpaceFolderDrive") == true
-									 select sfd;
-			return new List<Part>(sfds);
-		}
-		//Gets a list of DriveData's from a vessel
-		private List<SpaceFolderDriveData> SFDDFromVessel(Vessel v)
-		{
-			if(SFDOnVessel(v).Count == 0)
-			{
-				return new List<SpaceFolderDriveData>();
-			}
-			List<SpaceFolderDriveData> returnList = new List<SpaceFolderDriveData>();
-			foreach(Part p in SFDOnVessel(v))
-			{
-				returnList.Add(PartSFDData(p));
-			}
-			return returnList;
-		}
 		//Calculates the amount of main resource used
 		private double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;

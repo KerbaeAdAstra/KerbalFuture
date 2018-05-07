@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KerbalFuture.Utils;
+using UnityEngine;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
@@ -8,7 +9,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 	{
         // Checks if the warp is avalible, returning a bitwise encoding of any errors encountered. 
         // If the returned int is equal to 0 (zero), WarpAvalible has encountered no problems with warping. 
-		public static Error WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
+		public static Error WarpAvailable(Vessel v)
 		{
 			Error retval = Error.ClearForWarp;
 			// To warp, vessel needs SFD of correct size and resources
@@ -16,26 +17,35 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			{
                 retval = Error.DrivesNotFound;
 			}
-			// seen on forum post: 
-			// https://forum.kerbalspaceprogram.com/index.php?/topic/116071-getting-vessel-size/&do=findComment&comment=2067825
-			// that the x value is the diameter of the ship. Thanks Thomas P!
-			// TODO get vessel launch building and use that instead of just EditorFacilities.VAB
+			//Creates a ship construct from the ship and parts
+			//Launch building doesn't matter because all we need is the box, the orientation of it doesn't matter
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacility.VAB, v.Parts);
-			double vesselDiameter = sc.shipSize.x;
 			List<Part> sfdList = new List<Part>();
 			sfdList = VesselSpaceFolderDrives(v);
 			// Checks the vessel size vs the max warp hole size
-			if (vesselDiameter > MaxWarpHoleSize(sfdList))
+			if (VesselDiameterCalc(ShipConstruction.CalculateCraftSize(sc), ShipConstruction.FindCraftCenter(sc)) > MaxWarpHoleSize(sfdList))
 			{
 				retval = Error.VesselTooLarge | retval;
 			}
-			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList, true);
-			vrs.RunSimulation();
+			VesselResourceSimulation vrs = new VesselResourceSimulation(v, true);
 			if (vrs.Status != SimulationStatus.Succeeded)
             {
                 retval = Error.InsufficientResources | retval;
             }
             return retval;
+		}
+		//Gets the diameter of the vessel
+		public static double VesselDiameterCalc(Vector3 boundingBoxSize, Vector3 vesselCenter)
+		{
+			double xrad, yrad, zrad;
+			xrad = boundingBoxSize.x / 2;
+			yrad = boundingBoxSize.y / 2;
+			zrad = boundingBoxSize.z / 2;
+			//Gets the radius of the sphere
+			//Works by getting the box dimensions and then calculating the distance
+			//from a virtual center
+			double radius = WarpHelp.Distance(0, 0, 0, xrad, yrad, zrad);
+			return radius * 2;
 		}
         // Calculates the maximum warp hole size producable for a set of engines
 		public static double MaxWarpHoleSize(IEnumerable<Part> engines)
