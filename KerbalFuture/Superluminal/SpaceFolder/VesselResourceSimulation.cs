@@ -45,7 +45,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			Debug.Log("[KF] [VRS] Populating resource hash sets");
 			foreach (SpaceFolderDriveData d in driveDatas)
 			{
-				Debug.Log("[KF] data is: " + d.DriveDataPart.partName + " " + d.MainResource + " " + d.Catalyst);
+				Debug.Log("[KF] data is: " + d.DriveDataPart.persistentId + " " + d.MainResource + " " + d.Catalyst);
 				mainRes.Add(d.MainResource);
 				cat.Add(d.Catalyst);
 			}
@@ -103,47 +103,32 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 					CatDicCopy.Add(d.Catalyst, kvp.Value - CatCalc(d.Diameter, d.Multiplier));
 				}
 			}
-			try
+			foreach (KeyValuePair<string, double> kvp in ResDicCopy)
 			{
-				foreach (KeyValuePair<string, double> kvp in ResDicCopy)
+				Debug.Log("[KF] In sector 4, looping");
+				if (kvp.Value >= 0)
 				{
-					Debug.Log("[KF] In sector 4, looping");
-					if (kvp.Value >= 0)
-					{
-						Debug.Log("[KF] In sector 4, continuing");
-						continue;
-					}
-					Debug.Log("[KF] In sector 4, sim failed");
-					Status = SimulationStatus.Failed;
-					return;
+					Debug.Log("[KF] In sector 4, continuing");
+					continue;
 				}
-			}
-			catch(Exception e)
-			{
-				Debug.Log("[KF] Caught exeption " + e.Message + " " + e.Data + " in: sector 4");
-			}
-			Debug.Log("[KF] [VRS] CatDic is: " + CatDicCopy.Count + " " + CatDicCopy.ToString());
-			try
-			{
-				foreach (KeyValuePair<string, double> kvp in CatDicCopy)
-				{
-					Debug.Log("[KF] In sector 5, looping");
-					if (kvp.Value >= 0)
-					{
-						Debug.Log("[KF] In sector 5, continuing");
-						continue;
-					}
-					Debug.Log("[KF] In sector 5, sim failed");
-					Status = SimulationStatus.Failed;
-					return;
-				}
-				Status = SimulationStatus.Succeeded;
+				Debug.Log("[KF] In sector 4, sim failed");
+				Status = SimulationStatus.Failed;
 				return;
 			}
-			catch(Exception e)
+			foreach (KeyValuePair<string, double> kvp in CatDicCopy)
 			{
-				Debug.Log("[KF] Caught exeption " + e.Message + " " + e.Data + " in: sector 5");
+				Debug.Log("[KF] In sector 5, looping");
+				if (kvp.Value >= 0)
+				{
+					Debug.Log("[KF] In sector 5, continuing");
+					continue;
+				}
+				Debug.Log("[KF] In sector 5, sim failed");
+				Status = SimulationStatus.Failed;
+				return;
 			}
+			Status = SimulationStatus.Succeeded;
+			return;
 		}
 	}
 }

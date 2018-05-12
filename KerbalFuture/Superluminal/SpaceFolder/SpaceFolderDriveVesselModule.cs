@@ -12,30 +12,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 
         // Dictionary of the part and its respective participation in the warp
         Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
-        protected override void OnStart()
-        {
-            base.OnStart();
-            Debug.Log("[KF] Vessel module starting for " + Vessel.name);
-        }
-        public void Update()
-        {
-			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
-			{
-				Debug.Log("[KF] Input gotten of U+Alt, warping! :D:D:D:D:D:D");
-				SpaceFolderWarpData wd = new SpaceFolderWarpData(Vessel, Vessel.GetWorldPos3D(), new Vector3d(500000000, 90000000000, 800000000000), 1D, Vessel.mainBody, FlightGlobals.Bodies[2]);
-				Error warpFault = new Error();
-				bool success;
-				success = WarpVessel(wd, out warpFault);
-				Debug.Log("[KF] Warp happened well: " + success.ToString());
-			}
+
+		//Fires on Vessel startup
+		protected override void OnStart()
+		{
+			base.OnStart();
+			Debug.Log("[KF] Vessel module starting for " + Vessel.GetDisplayName());
 		}
-        //Internal testing code
-        internal bool WarpVessel(Vector3d location)
-        {
-            Debug.Log("[KF] Internal Warp Triggered for vessel " + Vessel.name + "!");
-            Vessel.SetPosition(location);
-            return true;
-        }
         // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out Error fault)
         {
@@ -120,7 +103,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			foreach (SpaceFolderDriveData dd in pSortedList)
 			{
-				Debug.Log("[KF] Using warp resources for " + dd.DriveDataPart.name);
+				Debug.Log("[KF] Using warp resources for " + dd.DriveDataPart.persistentId);
 				double tempEC = MainResourceWarpCalc(dd.Diameter, dd.Multiplier);
 				partECAmount.Clear();
 				partECAmount.Add(dd.DriveDataPart, tempEC);
