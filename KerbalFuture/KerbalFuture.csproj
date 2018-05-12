@@ -27,35 +27,32 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine">
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StutterWarp\PartModules\StutterWarpWaveGenerator.cs" />
-    <Compile Include="StutterWarp\PartModules\StutterWarpWeaver.cs" />
-    <Compile Include="StutterWarp\StutterWarpFlightDrive.cs" />
-    <Compile Include="StutterWarp\StutterWarpWarpChecks.cs" />
-    <Compile Include="Utils\LatLongHelper.cs" />
+    <Compile Include="Superluminal\SpaceFolder\ModuleSpaceFolderDrive.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SFWarpHelp.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SpaceFolderDriveData.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SpaceFolderDriveVesselModule.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpData.cs" />
+    <Compile Include="Superluminal\SpaceFolder\VesselResourceSimulation.cs" />
+    <Compile Include="Superluminal\SpaceFolder\WarpCheckErrors.cs" />
+    <Compile Include="Superluminal\SpaceFolder\SpaceFolderWarpChecks.cs" />
+    <Compile Include="Utils\Coords.cs" />
+    <Compile Include="Utils\SimulationStatus.cs" />
     <Compile Include="Utils\Tuple.cs" />
-    <Compile Include="Utils\Vector3dHelper.cs" />
-    <Compile Include="Utils\VesselData.cs" />
     <Compile Include="Utils\WarpHelp.cs" />
-    <Compile Include="SpaceFolder\SpaceFolderEngine.cs" />
-    <Compile Include="SpaceFolder\SpaceFolderFlightDrive.cs" />
-    <Compile Include="SpaceFolder\SpaceFolderWarpChecks.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="StutterWarp\StutterwarpNotes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

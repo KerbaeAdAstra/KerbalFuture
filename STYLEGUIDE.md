@@ -25,6 +25,7 @@ class Foo
 * Indentation shall be one tab per rank.
 * Lines shall have a length not exceeding 80 characters.
 * Excessively long single lines shall be cut at logical points.
+* Access modifiers shall only be added if they overide the implicit access modifiers
 
 ## Layout
 
