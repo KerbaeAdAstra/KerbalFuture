@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KerbalFuture.Utils;
+using UnityEngine;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
@@ -8,38 +9,50 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 	{
         // Checks if the warp is avalible, returning a bitwise encoding of any errors encountered. 
         // If the returned int is equal to 0 (zero), WarpAvalible has encountered no problems with warping. 
-		public static int WarpAvailable(SpaceFolderWarpData warpData, Vessel v)
+		public static Error WarpAvailable(Vessel v)
 		{
-            int retval = 0;
+			Debug.Log("[KF] Checking warp avalibility for vessel " + v.GetDisplayName());
+			Error retval = Error.ClearForWarp;
 			// To warp, vessel needs SFD of correct size and resources
 			if (!VesselContainsSpaceFolderDrive(v))
 			{
-                retval += (int)Error.DrivesNotFound;
+                retval = Error.DrivesNotFound;
 			}
-			// seen on forum post: 
-			// https://forum.kerbalspaceprogram.com/index.php?/topic/116071-getting-vessel-size/&do=findComment&comment=2067825
-			// that the x value is the diameter of the ship. Thanks Thomas P!
-			// TODO get vessel launch building and use that instead of just EditorFacilities.VAB
+			//Creates a ship construct from the ship and parts
+			//Launch building doesn't matter because all we need is the box, the orientation of it doesn't matter
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacility.VAB, v.Parts);
-			double vesselDiameter = sc.shipSize.x;
 			List<Part> sfdList = new List<Part>();
-			sfdList = VesselSpaceFolderDrives(v);
+			sfdList = SFWarpHelp.PartsWithModuleSFD(v);
 			// Checks the vessel size vs the max warp hole size
-			if (vesselDiameter > MaxWarpHoleSize(sfdList))
+			if (VesselDiameterCalc(ShipConstruction.CalculateCraftSize(sc)) > MaxWarpHoleSize(sfdList))
 			{
-                retval += (int)Error.VesselTooLarge;
+				retval = Error.VesselTooLarge | retval;
 			}
-			VesselResourceSimulation vrs = new VesselResourceSimulation(v, sfdList, true);
-			vrs.RunSimulation();
+			VesselResourceSimulation vrs = new VesselResourceSimulation(v, true);
 			if (vrs.Status != SimulationStatus.Succeeded)
             {
-                retval += (int)Error.InsufficientResources;
+                retval = Error.InsufficientResources | retval;
             }
             return retval;
+		}
+		//Gets the diameter of the vessel
+		public static double VesselDiameterCalc(Vector3 boundingBoxSize)
+		{
+			Debug.Log("[KF] Calculating the size of a vessel");
+			double xrad, yrad, zrad;
+			xrad = boundingBoxSize.x / 2;
+			yrad = boundingBoxSize.y / 2;
+			zrad = boundingBoxSize.z / 2;
+			//Gets the radius of the sphere
+			//Works by getting the box dimensions and then calculating the distance
+			//from a virtual center
+			double radius = WarpHelp.Distance(0, 0, 0, xrad, yrad, zrad);
+			return radius * 2;
 		}
         // Calculates the maximum warp hole size producable for a set of engines
 		public static double MaxWarpHoleSize(IEnumerable<Part> engines)
 		{
+			Debug.Log("[KF] Calculating the max warp hole size for a vessel");
 			double[] dividers = { 0.8, 0.6, 0.4, 0.2 };
 			double divider = 0.1;
 			double realSize = 0;
@@ -61,7 +74,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 					divider /= 2;
 				}
 			}
-
 			return realSize;
 		}
         // Checks if the vessel has a SpaceFolderDrive
@@ -69,39 +81,12 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			foreach (Part p in v.Parts)
 			{
-				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
+				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
 				{
 					return true;
 				}
 			}
 			return false;
-		}
-        // Checks and returns an out List<Part> of parts with SpaceFolderDrive
-		public static bool VesselContainsSpaceFolderDrive(Vessel v, out List<Part> partsWithModule)
-		{
-			List<Part> outList = new List<Part>();
-			foreach (Part p in v.Parts)
-			{
-				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
-				{
-					outList.Add(p);
-				}
-			}
-			partsWithModule = outList;
-			return outList.Count > 0;
-		}
-        // Returns a list of SpaceFolderDrives
-		public static List<Part> VesselSpaceFolderDrives(Vessel v)
-		{
-			List<Part> outList = new List<Part>();
-			foreach(Part p in v.Parts)
-			{
-				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
-				{
-					outList.Add(p);
-				}
-			}
-			return outList;
 		}
 	}
 }

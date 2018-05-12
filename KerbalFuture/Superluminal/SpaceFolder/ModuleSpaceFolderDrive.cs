@@ -6,17 +6,17 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		// Everything else has default values
 		
 		// Max diamater that this warp drive alone can encapsulate
-		[KSPField]
+		[KSPField(guiActiveEditor = true, guiName = "Warpable diameter", guiUnits = "meters")]
 		public float warpDriveDiameter;
 		// Efficiency of engine
 		[KSPField]
 		public float engineMultiplier = 1;
 		// Main resource that is used
-		[KSPField]
+		[KSPField(guiActiveEditor = true, guiName = "Main warp resource")]
 		public string mainResource = "ElectricCharge";
 		// Resource needed that is not used
-		[KSPField]
-		public string catalyst = "Spatiofibrin";
+		[KSPField(guiActiveEditor = true, guiName = "Warp catalyst")]
+        public string catalyst = "Spatiofibrin";
 		
 		// Returns a readonly SpaceFolderDriveData with the part info
 		public SpaceFolderDriveData PartDriveData => new SpaceFolderDriveData(part, warpDriveDiameter, engineMultiplier,

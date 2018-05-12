@@ -10,6 +10,16 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			Multiplier = multiplier;
 			MainResource = mainRes;
 			Catalyst = cat;
+			IsNull = false;
+		}
+		public SpaceFolderDriveData(bool isNull)
+		{
+			DriveDataPart = new Part();
+			Diameter = double.NaN;
+			Multiplier = double.NaN;
+			MainResource = string.Empty;
+			Catalyst = string.Empty;
+			IsNull = true;
 		}
 		
         // Properties of struct, readonly
@@ -18,5 +28,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		public double Multiplier { get; }
 		public string MainResource { get; }
 		public string Catalyst { get; }
+		public bool IsNull { get; }
 	}
 }
