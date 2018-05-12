@@ -11,6 +11,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // If the returned int is equal to 0 (zero), WarpAvalible has encountered no problems with warping. 
 		public static Error WarpAvailable(Vessel v)
 		{
+			Debug.Log("[KF] Checking warp avalibility for vessel " + v.GetDisplayName());
 			Error retval = Error.ClearForWarp;
 			// To warp, vessel needs SFD of correct size and resources
 			if (!VesselContainsSpaceFolderDrive(v))
@@ -21,9 +22,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			//Launch building doesn't matter because all we need is the box, the orientation of it doesn't matter
 			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacility.VAB, v.Parts);
 			List<Part> sfdList = new List<Part>();
-			sfdList = VesselSpaceFolderDrives(v);
+			sfdList = SFWarpHelp.PartsWithModuleSFD(v);
 			// Checks the vessel size vs the max warp hole size
-			if (VesselDiameterCalc(ShipConstruction.CalculateCraftSize(sc), ShipConstruction.FindCraftCenter(sc)) > MaxWarpHoleSize(sfdList))
+			if (VesselDiameterCalc(ShipConstruction.CalculateCraftSize(sc)) > MaxWarpHoleSize(sfdList))
 			{
 				retval = Error.VesselTooLarge | retval;
 			}
@@ -35,8 +36,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             return retval;
 		}
 		//Gets the diameter of the vessel
-		public static double VesselDiameterCalc(Vector3 boundingBoxSize, Vector3 vesselCenter)
+		public static double VesselDiameterCalc(Vector3 boundingBoxSize)
 		{
+			Debug.Log("[KF] Calculating the size of a vessel");
 			double xrad, yrad, zrad;
 			xrad = boundingBoxSize.x / 2;
 			yrad = boundingBoxSize.y / 2;
@@ -50,6 +52,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         // Calculates the maximum warp hole size producable for a set of engines
 		public static double MaxWarpHoleSize(IEnumerable<Part> engines)
 		{
+			Debug.Log("[KF] Calculating the max warp hole size for a vessel");
 			double[] dividers = { 0.8, 0.6, 0.4, 0.2 };
 			double divider = 0.1;
 			double realSize = 0;
@@ -71,7 +74,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 					divider /= 2;
 				}
 			}
-
 			return realSize;
 		}
         // Checks if the vessel has a SpaceFolderDrive
@@ -85,19 +87,6 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				}
 			}
 			return false;
-		}
-        // Returns a list of SpaceFolderDrives
-		public static List<Part> VesselSpaceFolderDrives(Vessel v)
-		{
-			List<Part> outList = new List<Part>();
-			foreach(Part p in v.Parts)
-			{
-				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
-				{
-					outList.Add(p);
-				}
-			}
-			return outList;
 		}
 	}
 }

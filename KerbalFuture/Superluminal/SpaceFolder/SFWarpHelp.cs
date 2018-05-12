@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using KerbalFuture.Utils;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
@@ -95,6 +96,13 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				}
 			}
 			return returnList;
+		}
+		public static List<SpaceFolderDriveData> SortDriveData(List<SpaceFolderDriveData> inList)
+		{
+			IEnumerable<SpaceFolderDriveData> queryDiameters = from dd in inList
+								 orderby dd.Diameter descending
+								 select dd;
+			return new List<SpaceFolderDriveData>(queryDiameters);
 		}
 		//Welcome... To the graveyard
 		/*

@@ -21,8 +21,12 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         {
 			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
 			{
-				Error retErr = SpaceFolderWarpChecks.WarpAvailable(Vessel);
-				Debug.LogFormat("[KF] Error is #" + (int)retErr + " " + retErr.ToString()); 
+				Debug.Log("[KF] Input gotten of U+Alt, warping! :D:D:D:D:D:D");
+				SpaceFolderWarpData wd = new SpaceFolderWarpData(Vessel, Vessel.GetWorldPos3D(), new Vector3d(500000000, 90000000000, 800000000000), 1D, Vessel.mainBody, FlightGlobals.Bodies[2]);
+				Error warpFault = new Error();
+				bool success;
+				success = WarpVessel(wd, out warpFault);
+				Debug.Log("[KF] Warp happened well: " + success.ToString());
 			}
 		}
         //Internal testing code
@@ -42,25 +46,94 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                 Debug.Log("[KF] Fault discovered in warp checks with code " + internFault.ToString());
                 return false;
             }
-            Debug.Log("[KF] Warp checks successful, warping vessel " + Vessel.name + " now.");
+            Debug.Log("[KF] Warp checks successful, warping vessel " + Vessel.GetDisplayName() + " now.");
             UseWarpResources();
             Vessel.SetPosition(warpData.WarpLocation);
             DistributeHeat();
             return true;
         }
-        // Uses resources from the drives in driveList
-        private void UseWarpResources()
-        {
-            Debug.Log("[KF] Using warp resources");
-            foreach (SpaceFolderDriveData d in SFWarpHelp.DriveDataList(Vessel))
-            {
-                double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
-                partECAmount.Add(d.DriveDataPart, tempEC);
-                WarpHelp.UseResource(d.DriveDataPart, tempEC, d.MainResource);
-            }
+		//TODO implement selective drives
+		//i.e. smart usage to pick smaller drives that get the hole size closer to the vessel size
+		// Uses resources from the drives in driveList
+		void UseWarpResources()
+		{
+			List<SpaceFolderDriveData> pSortedList = new List<SpaceFolderDriveData>();
+			Debug.Log("[KF] Using warp resources for vessel " + Vessel.GetDisplayName());
+			double vesselDiameter = SpaceFolderWarpChecks.VesselDiameterCalc(
+				ShipConstruction.CalculateCraftSize(
+					new ShipConstruct(Vessel.name, EditorFacility.VAB, Vessel.Parts)));
+			Debug.Log("[KF] Calculated craft diameter as " + vesselDiameter + " meters");
+			if (SFWarpHelp.DriveDataList(Vessel).Count > 1)
+			{
+				List<SpaceFolderDriveData> sortedList = new List<SpaceFolderDriveData>(SFWarpHelp.SortDriveData(SFWarpHelp.DriveDataList(Vessel)));
+				List<SpaceFolderDriveData> testList = new List<SpaceFolderDriveData>();
+				Debug.Log("[KF] Trying to test additions to testList");
+				foreach (SpaceFolderDriveData dd in sortedList)
+				{
+					testList.Add(dd);
+					IEnumerable<Part> ddPartList = from dda in testList
+												   select dda.DriveDataPart;
+					double size = SpaceFolderWarpChecks.MaxWarpHoleSize(ddPartList);
+					if (vesselDiameter < size)
+					{
+						Debug.Log("[KF] testList's Warp Hole Size is above vessel diameter! Removing last element");
+						//testList now contains just under the diameter of the warp bubble needed
+						testList.RemoveAt(testList.Count - 1);
+						break;
+					}
+				}
+				if (testList.Count + 1 != sortedList.Count)
+				{
+					Debug.Log("[KF] Warp does not need all drives avalible");
+					sortedList.Reverse();
+					foreach (SpaceFolderDriveData dd in sortedList)
+					{
+						testList.Add(dd);
+						IEnumerable<Part> ddPartList = from dda in testList
+													   select dda.DriveDataPart;
+						double size = SpaceFolderWarpChecks.MaxWarpHoleSize(ddPartList);
+						if (vesselDiameter < size)
+						{
+							//breaks when it reaches a small enough drive
+							pSortedList.Clear();
+							pSortedList.AddRange(testList);
+							break;
+						}
+					}
+				}
+				else
+				{
+					pSortedList.Clear();
+					pSortedList.AddRange(sortedList);
+				}
+			}
+			else if (SFWarpHelp.DriveDataList(Vessel).Count == 1)
+			{
+				Debug.Log("[KF] One drive on vessel");
+				pSortedList.Clear();
+				pSortedList.Add(SFWarpHelp.DriveDataList(Vessel)[0]);
+			}
+			else
+			{
+				Debug.Log("[KF] No drives on vessel, aborting");
+				return;
+			}
+			foreach (SpaceFolderDriveData dd in pSortedList)
+			{
+				Debug.Log("[KF] Using warp resources for " + dd.DriveDataPart.name);
+				double tempEC = MainResourceWarpCalc(dd.Diameter, dd.Multiplier);
+				partECAmount.Clear();
+				partECAmount.Add(dd.DriveDataPart, tempEC);
+				WarpHelp.UseResource(dd.DriveDataPart, tempEC, dd.MainResource);
+			}
+			/*
+			double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
+            partECAmount.Add(d.DriveDataPart, tempEC);
+            WarpHelp.UseResource(d.DriveDataPart, tempEC, d.MainResource);
+			*/
         }
         // Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
-        private void DistributeHeat()
+        void DistributeHeat()
         {
             Debug.Log("[KF] Distributing heat to vessel " + Vessel.name);
             // Adds heat
@@ -87,7 +160,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             }
         }
 		//Calculates the amount of main resource used
-		private double MainResourceWarpCalc(double diameter, double multiplier)
+		double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
     }
 }
