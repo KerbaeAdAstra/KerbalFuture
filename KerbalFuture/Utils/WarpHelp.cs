@@ -1,16 +1,35 @@
-using KerbalFuture.Superluminal.SpaceFolder;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 
 namespace KerbalFuture.Utils
 {
 	public class WarpHelp
 	{
-        // Converts a Vector3d int XYZ CartCoords, with ref's
-        public static void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z)
+		// Gets a list of parts on a vessel with the specified PartModule
+		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
+		{
+			List<Part> returnList = new List<Part>();
+			foreach (Part p in v.Parts)
+			{
+				IEnumerator ting = p.Modules.GetEnumerator();
+				bool tingStatus = ting.MoveNext();
+				for (int i = 0; i < p.Modules.Count; i++)
+				{
+					if (ting.Current.GetType() == partModuleType)
+					{
+						returnList.Add(p);
+					}
+					if (tingStatus)
+					{
+						tingStatus = ting.MoveNext();
+					}
+				}
+			}
+			return returnList;
+		}
+		// Converts a Vector3d int XYZ CartCoords, with ref's
+		public static void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z)
         {
             x = v3d.x;
             y = v3d.y;

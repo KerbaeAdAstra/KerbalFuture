@@ -17,19 +17,19 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		protected override void OnStart()
 		{
 			base.OnStart();
-			Debug.Log("[KF] Vessel module starting for " + Vessel.GetDisplayName());
+			Debug.Log("[KF] SFD Vessel module starting for " + Vessel.GetDisplayName());
 		}
         // Warps the vessel, using resources
         public bool WarpVessel(SpaceFolderWarpData warpData, out Error fault)
         {
-            Debug.Log("[KF] Warp triggered from an external source for " + Vessel.name);
+            Debug.Log("[KF] SFD warp triggered from an external source for " + Vessel.name);
             Error internFault = fault = SpaceFolderWarpChecks.WarpAvailable(Vessel);
             if (internFault != 0)
             {
-                Debug.Log("[KF] Fault discovered in warp checks with code " + internFault.ToString());
+                Debug.Log("[KF] Fault discovered in SFD warp checks with code " + internFault.ToString());
                 return false;
             }
-            Debug.Log("[KF] Warp checks successful, warping vessel " + Vessel.GetDisplayName() + " now.");
+            Debug.Log("[KF] SFD warp checks successful, warping vessel " + Vessel.GetDisplayName() + " now.");
             UseWarpResources();
             Vessel.SetPosition(warpData.WarpLocation);
             DistributeHeat();

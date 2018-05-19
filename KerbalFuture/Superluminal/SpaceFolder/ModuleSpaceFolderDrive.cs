@@ -6,7 +6,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		// Everything else has default values
 		
 		// Max diamater that this warp drive alone can encapsulate
-		[KSPField(guiActiveEditor = true, guiName = "Warpable diameter", guiUnits = "meters")]
+		[KSPField(guiActiveEditor = true, guiName = "Warpable diameter")]
 		public float warpDriveDiameter;
 		// Efficiency of engine
 		[KSPField]

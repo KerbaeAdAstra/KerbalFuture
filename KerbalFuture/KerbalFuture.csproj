@@ -41,6 +41,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Superluminal\FrameShift\FrameShiftWarpChecks.cs" />
+    <Compile Include="Superluminal\FrameShift\FSWarpHelp.cs" />
+    <Compile Include="Superluminal\FrameShift\WarpCheckErrors.cs" />
+    <Compile Include="Superluminal\FrameShift\FrameShiftDriveData.cs" />
+    <Compile Include="Superluminal\FrameShift\ModuleFrameShiftDrive.cs" />
+    <Compile Include="Superluminal\FrameShift\FrameShiftDriveVesselModule.cs" />
+    <Compile Include="Superluminal\FrameShift\FrameShiftWarpData.cs" />
     <Compile Include="Superluminal\SpaceFolder\ModuleSpaceFolderDrive.cs" />
     <Compile Include="Superluminal\SpaceFolder\SFWarpHelp.cs" />
     <Compile Include="Superluminal\SpaceFolder\SpaceFolderDriveData.cs" />

@@ -3,34 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using KerbalFuture.Utils;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class SFWarpHelp
 	{
-		// Gets a list of parts on a vessel with the specified PartModule
-		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
-		{
-			List<Part> returnList = new List<Part>();
-			foreach (Part p in v.Parts)
-			{
-				IEnumerator ting = p.Modules.GetEnumerator();
-				bool tingStatus = ting.MoveNext();
-				for (int i = 0; i < p.Modules.Count; i++)
-				{
-					if (ting.Current.GetType() == partModuleType)
-					{
-						returnList.Add(p);
-					}
-					if (tingStatus)
-					{
-						tingStatus = ting.MoveNext();
-					}
-				}
-			}
-			return returnList;
-		}
 		//Gets the list of parts on a vessel with ModuleSpaceFolderEngine
 		public static List<Part> PartsWithModuleSFD(Vessel v)
 		{
@@ -100,8 +77,8 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		public static List<SpaceFolderDriveData> SortDriveData(List<SpaceFolderDriveData> inList)
 		{
 			IEnumerable<SpaceFolderDriveData> queryDiameters = from dd in inList
-								 orderby dd.Diameter descending
-								 select dd;
+															   orderby dd.Diameter descending
+															   select dd;
 			return new List<SpaceFolderDriveData>(queryDiameters);
 		}
 		//Welcome... To the graveyard
