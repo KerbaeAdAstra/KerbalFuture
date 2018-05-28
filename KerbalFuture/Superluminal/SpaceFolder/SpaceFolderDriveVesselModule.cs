@@ -35,14 +35,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             DistributeHeat();
             return true;
         }
-		//TODO implement selective drives
-		//i.e. smart usage to pick smaller drives that get the hole size closer to the vessel size
-		// Uses resources from the drives in driveList
 		void UseWarpResources()
 		{
 			List<SpaceFolderDriveData> pSortedList = new List<SpaceFolderDriveData>();
 			Debug.Log("[KF] Using warp resources for vessel " + Vessel.GetDisplayName());
-			double vesselDiameter = SpaceFolderWarpChecks.VesselDiameterCalc(
+			double vesselDiameter = WarpHelp.VesselDiameterCalc(
 				ShipConstruction.CalculateCraftSize(
 					new ShipConstruct(Vessel.name, EditorFacility.VAB, Vessel.Parts)));
 			Debug.Log("[KF] Calculated craft diameter as " + vesselDiameter + " meters");
