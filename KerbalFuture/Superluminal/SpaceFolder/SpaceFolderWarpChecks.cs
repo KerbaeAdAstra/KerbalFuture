@@ -21,11 +21,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			//Creates a ship construct from the ship and parts
 			//Launch building doesn't matter because all we need is the box, the orientation of it doesn't matter
-			ShipConstruct sc = new ShipConstruct(v.GetName(), EditorFacility.VAB, v.Parts);
 			List<Part> sfdList = new List<Part>();
 			sfdList = SFWarpHelp.PartsWithModuleSFD(v);
 			// Checks the vessel size vs the max warp hole size
-			if (WarpHelp.VesselDiameterCalc(ShipConstruction.CalculateCraftSize(sc)) > MaxWarpHoleSize(sfdList))
+			if (WarpHelp.VesselDiameterCalc(v) > MaxWarpHoleSize(sfdList))
 			{
 				retval = Error.VesselTooLarge | retval;
 			}

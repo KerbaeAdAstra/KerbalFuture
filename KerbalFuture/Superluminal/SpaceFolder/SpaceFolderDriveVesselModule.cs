@@ -39,9 +39,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			List<SpaceFolderDriveData> pSortedList = new List<SpaceFolderDriveData>();
 			Debug.Log("[KF] Using warp resources for vessel " + Vessel.GetDisplayName());
-			double vesselDiameter = WarpHelp.VesselDiameterCalc(
-				ShipConstruction.CalculateCraftSize(
-					new ShipConstruct(Vessel.name, EditorFacility.VAB, Vessel.Parts)));
+			double vesselDiameter = WarpHelp.VesselDiameterCalc(Vessel);
 			Debug.Log("[KF] Calculated craft diameter as " + vesselDiameter + " meters");
 			if (SFWarpHelp.DriveDataList(Vessel).Count > 1)
 			{
