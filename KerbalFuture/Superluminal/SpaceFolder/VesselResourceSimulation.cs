@@ -64,7 +64,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			Debug.Log("[KF] [VRS] Running simulation");
 			double diam = WarpHelp.VesselDiameterCalc(vessel);
-			Dictionary<SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
+			List<Part> drives = SFWarpHelp.PartsWithModuleSFD(vessel);
+			// Dictionary of the actual diameter that the part is putting out
+			Dictionary < SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
 			double percentCalc = diam / SpaceFolderWarpChecks.MaxWarpHoleSize(drives);
 			foreach(SpaceFolderDriveData dd in driveDatas)
 			{

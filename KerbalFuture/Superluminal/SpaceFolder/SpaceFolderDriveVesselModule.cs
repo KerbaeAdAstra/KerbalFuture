@@ -37,79 +37,31 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         }
 		void UseWarpResources()
 		{
-			List<SpaceFolderDriveData> pSortedList = new List<SpaceFolderDriveData>();
-			Debug.Log("[KF] Using warp resources for vessel " + Vessel.GetDisplayName());
-			double vesselDiameter = WarpHelp.VesselDiameterCalc(Vessel);
-			Debug.Log("[KF] Calculated craft diameter as " + vesselDiameter + " meters");
-			if (SFWarpHelp.DriveDataList(Vessel).Count > 1)
+			double diam = WarpHelp.VesselDiameterCalc(vessel);
+			List<Part> drives = SFWarpHelp.PartsWithModuleSFD(vessel);
+			// Dictionary of the actual diameter that the part is putting out
+			Dictionary<SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
+			double percentCalc = diam / SpaceFolderWarpChecks.MaxWarpHoleSize(drives);
+			List<SpaceFolderDriveData> driveDatas = new List<SpaceFolderDriveData>(SFWarpHelp.DriveDataList(Vessel));
+			foreach (SpaceFolderDriveData dd in driveDatas)
 			{
-				List<SpaceFolderDriveData> sortedList = new List<SpaceFolderDriveData>(SFWarpHelp.SortDriveData(SFWarpHelp.DriveDataList(Vessel)));
-				List<SpaceFolderDriveData> testList = new List<SpaceFolderDriveData>();
-				Debug.Log("[KF] Trying to test additions to testList");
-				foreach (SpaceFolderDriveData dd in sortedList)
-				{
-					testList.Add(dd);
-					IEnumerable<Part> ddPartList = from dda in testList
-												   select dda.DriveDataPart;
-					double size = SpaceFolderWarpChecks.MaxWarpHoleSize(ddPartList);
-					if (vesselDiameter < size)
-					{
-						Debug.Log("[KF] testList's Warp Hole Size is above vessel diameter! Removing last element");
-						//testList now contains just under the diameter of the warp bubble needed
-						testList.RemoveAt(testList.Count - 1);
-						break;
-					}
-				}
-				if (testList.Count + 1 != sortedList.Count)
-				{
-					Debug.Log("[KF] Warp does not need all drives avalible");
-					sortedList.Reverse();
-					foreach (SpaceFolderDriveData dd in sortedList)
-					{
-						testList.Add(dd);
-						IEnumerable<Part> ddPartList = from dda in testList
-													   select dda.DriveDataPart;
-						double size = SpaceFolderWarpChecks.MaxWarpHoleSize(ddPartList);
-						if (vesselDiameter < size)
-						{
-							//breaks when it reaches a small enough drive
-							pSortedList.Clear();
-							pSortedList.AddRange(testList);
-							break;
-						}
-					}
-				}
-				else
-				{
-					pSortedList.Clear();
-					pSortedList.AddRange(sortedList);
-				}
+				partRelDiamDict.Add(dd, dd.Diameter * percentCalc);
 			}
-			else if (SFWarpHelp.DriveDataList(Vessel).Count == 1)
+			Debug.Log("[KF] Using resources for warp");
+			foreach(KeyValuePair<SpaceFolderDriveData, double> kvp in partRelDiamDict)
 			{
-				Debug.Log("[KF] One drive on vessel");
-				pSortedList.Clear();
-				pSortedList.Add(SFWarpHelp.DriveDataList(Vessel)[0]);
-			}
-			else
-			{
-				Debug.Log("[KF] No drives on vessel, aborting");
-				return;
-			}
-			foreach (SpaceFolderDriveData dd in pSortedList)
-			{
-				Debug.Log("[KF] Using warp resources for " + dd.DriveDataPart.persistentId);
-				double tempEC = MainResourceWarpCalc(dd.Diameter, dd.Multiplier);
-				partECAmount.Clear();
-				partECAmount.Add(dd.DriveDataPart, tempEC);
-				WarpHelp.UseResource(dd.DriveDataPart, tempEC, dd.MainResource);
+				// Creating the partECAmount dictionary for heat distribution
+				partECAmount.Add(kvp.Key.DriveDataPart, MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier));
+				//using the resources
+				WarpHelp.UseResource(kvp.Key.DriveDataPart, MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier), kvp.Key.MainResource);
+				WarpHelp.UseResource(kvp.Key.DriveDataPart, CatalystWarpCalc(kvp.Value, kvp.Key.Multiplier), kvp.Key.Catalyst);
 			}
 			/*
 			double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
             partECAmount.Add(d.DriveDataPart, tempEC);
             WarpHelp.UseResource(d.DriveDataPart, tempEC, d.MainResource);
 			*/
-        }
+		}
         // Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
         void DistributeHeat()
         {
@@ -140,5 +92,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		//Calculates the amount of main resource used
 		double MainResourceWarpCalc(double diameter, double multiplier)
             => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+		double CatalystWarpCalc(double diameter, double multiplier)
+			=> Math.Pow(Math.E, diameter * multiplier / 5);
     }
 }
