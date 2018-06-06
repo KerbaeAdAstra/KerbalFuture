@@ -1,11 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace KerbalFuture.Utils
 {
 	public class WarpHelp
 	{
+		//Gets the diameter of the vessel
+		public static double VesselDiameterCalc(Vector3 boundingBoxSize)
+		{
+			Debug.Log("[KF] Calculating the size of a vessel");
+			double xrad, yrad, zrad;
+			xrad = boundingBoxSize.x / 2;
+			yrad = boundingBoxSize.y / 2;
+			zrad = boundingBoxSize.z / 2;
+			//Gets the radius of the sphere
+			//Works by getting the box dimensions and then calculating the distance
+			//from a virtual center
+			double radius = Distance(0, 0, 0, xrad, yrad, zrad);
+			return radius * 2;
+		}
+		public static double VesselDiameterCalc(Vessel v)
+		{
+			return VesselDiameterCalc(new ShipConstruct(v.name, EditorFacility.VAB, v.Parts).shipSize);
+		}
 		// Gets a list of parts on a vessel with the specified PartModule
 		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
 		{
@@ -78,5 +97,12 @@ namespace KerbalFuture.Utils
 		// Gets the gravitation potential for a vessel above a celestial body
 		public static double CalculateGravPot(CelestialBody cb, Vessel v)
 			=> cb.gravParameter / GetVesselAltitude(true, v);
+		// Gets the direction that the vessel is facing
+		public static Direction GetFacing(Vessel vessel)
+		{
+			Quaternion vesselRotation = vessel.ReferenceTransform.rotation;
+			Quaternion vesselFacing = Quaternion.Inverse(Quaternion.Euler(90, 0, 0) * Quaternion.Inverse(vesselRotation) * Quaternion.identity);
+			return new Direction(vesselFacing);
+		}
 	}
 }

@@ -2,11 +2,10 @@ using KerbalFuture.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
-    public class SpaceFolderDriveVesselModule : VesselModule
+	public class SpaceFolderDriveVesselModule : VesselModule
     {
         // 1 Electric Charge is equal to 1kJ\!
 
@@ -50,11 +49,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			Debug.Log("[KF] Using resources for warp");
 			foreach(KeyValuePair<SpaceFolderDriveData, double> kvp in partRelDiamDict)
 			{
-				// Creating the partECAmount dictionary for heat distribution
+				// Creating the partECAmount dictionary for heat distribution in kJ
 				partECAmount.Add(kvp.Key.DriveDataPart, MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier));
 				//using the resources
 				WarpHelp.UseResource(kvp.Key.DriveDataPart, MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier), kvp.Key.MainResource);
-				WarpHelp.UseResource(kvp.Key.DriveDataPart, CatalystWarpCalc(kvp.Value, kvp.Key.Multiplier), kvp.Key.Catalyst);
 			}
 			/*
 			double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
@@ -86,13 +84,12 @@ namespace KerbalFuture.Superluminal.SpaceFolder
                     Debug.Log("[KF] Part " + kvp.Key.name + " did not have ModuleCoreHeat. Removing.");
                     kvp.Key.RemoveModule(kvp.Key.Modules["ModuleCoreHeat"]);
                 }
-                
             }
         }
-		//Calculates the amount of main resource used
+		//Calculates the amount of main resource used in kJ
 		double MainResourceWarpCalc(double diameter, double multiplier)
-            => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+            => Math.Pow(Math.E, diameter * multiplier / 5) * 300 / 1000;
 		double CatalystWarpCalc(double diameter, double multiplier)
-			=> Math.Pow(Math.E, diameter * multiplier / 5);
+			=> Math.Pow(Math.E, diameter * multiplier / 5) / 1000;
     }
 }
