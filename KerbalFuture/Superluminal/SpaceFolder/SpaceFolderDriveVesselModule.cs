@@ -7,10 +7,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class SpaceFolderDriveVesselModule : VesselModule
     {
-        // 1 Electric Charge is equal to 1kJ\!
+		// 1 Electric Charge is equal to 1kJ\!
 
-        // Dictionary of the part and its respective participation in the warp
-        Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
+		// Dictionary of the part and its respective participation in the warp
+		Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
 
 		//Fires on Vessel startup
 		protected override void OnStart()
@@ -36,6 +36,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
         }
 		void UseWarpResources()
 		{
+			partECAmount.Clear();
 			double diam = WarpHelp.VesselDiameterCalc(vessel);
 			List<Part> drives = SFWarpHelp.PartsWithModuleSFD(vessel);
 			// Dictionary of the actual diameter that the part is putting out
