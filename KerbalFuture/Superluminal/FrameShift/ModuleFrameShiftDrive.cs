@@ -1,5 +1,8 @@
+using UnityEngine;
+
 namespace KerbalFuture.Superluminal.FrameShift
 {
+	[KSPAddon(KSPAddon.Startup.Flight, false)]
 	public class ModuleFrameShiftDrive : PartModule
 	{
 		[KSPField(guiActiveEditor = true, guiName = "Drive Capacity")]

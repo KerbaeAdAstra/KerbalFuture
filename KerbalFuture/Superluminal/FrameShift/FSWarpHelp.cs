@@ -62,16 +62,19 @@ namespace KerbalFuture.Superluminal.FrameShift
 		//Gets a list of FSDriveDatas from a vessel
 		public static List<FrameShiftDriveData> DriveDataList(Vessel v)
 		{
+			Debug.Log("[KF] Getting drive datas from vessel " + v.GetDisplayName());
 			List<FrameShiftDriveData> returnList = new List<FrameShiftDriveData>();
 			foreach (Part p in v.Parts)
 			{
-				if (!p.Modules.Contains("ModuleSpaceFolderEngine"))
+				if (!p.Modules.Contains("ModuleFrameShiftDrive"))
 				{
+					Debug.Log("[KF] FSD module not found for part " + p.partName);
 					continue;
 				}
 				ModuleFrameShiftDrive em = FSDModuleFromPart(p);
 				if (em != null)
 				{
+					Debug.Log("[KF] Non-null FSD partModule found in part " + p.partName);
 					returnList.Add(em.PartDriveData);
 				}
 				else

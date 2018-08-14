@@ -9,5 +9,10 @@
 		}
 		public string resource;
 		public double amount;
+		public override string ToString()
+		{
+			base.ToString();
+			return resource + ": " + amount;
+		}
 	}
 }

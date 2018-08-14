@@ -7,18 +7,22 @@ namespace KerbalFuture.Superluminal.FrameShift
 {
 	public class FrameShiftDriveVesselModule : VesselModule
 	{
+		public static FrameShiftDriveVesselModule RequestCurrentVesselModule() => currentVessel;
+		private static FrameShiftDriveVesselModule currentVessel;
 		// We'll use these as a sort of latch in the FixedUpdate() loop
 		bool isWarping = false;
 		bool wasWarping = false;
 		// In m/s (tested)
-		double warpVelocity = 500;
+		double warpVelocity;
 		List<Part> partsWithoutModuleCoreHeat = new List<Part>();
-		VesselResourceSimulation vrsInstance = new VesselResourceSimulation();
+		public VesselResourceSimulation vrsInstance = new VesselResourceSimulation();
+		double vesVel;
 		void VesselPartCountChangedHandler(Vessel v)
 		{
+			Debug.Log("[KF] Detected part count change");
 			if(isWarping)
 			{
-				CheckWarpAvalibility();
+				CheckInWarpAvalibility();
 			}
 		}
 		//Fires on Vessel startup
@@ -28,27 +32,45 @@ namespace KerbalFuture.Superluminal.FrameShift
 			GameEvents.onVesselPartCountChanged.Add(VesselPartCountChangedHandler);
 			Debug.Log("[KF] FSD Vessel module starting for " + Vessel.GetDisplayName());
 		}
-		public void FixedUpdate()
+		private void Update()
+		{
+			if (Vessel == FlightGlobals.ActiveVessel)
+			{
+				currentVessel = this;
+			}
+			if(Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)))
+			{
+				Debug.Log("[KF] Sun loc is " + Planetarium.fetch.Sun.position + ", main body position is " + Planetarium.fetch.CurrentMainBody.position);
+			}
+		}
+		private void FixedUpdate()
 		{
 			// Called when the vessel itnitially starts warping
 			if(isWarping && !wasWarping)
 			{
+				Debug.Log("[KF] Vesel warp called for vessel " + Vessel.GetDisplayName());
 				wasWarping = true;
+				vesVel = Vessel.obt_speed;
+				//Should change the velocity of the vessel in the vessel's facing direction
+				Vessel.ChangeWorldVelocity(WarpHelp.GetFacing(Vessel).Vector * warpVelocity);
 				UseResourcesBeforeWarp(warpVelocity, vrsInstance);
 			}
 			// Called during the warp
 			else if(isWarping && wasWarping)
 			{
+				CheckWarpAvalibility();
 				UseResourcesDuringWarp(warpVelocity);
 			}
 			// Called right after the warp has finished
 			else if(!isWarping && wasWarping)
 			{
+				Debug.Log("[KF] Vessel warp ended for vessel " + Vessel.GetDisplayName());
 				wasWarping = false;
+				Vessel.ChangeWorldVelocity(WarpHelp.GetFacing(Vessel).Vector * (-1 * warpVelocity));
 				DistributeHeatAfterWarp();
 			}
 		}
-		public void WarpVessel(FrameShiftWarpData warpData, out Error err)
+		public bool WarpVessel(FrameShiftWarpData warpData, out Error err)
 		{
 			Debug.Log("[KF] FSD Warp called for vessel " + Vessel.GetDisplayName());
 			warpVelocity = warpData.warpVelocity;
@@ -57,17 +79,23 @@ namespace KerbalFuture.Superluminal.FrameShift
 			{
 				Debug.Log("[KF] Warp cleared for vessel " + Vessel.GetDisplayName() + ", warping now.");
 				isWarping = true;
-				return;
+				return true;
 			}
 			else
 			{
 				isWarping = false;
-				return;
+				return false;
 			}
+		}
+		public void StopWarp()
+		{
+			Debug.Log("[KF] Warp halted");
+			isWarping = false;
 		}
 		// Uses resources before warping including drive efficiencies
 		void UseResourcesBeforeWarp(double velocity, VesselResourceSimulation vrs)
 		{
+			Debug.Log("[KF] Using resources before warp!");
 			double U_F = FrameShiftWarpChecks.FieldEnergyCalc(velocity, WarpHelp.VesselDiameterCalc(Vessel) / 2);
 			foreach (KeyValuePair<FrameShiftDriveData, double> kvp in vrs.PartECPercent)
 			{
@@ -79,6 +107,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		// Uses resources during warp, called once a fixedupdate using efficiency
 		void UseResourcesDuringWarp(double velocity)
 		{
+			Debug.Log("[KF] Using resources during warp!");
 			// Calculates the total change in field energy
 			double dU_FkJ = (Math.Pow(velocity, 3) * Math.Pow(WarpHelp.VesselDiameterCalc(vessel) / 2, 3) * FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT) / 1000;
 			List<FrameShiftDriveData> driveDatas = new List<FrameShiftDriveData>(FSWarpHelp.DriveDataList(Vessel));
@@ -105,6 +134,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		}
 		void DistributeHeatBeforeWarp(double U_F)
 		{
+			Debug.Log("[KF] Distributing lost heat before warp.");
 			AddHeatModulesToParts();
 			foreach (KeyValuePair<FrameShiftDriveData, double> kvp in vrsInstance.PartECPercent)
 			{
@@ -115,7 +145,8 @@ namespace KerbalFuture.Superluminal.FrameShift
 		}
 		void DistributeHeatDuringWarp(double dU_F, double sigmaCapacity)
 		{
-			foreach(FrameShiftDriveData dd in FSWarpHelp.DriveDataList(Vessel))
+			Debug.Log("[KF] Distributing heat during warp.");
+			foreach (FrameShiftDriveData dd in FSWarpHelp.DriveDataList(Vessel))
 			{
 				double contributionJ = ((dd.Capacity / sigmaCapacity) * dU_F / dd.Efficiency) + ((dd.Capacity / sigmaCapacity) * dU_F * dd.XMMultiplier / dd.Efficiency);
 				((ModuleCoreHeat)dd.DriveDataPart.Modules["ModuleCoreHeat"]).AddEnergyToCore(contributionJ);
@@ -123,6 +154,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		}
 		void DistributeHeatAfterWarp()
 		{
+			Debug.Log("[KF] Distributing field energy as heat after warp.");
 			double U_F = FrameShiftWarpChecks.FieldEnergyCalc(warpVelocity, WarpHelp.VesselDiameterCalc(Vessel) / 2);
 			foreach(KeyValuePair<FrameShiftDriveData, double> kvp in vrsInstance.PartECPercent)
 			{
@@ -133,6 +165,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		}
 		void AddHeatModulesToParts()
 		{
+			Debug.Log("[KF] Adding heat modules to all vessel parts.");
 			partsWithoutModuleCoreHeat.Clear();
 			foreach(Part p in Vessel.Parts)
 			{
@@ -145,13 +178,15 @@ namespace KerbalFuture.Superluminal.FrameShift
 		}
 		void RemoveHeatModulesFromParts()
 		{
-			foreach(Part p in partsWithoutModuleCoreHeat)
+			Debug.Log("[KF] Removing heat modules from parts originally without heat modules.");
+			foreach (Part p in partsWithoutModuleCoreHeat)
 			{
 				p.Modules.Remove(p.Modules["ModuleCoreHeat"]);
 			}
 		}
 		void CheckWarpAvalibility()
 		{
+			Debug.Log("[KF] Checking warp avalibility...");
 			VesselResourceSimulation vrs = new VesselResourceSimulation();
 			Error err = FrameShiftWarpChecks.WarpAvalible(Vessel, warpVelocity, out vrs);
 			vrsInstance = vrs;
@@ -164,6 +199,21 @@ namespace KerbalFuture.Superluminal.FrameShift
 				isWarping = false;
 				return;
 			}
+		}
+		void CheckInWarpAvalibility()
+		{
+			Dictionary<string, double> resUsage = vrsInstance.TotalResourceUsagePerSecond;
+			foreach(KeyValuePair<string, double> kvp in resUsage)
+			{
+				if(WarpHelp.ResourceAmountOnVessel(Vessel, kvp.Key) < kvp.Value)
+				{
+					isWarping = false;
+				}
+			}
+		}
+		void MoveVessel(double vel)
+		{
+			Vessel.SetPosition(Vessel.GetWorldPos3D() + ((vel + vesVel) * Time.deltaTime * WarpHelp.GetFacing(Vessel).Vector));
 		}
 	}
 }

@@ -27,11 +27,17 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="000_AT_Utils">
+      <HintPath>..\000_AT_Utils.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Regex">
+      <HintPath>..\System.Regex.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\UnityEngine.dll</HintPath>
@@ -41,6 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KFGUI\Changelog.cs" />
+    <Compile Include="KFGUI\KFGUI.cs" />
     <Compile Include="Superluminal\FrameShift\FrameShiftWarpChecks.cs" />
     <Compile Include="Superluminal\FrameShift\FSWarpHelp.cs" />
     <Compile Include="Superluminal\FrameShift\VesselResourceSimulation.cs" />

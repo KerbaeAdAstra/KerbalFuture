@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 using KerbalFuture.Utils;
+using UnityEngine;
 
 /********************************************************\
  * EQUATIONS
@@ -34,6 +36,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		public const double DRIVE_USAGE_CONSTANT_OF_XM = 400.0;
 		public static Error WarpAvalible(Vessel v, double velocity, out VesselResourceSimulation outVRS)
 		{
+			Debug.Log("[KF] Warp checks called for vessel " + v.GetDisplayName());
 			Error retErr = Error.ClearForWarp;
 			//Creates and fills in one line! Marvelous!
 			List<FrameShiftDriveData> dd = new List<FrameShiftDriveData>(FSWarpHelp.DriveDataList(v));
@@ -47,8 +50,10 @@ namespace KerbalFuture.Superluminal.FrameShift
 			}
 			//Ship size calc
 			double radius = WarpHelp.VesselDiameterCalc(v) / 2;
+			IEnumerable<Part> ddParts = from FrameShiftDriveData driveData in dd
+										select driveData.DriveDataPart;
 			//Ship is too big for drives
-			if (MaxWarpHoleSize((IEnumerable<Part>)dd, velocity) > radius)
+			if (MaxWarpHoleSize(ddParts, velocity) > radius)
 			{
 				retErr = retErr | Error.VesselTooLarge;
 			}
@@ -81,3 +86,4 @@ namespace KerbalFuture.Superluminal.FrameShift
 			=> ALCUBIERRE_CONSTANT_OF_SPACETIME * Math.Pow(radius, 4) + CONTRACTION_CONSTANT_OF_SPACETIME * Math.Pow(velocity, 2);
 	}
 }
+ 

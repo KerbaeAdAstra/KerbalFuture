@@ -1,3 +1,4 @@
+using KerbalFuture.Superluminal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,10 +22,7 @@ namespace KerbalFuture.Utils
 			double radius = Distance(0, 0, 0, xrad, yrad, zrad);
 			return radius * 2;
 		}
-		public static double VesselDiameterCalc(Vessel v)
-		{
-			return VesselDiameterCalc(new ShipConstruct(v.name, EditorFacility.VAB, v.Parts).shipSize);
-		}
+		public static double VesselDiameterCalc(Vessel v) => VesselDiameterCalc(new ShipConstruct(v.name, EditorFacility.VAB, v.Parts).shipSize);
 		// Gets a list of parts on a vessel with the specified PartModule
 		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
 		{
@@ -103,6 +101,19 @@ namespace KerbalFuture.Utils
 			Quaternion vesselRotation = vessel.ReferenceTransform.rotation;
 			Quaternion vesselFacing = Quaternion.Inverse(Quaternion.Euler(90, 0, 0) * Quaternion.Inverse(vesselRotation) * Quaternion.identity);
 			return new Direction(vesselFacing);
+		}
+		public static IEnumerable<VesselResource> SumVesselResources(List<VesselResource> listOne, List<VesselResource> listTwo)
+		{
+			foreach(VesselResource vr in listOne)
+			{
+				foreach(VesselResource r in listTwo)
+				{
+					if(vr.resource == r.resource)
+					{
+						yield return new VesselResource(vr.resource, vr.amount + r.amount);
+					}
+				}
+			}
 		}
 	}
 }

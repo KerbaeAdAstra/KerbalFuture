@@ -18,5 +18,6 @@ namespace KerbalFuture.Utils
 		public double XLoc => Alt * Math.Sin(Lat) * Math.Cos(Lon);
 		public double YLoc => Alt * Math.Sin(Lat) * Math.Sin(Lon);
 		public double ZLoc => Alt * Math.Cos(Lat);
+		public Vector3d WorldSpace => new Vector3d(XLoc, YLoc, ZLoc);
 	}
 }

@@ -14,6 +14,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 	{
 		public VesselResourceSimulation()
 		{
+			Debug.Log("[KF] Null VesselResourceSimulation created");
 			isNull = true;
 		}
 		// PartResourceDefinition
@@ -35,7 +36,9 @@ namespace KerbalFuture.Superluminal.FrameShift
 		}
 		public bool isNull { get; private set; }
 		// Get only property for dictionary of the part and it's contribution prercentage
-		public Dictionary<FrameShiftDriveData, double> PartECPercent { get; private set; }
+		public Dictionary<FrameShiftDriveData, double> PartECPercent { get { return partECPercent; } }
+		// Backing field for PartECPercent (Get only)
+		Dictionary<FrameShiftDriveData, double> partECPercent = new Dictionary<FrameShiftDriveData, double>();
 		// Velocity of the vessel
 		double velocity;
 		// The vessel being simulated
@@ -48,6 +51,12 @@ namespace KerbalFuture.Superluminal.FrameShift
 		HashSet<string> resHash = new HashSet<string>();
 		//List of vessel resources and amounts
 		List<VesselResource> resList = new List<VesselResource>();
+		//List of resources and amounts needed
+		List<VesselResource> totalResNeeded = new List<VesselResource>();
+		public List<VesselResource> TotalResNeeded { get { return totalResNeeded; } }
+		//Resource usage per second
+		Dictionary<string, double> totalResourceUsagePerSecond = new Dictionary<string, double>();
+		public Dictionary<string, double> TotalResourceUsagePerSecond { get { return totalResourceUsagePerSecond; } }
 		// The status of the current simulation
 		public SimulationStatus Status { get; private set; }
 		// The max warp time (get to calculate)
@@ -58,6 +67,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 			// Freshen them up if being called again
 			resHash.Clear();
 			resList.Clear();
+			totalResNeeded.Clear();
 			Debug.Log("[KF] [VRS] Populating resource hash sets");
 			foreach (FrameShiftDriveData d in driveDatas)
 			{
@@ -73,49 +83,65 @@ namespace KerbalFuture.Superluminal.FrameShift
 			Debug.Log("[KF] [VRS] Creating resource dictionary");
 			foreach (string s in resHash)
 			{
+				//identical lists at this point in terms of the resource order
 				resList.Add(new VesselResource(s, WarpHelp.ResourceAmountOnVessel(vessel, s)));
+				totalResNeeded.Add(new VesselResource(s, 0));
 			}
 		}
 		// Runs a full simulation of resource usage for a warp
 		void RunSimulation()
 		{
+			isNull = false;
 			Debug.Log("[KF] [VRS] Running simulation");
 			double U_F = FrameShiftWarpChecks.FieldEnergyCalc(velocity, WarpHelp.VesselDiameterCalc(vessel) / 2);
 			double sigmaCapacity = 0;
-			foreach(FrameShiftDriveData dd in driveDatas)
+			foreach (FrameShiftDriveData dd in driveDatas)
 			{
 				sigmaCapacity += dd.Capacity;
 			}
-			foreach(FrameShiftDriveData dd in driveDatas)
+			partECPercent.Clear();
+			foreach (FrameShiftDriveData dd in driveDatas)
 			{
 				// This is the total contribution of the drive in Joules. Remove the U_F to get the percent contribution
 				// However, drives do not have 100% efficiency so we need to multiply it by the reciprical of the drive's efficiency
 				double contribution = (dd.Capacity / sigmaCapacity) * U_F * dd.Efficiency;
-				PartECPercent.Add(dd, (dd.Capacity / sigmaCapacity));
-				for(int i = 0; i < resList.Count; i++)
+				Debug.Log("[KF] 1");
+				partECPercent.Add(dd, (dd.Capacity / sigmaCapacity));
+				Debug.Log("[KF] 2");
+				for (int i = 0; i < resList.Count; i++)
 				{
-					if(dd.MainResource == resList[i].resource)
+					Debug.Log("[KF] Reslist[" + i + "] is " + resList[i].ToString());
+					if (dd.MainResource == resList[i].resource)
 					{
 						// last part turns the contribution (in Joules) to EC (in kJ)
 						resList[i] = new VesselResource(resList[i].resource, resList[i].amount - (contribution / 1000));
+						totalResNeeded[i] = new VesselResource(resList[i].resource, (contribution / 1000));
+						Debug.Log("[KF] Reslist[" + i + "] is now " + resList[i].ToString() + " after main res usage");
 					}
-					if(dd.Catalyst == resList[i].resource)
+					if (dd.Catalyst == resList[i].resource)
 					{
 						resList[i] = new VesselResource(resList[i].resource, resList[i].amount - ((contribution / 1000) * dd.XMMultiplier));
+						totalResNeeded[i] = new VesselResource(resList[i].resource, (contribution / 1000) * dd.XMMultiplier);
+						Debug.Log("[KF] Reslist[" + i + "] is now" + resList[i].ToString() + " after catalyst usage");
 					}
-					if(resList[i].amount < 0)
+					if (resList[i].amount < 0)
 					{
+						Debug.Log("[KF] Reslist[" + i + "] is < 0, " + resList[i].ToString());
 						Status = SimulationStatus.Failed;
-						return;
 					}
 				}
 			}
-			Status = SimulationStatus.Succeeded;
+			Debug.Log("[KF] 7");
+			if(Status != SimulationStatus.Failed)
+			{
+				Status = SimulationStatus.Succeeded;
+			}
 			return;
 		}
 		double FindMaxWarpTime()
 		{
-			if(Status == SimulationStatus.Failed)
+			Debug.Log("[KF] Finding the max warp time...");
+			if (Status == SimulationStatus.Failed)
 			{
 				// Return immediatly if the sim failed to begin with
 				return 0.0;
@@ -140,7 +166,6 @@ namespace KerbalFuture.Superluminal.FrameShift
 				//Adds the FSDD and the amount of energy needed per drive per 't' in kJ
 				partResourceUsagePerSecond.Add(dd, ((dd.Capacity / 1000) / sigmaCapacitykJ) * dU_FkJ);
 			}
-			Dictionary<string, double> totalResourceUsagePerSecond = new Dictionary<string, double>();
 			foreach(KeyValuePair<FrameShiftDriveData, double> kvp in partResourceUsagePerSecond)
 			{
 				// If the resource dictionary already contains the resource
@@ -191,6 +216,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 					}
 				}
 			}
+			Debug.Log("[KF] Max warp time is " + smallestTime);
 			// smallestTime is now the max time that the drive can run for without the vessel running out of resources
 			return smallestTime;
 		}
