@@ -68,23 +68,16 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             // Adds heat
             foreach (KeyValuePair<Part, double> kvp in partECAmount)
             {
-                bool hadModuleCoreHeat = true;
                 // Iff MM doesn't work or this engine for whatever reason doesn't have a ModuleCoreHeat, we add one
+				// Don't bother removing it, cause we're going to keep using it later
                 if (!kvp.Key.Modules.Contains("ModuleCoreHeat"))
                 {
                     Debug.Log("[KF] Part " + kvp.Key.name + " does not contain ModuleCoreHeat. Adding");
-                    hadModuleCoreHeat = false;
                     kvp.Key.AddModule("ModuleCoreHeat", true);
                 }
                 // p.Modules.GetModule<ModuleSpaceFolderEngine>.PartDriveData
                 Debug.Log("[KF] Adding " + kvp.Value + "kJ of heat to " + kvp.Key.name + ". Final part temperature is " + (kvp.Key.temperature + kvp.Value).ToString() + "C");
                 ((ModuleCoreHeat)kvp.Key.Modules["ModuleCoreHeat"]).AddEnergyToCore(kvp.Value);
-                // Removes ModuleCoreHeat if the part didn't already have it
-                if (hadModuleCoreHeat)
-                {
-                    Debug.Log("[KF] Part " + kvp.Key.name + " did not have ModuleCoreHeat. Removing.");
-                    kvp.Key.RemoveModule(kvp.Key.Modules["ModuleCoreHeat"]);
-                }
             }
         }
 		//Calculates the amount of main resource used in kJ

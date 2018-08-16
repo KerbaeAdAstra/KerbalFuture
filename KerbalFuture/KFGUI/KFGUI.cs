@@ -1,6 +1,5 @@
 using System.IO;
 using UnityEngine;
-using System.Regex;
 using System.Collections.Generic;
 using KSP.UI.Screens;
 using System.Linq;
@@ -73,8 +72,15 @@ namespace KerbalFuture.KFGUI
 			SFDCB = FlightGlobals.ActiveVessel.mainBody;
 			cbList.Clear();
 			cbList.AddRange(FlightGlobals.Bodies);
-
 			Debug.Log("[KF] Toolbar button enabled.");
+			try
+			{
+				logo = GameDatabase.Instance.GetTexture(toolbarLogoLoc, false);
+			}
+			catch(Exception e)
+			{
+				Debug.Log("[KF] Failed to load KF logo from mod directory.");
+			}
 			//Subscribes to the events
 			GameEvents.onGUIApplicationLauncherReady.Add(CreateButton);
 			GameEvents.onGUIApplicationLauncherDestroyed.Add(DestroyButton);
@@ -155,6 +161,7 @@ namespace KerbalFuture.KFGUI
 		Superluminal.FrameShift.Error fault = Superluminal.FrameShift.Error.Null;
 		List<VesselResource> vrUDWList;
 		List<VesselResource> vrList;
+		double outDouble = 0; //useless, need for TryParse
 		private void DrawFTLInternals(int id)
 		{
 			GUI.DragWindow(new Rect(0, 0, ftlRect.width, 20));
@@ -215,7 +222,7 @@ namespace KerbalFuture.KFGUI
 				#region Velocity input
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Desired velocity");
-				if (Regex.IsMatch(FSDVelocity, @"^\d*\.?\d+$"))
+				if (double.TryParse(FSDVelocity, out outDouble))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -308,7 +315,7 @@ namespace KerbalFuture.KFGUI
 				GUILayout.Label("Wavelength");
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
-				if (Regex.IsMatch(SWDAmplitude, @"^\d*\.?\d+$"))
+				if (double.TryParse(SWDAmplitude, out outDouble))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -319,7 +326,7 @@ namespace KerbalFuture.KFGUI
 				SWDAmplitude = GUILayout.TextField(SWDAmplitude, 21);
 				GUI.contentColor = GUIStandardContentColor;
 				GUILayout.BeginHorizontal();
-				if (Regex.IsMatch(SWDWavelength, @"^\d*\.?\d+$"))
+				if (double.TryParse(SWDWavelength, out outDouble))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -362,7 +369,7 @@ namespace KerbalFuture.KFGUI
 				GUILayout.Label("Celestial Body");
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
-				if (Regex.IsMatch(SFDLat, @"^\d*\.?\d+$"))
+				if (double.TryParse(SFDLat, out outDouble))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -373,7 +380,7 @@ namespace KerbalFuture.KFGUI
 				}
 				SFDLat = GUILayout.TextField(SFDLat, 6);
 				GUI.contentColor = GUIStandardContentColor;
-				if (Regex.IsMatch(SFDLon, @"^\d*\.?\d+$"))
+				if (double.TryParse(SFDLon, out outDouble))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -414,7 +421,7 @@ namespace KerbalFuture.KFGUI
 				#region Inputs
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Layer");
-				if (Regex.IsMatch(SWDWavelength, @"^\d*$"))
+				if (double.TryParse(SWDWavelength, out outDouble))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -549,7 +556,7 @@ namespace KerbalFuture.KFGUI
 		static string toolbarLogoLoc = "KerbalFuture/PluginData/toolbarLogo";
 		private const ApplicationLauncher.AppScenes visibleInScenes =
 			ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW;
-		private Texture2D logo = GameDatabase.Instance.GetTexture(toolbarLogoLoc, false);
+		private Texture2D logo;
 		private ApplicationLauncherButton button;
 
 		private void OnDisable()

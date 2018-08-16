@@ -135,7 +135,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		void DistributeHeatBeforeWarp(double U_F)
 		{
 			Debug.Log("[KF] Distributing lost heat before warp.");
-			AddHeatModulesToParts();
+			//D_AddHeatModulesToParts();
 			foreach (KeyValuePair<FrameShiftDriveData, double> kvp in vrsInstance.PartECPercent)
 			{
 				//J each part is putting in
@@ -161,9 +161,10 @@ namespace KerbalFuture.Superluminal.FrameShift
 				double contributionJ = (kvp.Value * U_F) / kvp.Key.Efficiency + ((kvp.Value * U_F) * kvp.Key.XMMultiplier) / kvp.Key.Efficiency;
 				((ModuleCoreHeat)kvp.Key.DriveDataPart.Modules["ModuleCoreHeat"]).AddEnergyToCore(contributionJ);
 			}
-			RemoveHeatModulesFromParts();
+			//D_RemoveHeatModulesFromParts();
 		}
-		void AddHeatModulesToParts()
+		//All KF drives will have ModuleCoreHeat added to them through a MM patch
+		void D_AddHeatModulesToParts()
 		{
 			Debug.Log("[KF] Adding heat modules to all vessel parts.");
 			partsWithoutModuleCoreHeat.Clear();
@@ -176,7 +177,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 				}
 			}
 		}
-		void RemoveHeatModulesFromParts()
+		void D_RemoveHeatModulesFromParts()
 		{
 			Debug.Log("[KF] Removing heat modules from parts originally without heat modules.");
 			foreach (Part p in partsWithoutModuleCoreHeat)
