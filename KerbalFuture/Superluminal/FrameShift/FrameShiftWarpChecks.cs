@@ -30,8 +30,8 @@ namespace KerbalFuture.Superluminal.FrameShift
 {
 	public class FrameShiftWarpChecks
 	{
-		public const double ALCUBIERRE_CONSTANT_OF_SPACETIME = 1000.0; //originally 2k
-		public const double CONTRACTION_CONSTANT_OF_SPACETIME = 10.0; //originally 25
+		public const double ALCUBIERRE_CONSTANT_OF_SPACETIME = 2000.0;
+		public const double CONTRACTION_CONSTANT_OF_SPACETIME = 25.0;
 		public const double HYPERSPACE_DRAG_CONSTANT = 80.0;
 		public const double DRIVE_USAGE_CONSTANT_OF_XM = 400.0;
 		public static Error WarpAvalible(Vessel v, double velocity, out VesselResourceSimulation outVRS)
