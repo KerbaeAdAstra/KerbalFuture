@@ -30,10 +30,58 @@ namespace KerbalFuture.Superluminal.FrameShift
 {
 	public class FrameShiftWarpChecks
 	{
-		public const double ALCUBIERRE_CONSTANT_OF_SPACETIME = 1000.0; //originally 2k
-		public const double CONTRACTION_CONSTANT_OF_SPACETIME = 10.0; //originally 25
-		public const double HYPERSPACE_DRAG_CONSTANT = 80.0;
-		public const double DRIVE_USAGE_CONSTANT_OF_XM = 400.0;
+		//originally 2k
+		internal static double constOfSpaceTime;
+		public static double ALCUBIERRE_CONSTANT_OF_SPACETIME
+		{
+			get
+			{
+				return constOfSpaceTime;
+			}
+			internal set
+			{
+				constOfSpaceTime = value;
+			}
+		}
+		//originally 25
+		internal static double constOfContraction;
+		public static double CONTRACTION_CONSTANT_OF_SPACETIME
+		{
+			get
+			{
+				return constOfContraction;
+			}
+			internal set
+			{
+				constOfContraction = value;
+			}
+		}
+		//80
+		internal static double constOfDrag;
+		public static double HYPERSPACE_DRAG_CONSTANT
+		{
+			get
+			{
+				return constOfDrag;
+			}
+			internal set
+			{
+				constOfDrag = value;
+			}
+		}
+		//400
+		internal static double constOfXMUsage;
+		public static double DRIVE_USAGE_CONSTANT_OF_XM
+		{
+			get
+			{
+				return constOfXMUsage;
+			}
+			internal set
+			{
+				constOfXMUsage = value;
+			}
+		}
 		public static Error WarpAvalible(Vessel v, double velocity, out VesselResourceSimulation outVRS)
 		{
 			Debug.Log("[KF] Warp checks called for vessel " + v.GetDisplayName());
@@ -41,7 +89,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 			//Creates and fills in one line! Marvelous!
 			List<FrameShiftDriveData> dd = new List<FrameShiftDriveData>(FSWarpHelp.DriveDataList(v));
 			//No drives
-			if(dd.Count == 0)
+			if (dd.Count == 0)
 			{
 				retErr = retErr | Error.DrivesNotFound;
 				outVRS = new VesselResourceSimulation();
@@ -62,7 +110,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 			//Insufficient resources on ship
 			VesselResourceSimulation vrs = new VesselResourceSimulation(v, velocity, true);
 			outVRS = vrs;
-			if(vrs.Status == SimulationStatus.Failed)
+			if (vrs.Status == SimulationStatus.Failed)
 			{
 				retErr = retErr | Error.InsufficientResources;
 			}
@@ -76,14 +124,13 @@ namespace KerbalFuture.Superluminal.FrameShift
 		public static double MaxFieldEnergy(IEnumerable<Part> engines)
 		{
 			double retVal = 0;
-			foreach(Part p in engines)
+			foreach (Part p in engines)
 			{
 				retVal += FSWarpHelp.FSDModuleFromPart(p).capacity;
 			}
 			return retVal;
 		}
-		public static double FieldEnergyCalc(double velocity, double radius) 
+		public static double FieldEnergyCalc(double velocity, double radius)
 			=> ALCUBIERRE_CONSTANT_OF_SPACETIME * Math.Pow(radius, 4) + CONTRACTION_CONSTANT_OF_SPACETIME * Math.Pow(velocity, 2);
 	}
 }
- 

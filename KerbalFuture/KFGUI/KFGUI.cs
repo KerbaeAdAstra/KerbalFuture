@@ -77,10 +77,11 @@ namespace KerbalFuture.KFGUI
 			{
 				logo = GameDatabase.Instance.GetTexture(toolbarLogoLoc, false);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Debug.Log("[KF] Failed to load KF logo from mod directory.");
 			}
+			Debug.Log("[KF] Loading of constants " + (LoadFSDWarpConstants() ? "failed" : "succeded") + ".");
 			//Subscribes to the events
 			GameEvents.onGUIApplicationLauncherReady.Add(CreateButton);
 			GameEvents.onGUIApplicationLauncherDestroyed.Add(DestroyButton);
@@ -88,15 +89,15 @@ namespace KerbalFuture.KFGUI
 		Vector2 bodySelectScrollPos = new Vector2();
 		private void OnGUI()
 		{
-			if(FTLActive)
+			if (FTLActive)
 			{
 				ftlRect = GUILayout.Window(0, ftlRect, DrawFTLInternals, "Faster Than Light", GUILayout.Width(500), GUILayout.Height(300));
 			}
-			if(PlanetaryDestructionActive)
+			if (PlanetaryDestructionActive)
 			{
 				pdRect = GUILayout.Window(1, pdRect, DrawPlanetDestructionInternals, "Planetary Destruction", GUILayout.Width(500), GUILayout.Height(300));
 			}
-			if(OptionsMenuActive)
+			if (OptionsMenuActive)
 			{
 				optRect = GUILayout.Window(2, optRect, DrawOptionsMenuInternals, "Kerbal Future Options", GUILayout.Width(500), GUILayout.Height(300));
 			}
@@ -105,14 +106,14 @@ namespace KerbalFuture.KFGUI
 				winSelectRect = GUILayout.Window(3, winSelectRect, DrawWindowSelector, "Window Selector", GUILayout.Width(150), GUILayout.Height(100));
 			}
 			#region SFD body selection scroll
-			if(sfdBodySelection && sfdState)
+			if (sfdBodySelection && sfdState)
 			{
 				GUILayout.BeginArea(new Rect(ftlRect.x + ftlRect.width, ftlRect.y, 150, 500), "Select a body", "box");
 				GUILayout.Space(20);
 				bodySelectScrollPos = GUILayout.BeginScrollView(bodySelectScrollPos);
-				foreach(CelestialBody cb in cbList)
+				foreach (CelestialBody cb in cbList)
 				{
-					if(GUILayout.Button(cb.name))
+					if (GUILayout.Button(cb.name))
 					{
 						sfdBodySelection = false;
 						SFDCB = cb;
@@ -121,16 +122,20 @@ namespace KerbalFuture.KFGUI
 				GUILayout.EndScrollView();
 				GUILayout.EndArea();
 			}
-			else if(sfdBodySelection && !sfdState)
+			else if (sfdBodySelection && !sfdState)
 			{
 				sfdBodySelection = false;
 			}
-#endregion
+			#endregion
+			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)))
+			{
+				Debug.Log($"[KF] Constants are {FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME}, {FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME}, {FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT}, {FrameShiftWarpChecks.DRIVE_USAGE_CONSTANT_OF_XM}.");
+			}
 		}
 		bool[] windowSaveStates = new bool[3] { false, false, false };
 		private void DisableAllWindows(bool saveStates = false)
 		{
-			if(saveStates)
+			if (saveStates)
 			{
 				windowSaveStates[0] = FTLActive;
 				windowSaveStates[1] = PlanetaryDestructionActive;
@@ -263,7 +268,7 @@ namespace KerbalFuture.KFGUI
 					}
 					if (GUILayout.Button("Analyse warp"))
 					{
-						if(formatOkay)
+						if (formatOkay)
 						{
 							fault = FrameShiftWarpChecks.WarpAvalible(currVM.Vessel, velocity, out vrs);
 							vrList = ResourceUsageBeforeWarp(velocity, vrs, currVM.Vessel);
@@ -272,22 +277,22 @@ namespace KerbalFuture.KFGUI
 							vrUDWList = AlphabetizeVRList(vrUDWList).ToList();
 						}
 					}
-					if(GUILayout.Button("Stop warp"))
+					if (GUILayout.Button("Stop warp"))
 					{
 						fault = Superluminal.FrameShift.Error.Null;
 						vrUDWList.Clear();
 						vrList.Clear();
 						currVM.StopWarp();
 					}
-					if(warpSuccess && fault == Superluminal.FrameShift.Error.ClearForWarp)
+					if (warpSuccess && fault == Superluminal.FrameShift.Error.ClearForWarp)
 					{
 						output = "Warped!";
 					}
-					else if(!warpSuccess && fault == Superluminal.FrameShift.Error.ClearForWarp)
+					else if (!warpSuccess && fault == Superluminal.FrameShift.Error.ClearForWarp)
 					{
 						output = "Checks passed";
 					}
-					else if(fault == Superluminal.FrameShift.Error.Null || !formatOkay)
+					else if (fault == Superluminal.FrameShift.Error.Null || !formatOkay)
 					{
 						output = "";
 					}
@@ -299,7 +304,7 @@ namespace KerbalFuture.KFGUI
 					GUILayout.EndHorizontal();
 				}
 				//this is just in case, I don't know if it's ever going to throw an exceptionn, persay
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Debug.Log("[KF] Caught exception " + e.ToString());
 				}
@@ -465,15 +470,15 @@ namespace KerbalFuture.KFGUI
 					}
 				}
 				*/
-				}
+			}
 			#endregion
 			GUILayout.EndScrollView();
 		}
 		IEnumerable<VesselResource> AlphabetizeVRList(List<VesselResource> vrl)
 		{
 			IEnumerable<VesselResource> v = from vesRes in vrl
-					orderby vesRes.resource ascending
-					select vesRes;
+											orderby vesRes.resource ascending
+											select vesRes;
 			return v;
 		}
 		// Math taken straight from the FSDVesselModule method UseResourcesBeforeWarp
@@ -482,26 +487,26 @@ namespace KerbalFuture.KFGUI
 			HashSet<string> vesResHash = new HashSet<string>();
 			List<VesselResource> vesResList = new List<VesselResource>();
 			double U_F = FrameShiftWarpChecks.FieldEnergyCalc(velocity, WarpHelp.VesselDiameterCalc(v) / 2);
-			foreach(KeyValuePair<FrameShiftDriveData, double> kvp in vrs.PartECPercent)
+			foreach (KeyValuePair<FrameShiftDriveData, double> kvp in vrs.PartECPercent)
 			{
 				vesResHash.Add(kvp.Key.MainResource);
 				vesResHash.Add(kvp.Key.Catalyst);
 			}
-			foreach(string s in vesResHash)
+			foreach (string s in vesResHash)
 			{
 				vesResList.Add(new VesselResource(s, 0));
 			}
-			foreach(KeyValuePair<FrameShiftDriveData, double> kvp in vrs.PartECPercent)
+			foreach (KeyValuePair<FrameShiftDriveData, double> kvp in vrs.PartECPercent)
 			{
-				for(int i = 0; i < vesResList.Count; i++)
+				for (int i = 0; i < vesResList.Count; i++)
 				{
-					if(vesResList[i].resource == kvp.Key.MainResource)
+					if (vesResList[i].resource == kvp.Key.MainResource)
 					{
 						vesResList[i] = new VesselResource(vesResList[i].resource, vesResList[i].amount + (kvp.Value * U_F / 1000) / kvp.Key.Efficiency);
 					}
-					if(vesResList[i].resource == kvp.Key.Catalyst)
+					if (vesResList[i].resource == kvp.Key.Catalyst)
 					{
-						vesResList[i] = new VesselResource(vesResList[i].resource, vesResList[i].amount + ((kvp.Value * U_F / 1000) * kvp.Key.XMMultiplier)/ kvp.Key.Efficiency);
+						vesResList[i] = new VesselResource(vesResList[i].resource, vesResList[i].amount + ((kvp.Value * U_F / 1000) * kvp.Key.XMMultiplier) / kvp.Key.Efficiency);
 					}
 				}
 			}
@@ -520,20 +525,20 @@ namespace KerbalFuture.KFGUI
 				vesResHash.Add(dd.MainResource);
 				vesResHash.Add(dd.Catalyst);
 			}
-			foreach(string s in vesResHash)
+			foreach (string s in vesResHash)
 			{
 				vesResList.Add(new VesselResource(s, 0));
 			}
 			foreach (FrameShiftDriveData dd in driveDatas)
 			{
-				for(int i = 0; i < vesResList.Count; i++)
+				for (int i = 0; i < vesResList.Count; i++)
 				{
 					if (vesResList[i].resource == dd.MainResource)
 					{
 						// Calculates the contribution of the drive in kJ/second using efficiency
 						vesResList[i] = new VesselResource(dd.MainResource, ((dd.Capacity / sigmaCapacity) * dU_FkJ / dd.Efficiency) + vesResList[i].amount);
 					}
-					if(vesResList[i].resource == dd.Catalyst)
+					if (vesResList[i].resource == dd.Catalyst)
 					{
 						vesResList[i] = new VesselResource(dd.Catalyst, (((dd.Capacity / sigmaCapacity) * dU_FkJ / dd.Efficiency) * dd.XMMultiplier) + vesResList[i].amount);
 					}
@@ -571,7 +576,7 @@ namespace KerbalFuture.KFGUI
 			Debug.Log("[KF] Toolbar button being created.");
 			if (ApplicationLauncher.Ready && button == null)
 			{
-				if(logo == null)
+				if (logo == null)
 				{
 					logo = LoadToolbarTextureManually();
 				}
@@ -607,7 +612,7 @@ namespace KerbalFuture.KFGUI
 		{
 			Debug.Log("[KF] PluginResources found at " + Path.Combine(dllLoc, "PluginData"));
 			Texture2D t = new Texture2D(38, 38, TextureFormat.RGBA32, false);
-			if(t.LoadImage(File.ReadAllBytes(Path.Combine(Path.Combine(dllLoc, "PluginData"), "toolbarLogo.png"))))
+			if (t.LoadImage(File.ReadAllBytes(Path.Combine(Path.Combine(dllLoc, "PluginData"), "toolbarLogo.png"))))
 			{
 				Debug.Log("[KF] Succeeded in manually loading toolbar icon texture.");
 			}
@@ -644,6 +649,61 @@ namespace KerbalFuture.KFGUI
 			line.SetPositions(linePoints.ToArray());
 			line.enabled = true;
 		}
-#endregion
+		#endregion
+		bool LoadFSDWarpConstants()
+		{
+			bool failedLoad = false;
+			Debug.Log("[KF] Loading warp constants...");
+			ConfigNode constants = ConfigNode.Load(Path.Combine(dllLoc, "Constants.cfg"));
+			if (!constants.HasValue("constSpaceTime"))
+			{
+				Debug.Log("[KF] Unable to find value constSpaceTime in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME = 2000;
+				failedLoad = true;
+			}
+			if (!constants.HasValue("constContraction"))
+			{
+				Debug.Log("[KF] Unable to find value constContraction in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME = 10;
+				failedLoad = true;
+			}
+			if (!constants.HasValue("constHyperspaceDrag"))
+			{
+				Debug.Log("[KF] Unable to find value constHyperspaceDrag in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT = 80;
+				failedLoad = true;
+			}
+			if (!constants.HasValue("constXMUsage"))
+			{
+				Debug.Log("[KF] Unable to find value constXMUsage in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.DRIVE_USAGE_CONSTANT_OF_XM = 400;
+				failedLoad = true;
+			}
+			if (!constants.TryGetValue("constSpaceTime", ref FrameShiftWarpChecks.constOfSpaceTime))
+			{
+				Debug.Log("[KF] Unable to load value constSpaceTime in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME = 1000;
+				failedLoad = true;
+			}
+			if (!constants.TryGetValue("constContraction", ref FrameShiftWarpChecks.constOfContraction))
+			{
+				Debug.Log("[KF] Unable to load value constContraction in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME = 10;
+				failedLoad = true;
+			}
+			if (!constants.TryGetValue("constHyperspaceDrag", ref FrameShiftWarpChecks.constOfDrag))
+			{
+				Debug.Log("[KF] Unable to load value constHyperspaceDrag in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT = 80;
+				failedLoad = true;
+			}
+			if (!constants.TryGetValue("constXMUsage", ref FrameShiftWarpChecks.constOfXMUsage))
+			{
+				Debug.Log("[KF] Unable to load value constXMUsage in Constants.cfg, reverting to hardcoded values");
+				FrameShiftWarpChecks.DRIVE_USAGE_CONSTANT_OF_XM = 400;
+				failedLoad = true;
+			}
+			return failedLoad;
+		}
 	}
 }
