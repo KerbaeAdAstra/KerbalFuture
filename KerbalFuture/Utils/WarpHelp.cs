@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AT_Utils;
 
 namespace KerbalFuture.Utils
 {
@@ -22,7 +23,7 @@ namespace KerbalFuture.Utils
 			double radius = Distance(0, 0, 0, xrad, yrad, zrad);
 			return radius * 2;
 		}
-		public static double VesselDiameterCalc(Vessel v) => VesselDiameterCalc(new ShipConstruct(v.name, EditorFacility.VAB, v.Parts).shipSize);
+		public static double VesselDiameterCalc(Vessel v) => VesselDiameterCalc(v.Bounds(null).size);
 		// Gets a list of parts on a vessel with the specified PartModule
 		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
 		{
