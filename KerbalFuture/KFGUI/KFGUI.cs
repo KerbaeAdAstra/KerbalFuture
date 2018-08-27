@@ -51,11 +51,13 @@ namespace KerbalFuture.KFGUI
 		public Color GUIStandardContentColor = GUI.contentColor;
 
 		public static string dllLoc = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-		Rect ftlRect = new Rect(50, 50, 500, 300);
-		Rect pdRect = new Rect(50, 50, 500, 300);
-		Rect optRect = new Rect(50, 50, 500, 300);
-		Rect winSelectRect = new Rect(10, 50, 150, 100);
+		
+		float heightMultiplier;
+		float widthMultiplier;
+		Rect ftlRect;
+		Rect pdRect;
+		Rect optRect;
+		Rect winSelectRect;
 
 		// Debug.Log("[KF] ");
 		bool fsdState, sfdState, swdState, psdState;
@@ -81,10 +83,19 @@ namespace KerbalFuture.KFGUI
 			{
 				Debug.Log("[KF] Failed to load KF logo from mod directory.");
 			}
+			//Calls the constant loading functions
 			Debug.Log("[KF] Loading of constants " + (LoadFSDWarpConstants() ? "failed" : "succeded") + ".");
+			Debug.Log("[KF] Loading of constants " + (LoadSFDWarpConstants() ? "failed" : "succeded") + ".");
 			//Subscribes to the events
 			GameEvents.onGUIApplicationLauncherReady.Add(CreateButton);
 			GameEvents.onGUIApplicationLauncherDestroyed.Add(DestroyButton);
+			//Gets the height multiplier and the width multiplier to fix up the GUI size
+			heightMultiplier = GameSettings.SCREEN_RESOLUTION_HEIGHT / 1080;
+			widthMultiplier = GameSettings.SCREEN_RESOLUTION_WIDTH / 1920; //looks good on my screen, so we'll multiply the rect's sizes by this to get them the same relative size everwhere
+			ftlRect = new Rect(50, 50, 500 * widthMultiplier, 300 * heightMultiplier);
+			pdRect = new Rect(50, 50, 500 * widthMultiplier, 300 * heightMultiplier);
+			optRect = new Rect(50, 50, 500 * widthMultiplier, 300 * heightMultiplier);
+			winSelectRect = new Rect(10, 50, 150 * widthMultiplier, 100 * heightMultiplier);
 		}
 		Vector2 bodySelectScrollPos = new Vector2();
 		private void OnGUI()
@@ -153,23 +164,27 @@ namespace KerbalFuture.KFGUI
 		}
 		private void DrawWindowSelector(int id)
 		{
-			GUI.DragWindow(new Rect(0, 0, winSelectRect.width, 20));
+			GUI.DragWindow(new Rect(0, 0, winSelectRect.width, 20 * heightMultiplier));
 			GUILayout.BeginVertical();
 			FTLActive = GUILayout.Toggle(FTLActive, "FTL", "button");
 			PlanetaryDestructionActive = GUILayout.Toggle(PlanetaryDestructionActive, "PD", "button");
 			OptionsMenuActive = GUILayout.Toggle(OptionsMenuActive, "Options", "button");
+			ConstantEditWindow.drawWindow = GUILayout.Toggle(ConstantEditWindow.drawWindow, "Constants", "button");
 			GUILayout.EndVertical();
 		}
 		Vector2 ftlScrollPos = new Vector2();
 		Superluminal.FrameShift.VesselResourceSimulation vrs = new Superluminal.FrameShift.VesselResourceSimulation();
-		string output;
-		Superluminal.FrameShift.Error fault = Superluminal.FrameShift.Error.Null;
+		//make it have something to try to limit NRE's, can be shared between all different drive GUI's because it's only going to be used one at a time
+		//we will reset it when they switch drives tho
+		string output = "";
+		Superluminal.FrameShift.Error fsdErr = Superluminal.FrameShift.Error.Null;
+		Superluminal.SpaceFolder.Error sfdErr = Superluminal.SpaceFolder.Error.Null;
 		List<VesselResource> vrUDWList;
 		List<VesselResource> vrList;
 		double outDouble = 0; //useless, need for TryParse
 		private void DrawFTLInternals(int id)
 		{
-			GUI.DragWindow(new Rect(0, 0, ftlRect.width, 20));
+			GUI.DragWindow(new Rect(0, 0, ftlRect.width, 20 * heightMultiplier));
 			ftlScrollPos = GUILayout.BeginScrollView(ftlScrollPos);
 			#region toolbar
 			bool temp;
@@ -258,11 +273,11 @@ namespace KerbalFuture.KFGUI
 					{
 						if (formatOkay)
 						{
-							warpSuccess = currVM.WarpVessel(new FrameShiftWarpData(currVM.Vessel, velocity), out fault);
+							warpSuccess = currVM.WarpVessel(new FrameShiftWarpData(currVM.Vessel, velocity), out fsdErr);
 							vrs = currVM.vrsInstance;
-							vrList = ResourceUsageBeforeWarp(velocity, vrs, currVM.Vessel);
+							vrList = FSDResourceUsageBeforeWarp(velocity, vrs, currVM.Vessel);
 							vrList = AlphabetizeVRList(vrList).ToList();
-							vrUDWList = ResourceUsageDuringWarp(velocity, currVM.Vessel);
+							vrUDWList = FSDResourceUsageDuringWarp(velocity, currVM.Vessel);
 							vrUDWList = AlphabetizeVRList(vrUDWList).ToList();
 						}
 					}
@@ -270,40 +285,40 @@ namespace KerbalFuture.KFGUI
 					{
 						if (formatOkay)
 						{
-							fault = FrameShiftWarpChecks.WarpAvalible(currVM.Vessel, velocity, out vrs);
-							vrList = ResourceUsageBeforeWarp(velocity, vrs, currVM.Vessel);
+							fsdErr = FrameShiftWarpChecks.WarpAvalible(currVM.Vessel, velocity, out vrs);
+							vrList = FSDResourceUsageBeforeWarp(velocity, vrs, currVM.Vessel);
 							vrList = AlphabetizeVRList(vrList).ToList();
-							vrUDWList = ResourceUsageDuringWarp(velocity, currVM.Vessel);
+							vrUDWList = FSDResourceUsageDuringWarp(velocity, currVM.Vessel);
 							vrUDWList = AlphabetizeVRList(vrUDWList).ToList();
 						}
 					}
 					if (GUILayout.Button("Stop warp"))
 					{
-						fault = Superluminal.FrameShift.Error.Null;
+						fsdErr = Superluminal.FrameShift.Error.Null;
 						vrUDWList.Clear();
 						vrList.Clear();
 						currVM.StopWarp();
 					}
-					if (warpSuccess && fault == Superluminal.FrameShift.Error.ClearForWarp)
+					if (warpSuccess && fsdErr == Superluminal.FrameShift.Error.ClearForWarp)
 					{
 						output = "Warped!";
 					}
-					else if (!warpSuccess && fault == Superluminal.FrameShift.Error.ClearForWarp)
+					else if (!warpSuccess && fsdErr == Superluminal.FrameShift.Error.ClearForWarp)
 					{
 						output = "Checks passed";
 					}
-					else if (fault == Superluminal.FrameShift.Error.Null || !formatOkay)
+					else if (fsdErr == Superluminal.FrameShift.Error.Null || !formatOkay)
 					{
 						output = "";
 					}
 					else
 					{
-						output = fault.ToString();
+						output = fsdErr.ToString();
 					}
 					GUILayout.Label("Warp status: " + output, style);
 					GUILayout.EndHorizontal();
 				}
-				//this is just in case, I don't know if it's ever going to throw an exceptionn, persay
+				//this is just in case, I don't know if it's ever going to throw an exception
 				catch (Exception e)
 				{
 					Debug.Log("[KF] Caught exception " + e.ToString());
@@ -365,6 +380,7 @@ namespace KerbalFuture.KFGUI
 			#region SFD
 			if (sfdState)
 			{
+				SpaceFolderDriveVesselModule currVM = SpaceFolderDriveVesselModule.CurrentVesselModule;
 				bool inputsGood = true;
 				#region Inputs
 				GUILayout.BeginHorizontal();
@@ -404,20 +420,61 @@ namespace KerbalFuture.KFGUI
 				GUILayout.EndHorizontal();
 				#endregion
 				GUILayout.BeginHorizontal();
+				bool warpSuccess = false;
 				if (GUILayout.Button("Attempt warp"))
 				{
 					//TODO Try warp
+					if(inputsGood)
+					{
+						warpSuccess = currVM.WarpVessel(
+							new SpaceFolderWarpData(currVM.Vessel, 
+								currVM.Vessel.GetWorldPos3D(), 
+								new BodyCoords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent), 
+									double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent), 
+									SFDCB), 
+								0, currVM.Vessel.mainBody, SFDCB), 
+							out sfdErr);
+						if(warpSuccess)
+						{
+							currVM.Vessel.UpdatePosVel();
+							currVM.Vessel.orbitDriver.enabled = true;
+							currVM.Vessel.orbitDriver.RecalculateOrbit(SFDCB);
+						}
+					}
 				}
 				if (GUILayout.Button("Check warp"))
 				{
 					//TODO Check warp
+					if(inputsGood)
+					{
+						sfdErr = SpaceFolderWarpChecks.WarpAvailable(currVM.Vessel);
+					}
+				}
+				if(GUILayout.Button("Toggle map line"))
+				{
+					sfdLineDrawn = !sfdLineDrawn;
 				}
 				GUILayout.BeginVertical();
 				GUILayout.Label("Output");
-				//TODO GUILayout.Label() //have output warp checks status/errors
+				if(warpSuccess && sfdErr == Superluminal.SpaceFolder.Error.ClearForWarp)
+				{
+					output = "Warped!";
+				}
+				else if(!warpSuccess && sfdErr == Superluminal.SpaceFolder.Error.ClearForWarp)
+				{
+					output = "Checks passed!";
+				}
+				else if(sfdErr == Superluminal.SpaceFolder.Error.Null || !inputsGood)
+				{
+					output = "";
+				}
+				else
+				{
+					output = sfdErr.ToString();
+				}
+				GUILayout.Label(output);
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
-				DrawSFDLatLongLine(inputsGood);
 			}
 			#endregion
 			#region PSD
@@ -482,7 +539,7 @@ namespace KerbalFuture.KFGUI
 			return v;
 		}
 		// Math taken straight from the FSDVesselModule method UseResourcesBeforeWarp
-		List<VesselResource> ResourceUsageBeforeWarp(double velocity, Superluminal.FrameShift.VesselResourceSimulation vrs, Vessel v)
+		List<VesselResource> FSDResourceUsageBeforeWarp(double velocity, Superluminal.FrameShift.VesselResourceSimulation vrs, Vessel v)
 		{
 			HashSet<string> vesResHash = new HashSet<string>();
 			List<VesselResource> vesResList = new List<VesselResource>();
@@ -512,7 +569,7 @@ namespace KerbalFuture.KFGUI
 			}
 			return vesResList;
 		}
-		List<VesselResource> ResourceUsageDuringWarp(double velocity, Vessel v)
+		List<VesselResource> FSDResourceUsageDuringWarp(double velocity, Vessel v)
 		{
 			HashSet<string> vesResHash = new HashSet<string>();
 			List<VesselResource> vesResList = new List<VesselResource>();
@@ -548,12 +605,12 @@ namespace KerbalFuture.KFGUI
 		}
 		private void DrawPlanetDestructionInternals(int id)
 		{
-			GUI.DragWindow(new Rect(0, 0, pdRect.width, 20));
+			GUI.DragWindow(new Rect(0, 0, pdRect.width, 20 * heightMultiplier));
 			GUILayout.Label("Nothing here yet, check back after a new mod release!");
 		}
 		private void DrawOptionsMenuInternals(int id)
 		{
-			GUI.DragWindow(new Rect(0, 0, optRect.width, 20));
+			GUI.DragWindow(new Rect(0, 0, optRect.width, 20 * heightMultiplier));
 			GUILayout.Label("Nothing here yet, check back after a new mod release!");
 		}
 		#region Toolbar button
@@ -624,12 +681,13 @@ namespace KerbalFuture.KFGUI
 		}
 		#endregion
 		#region SFDEndLine
+		bool sfdLineDrawn = false;
 		LineRenderer line = null;
 		GameObject obj = new GameObject("Line");
 		PlanetariumCamera planetariumCamera = null;
 		void DrawSFDLatLongLine(bool inputsGood)
 		{
-			if (!inputsGood || !MapView.MapIsEnabled)
+			if (!inputsGood || !MapView.MapIsEnabled || !sfdLineDrawn)
 			{
 				return;
 			}
@@ -650,60 +708,50 @@ namespace KerbalFuture.KFGUI
 			line.enabled = true;
 		}
 		#endregion
+		#region Constant loading
+		//Loads the FSD warp constants
+		//returns false if no problems were encountered, and true if problems were encountered
 		bool LoadFSDWarpConstants()
 		{
 			bool failedLoad = false;
 			Debug.Log("[KF] Loading warp constants...");
 			ConfigNode constants = ConfigNode.Load(Path.Combine(dllLoc, "Constants.cfg"));
-			if (!constants.HasValue("constSpaceTime"))
+			if (!GUIUtils.TryLoadConstant(constants, "constSpaceTime", ref FrameShiftWarpChecks.constOfSpaceTime))
 			{
-				Debug.Log("[KF] Unable to find value constSpaceTime in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME = 2000;
+				FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME = 0.000001;
 				failedLoad = true;
 			}
-			if (!constants.HasValue("constContraction"))
+			if (!GUIUtils.TryLoadConstant(constants, "constContraction", ref FrameShiftWarpChecks.constOfContraction))
 			{
-				Debug.Log("[KF] Unable to find value constContraction in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME = 10;
+				FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME = 0.000000000001;
 				failedLoad = true;
 			}
-			if (!constants.HasValue("constHyperspaceDrag"))
+			if (!GUIUtils.TryLoadConstant(constants, "constHyperspaceDrag", ref FrameShiftWarpChecks.constOfDrag))
 			{
-				Debug.Log("[KF] Unable to find value constHyperspaceDrag in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT = 80;
 				failedLoad = true;
+				FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT = 0.00000000000000000000001;
 			}
-			if (!constants.HasValue("constXMUsage"))
+			if (!GUIUtils.TryLoadConstant(constants, "constXMUsage", ref FrameShiftWarpChecks.constOfXMUsage))
 			{
-				Debug.Log("[KF] Unable to find value constXMUsage in Constants.cfg, reverting to hardcoded values");
+				failedLoad = true;
 				FrameShiftWarpChecks.DRIVE_USAGE_CONSTANT_OF_XM = 400;
-				failedLoad = true;
-			}
-			if (!constants.TryGetValue("constSpaceTime", ref FrameShiftWarpChecks.constOfSpaceTime))
-			{
-				Debug.Log("[KF] Unable to load value constSpaceTime in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME = 1000;
-				failedLoad = true;
-			}
-			if (!constants.TryGetValue("constContraction", ref FrameShiftWarpChecks.constOfContraction))
-			{
-				Debug.Log("[KF] Unable to load value constContraction in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME = 10;
-				failedLoad = true;
-			}
-			if (!constants.TryGetValue("constHyperspaceDrag", ref FrameShiftWarpChecks.constOfDrag))
-			{
-				Debug.Log("[KF] Unable to load value constHyperspaceDrag in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT = 80;
-				failedLoad = true;
-			}
-			if (!constants.TryGetValue("constXMUsage", ref FrameShiftWarpChecks.constOfXMUsage))
-			{
-				Debug.Log("[KF] Unable to load value constXMUsage in Constants.cfg, reverting to hardcoded values");
-				FrameShiftWarpChecks.DRIVE_USAGE_CONSTANT_OF_XM = 400;
-				failedLoad = true;
 			}
 			return failedLoad;
 		}
+		//Loads the SFD warp constants
+		//returns false if no problems were encountered, true if problems were encountered
+		bool LoadSFDWarpConstants()
+		{
+			bool failedLoad = false;
+			Debug.Log("[KF] Loading SFD warp constants...");
+			ConfigNode constants = ConfigNode.Load(Path.Combine(dllLoc, "Constants.cfg"));
+			if(!GUIUtils.TryLoadConstant(constants, "constReactantUsage", ref SpaceFolderDriveVesselModule.sfConstReactantUsage))
+			{
+				failedLoad = true;
+				SpaceFolderDriveVesselModule.SPACEFOLDER_CONSTANT_OF_REACTANT_USAGE = 30000;
+			}
+			return failedLoad;
+		}
+#endregion
 	}
 }
