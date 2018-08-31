@@ -79,7 +79,7 @@ namespace KerbalFuture.KFGUI
 			{
 				logo = GameDatabase.Instance.GetTexture(toolbarLogoLoc, false);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				Debug.Log("[KF] Failed to load KF logo from mod directory.");
 			}
@@ -138,10 +138,6 @@ namespace KerbalFuture.KFGUI
 				sfdBodySelection = false;
 			}
 			#endregion
-			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)))
-			{
-				Debug.Log($"[KF] Constants are {FrameShiftWarpChecks.ALCUBIERRE_CONSTANT_OF_SPACETIME}, {FrameShiftWarpChecks.CONTRACTION_CONSTANT_OF_SPACETIME}, {FrameShiftWarpChecks.HYPERSPACE_DRAG_CONSTANT}, {FrameShiftWarpChecks.DRIVE_USAGE_CONSTANT_OF_XM}.");
-			}
 		}
 		bool[] windowSaveStates = new bool[3] { false, false, false };
 		private void DisableAllWindows(bool saveStates = false)
@@ -428,11 +424,10 @@ namespace KerbalFuture.KFGUI
 					{
 						warpSuccess = currVM.WarpVessel(
 							new SpaceFolderWarpData(currVM.Vessel, 
-								currVM.Vessel.GetWorldPos3D(), 
 								new BodyCoords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent), 
 									double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent), 
 									SFDCB), 
-								0, currVM.Vessel.mainBody, SFDCB), 
+								0), 
 							out sfdErr);
 						if(warpSuccess)
 						{

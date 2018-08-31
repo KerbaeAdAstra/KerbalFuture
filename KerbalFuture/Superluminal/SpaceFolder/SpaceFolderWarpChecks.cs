@@ -54,7 +54,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		{
 			foreach (Part p in v.Parts)
 			{
-				if (p.Modules.Contains("ModuleSpaceFolderEngine"))
+				if (p.Modules.Contains("ModuleSpaceFolderDrive"))
 				{
 					return true;
 				}

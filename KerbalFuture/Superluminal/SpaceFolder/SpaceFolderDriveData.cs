@@ -12,7 +12,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			Catalyst = cat;
 			IsNull = false;
 		}
-		public SpaceFolderDriveData(bool isNull)
+		public SpaceFolderDriveData(bool isNull = true)
 		{
 			DriveDataPart = new Part();
 			Diameter = double.NaN;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 {
 	public class SFWarpHelp
 	{
-		//Gets the list of parts on a vessel with ModuleSpaceFolderEngine
+		//Gets the list of parts on a vessel with ModuleSpaceFolderDrive
 		public static List<Part> PartsWithModuleSFD(Vessel v)
 		{
 			List<Part> returnList = new List<Part>();
@@ -18,7 +17,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				bool tingStatus = ting.MoveNext();
 				for (int i = 0; i < p.Modules.Count; i++)
 				{
-					if (ting.Current.GetType() == typeof(ModuleSpaceFolderEngine))
+					if (ting.Current.GetType() == typeof(ModuleSpaceFolderDrive))
 					{
 						returnList.Add(p);
 					}
@@ -31,7 +30,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			return returnList;
 		}
 		//Gets the PartModule pm from a provided Part p
-		public static ModuleSpaceFolderEngine SFDModuleFromPart(Part p)
+		public static ModuleSpaceFolderDrive SFDModuleFromPart(Part p)
 		{
 			Debug.Log("[KF] Getting ModuleSFEngine from part " + p.name);
 			IEnumerator ting = p.Modules.GetEnumerator();
@@ -39,10 +38,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			for (int i = 0; i < p.Modules.Count; i++)
 			{
 				Debug.Log("[KF] Trying to find the PartModule...");
-				if (ting.Current.GetType() == new ModuleSpaceFolderEngine().GetType())
+				if (ting.Current.GetType() == new ModuleSpaceFolderDrive().GetType())
 				{
 					Debug.Log("[KF] Found the PartModule for part " + p.name + "!");
-					return (ModuleSpaceFolderEngine)ting.Current;
+					return (ModuleSpaceFolderDrive)ting.Current;
 				}
 				else if (tingStatus)
 				{
@@ -58,11 +57,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			List<SpaceFolderDriveData> returnList = new List<SpaceFolderDriveData>();
 			foreach (Part p in v.Parts)
 			{
-				if(!p.Modules.Contains("ModuleSpaceFolderEngine"))
+				if(!p.Modules.Contains("ModuleSpaceFolderDrive"))
 				{
 					continue;
 				}
-				ModuleSpaceFolderEngine em = SFDModuleFromPart(p);
+				ModuleSpaceFolderDrive em = SFDModuleFromPart(p);
 				if (em != null)
 				{
 					returnList.Add(em.PartDriveData);
@@ -86,9 +85,9 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		//Drive data from part
 		public static SpaceFolderDriveData PartSFDData(Part p)
 		{
-			if (p.Modules.Contains("ModuleSpaceFolderEngine"))
+			if (p.Modules.Contains("ModuleSpaceFolderDrive"))
 			{
-				ModuleSpaceFolderEngine d = (ModuleSpaceFolderEngine)p.Modules["ModuleSpaceFolderEngine"];
+				ModuleSpaceFolderDrive d = (ModuleSpaceFolderDrive)p.Modules["ModuleSpaceFolderDrive"];
 				return d.PartDriveData;
 			}
 			else

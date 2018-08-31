@@ -55,10 +55,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 				resList.Add(new VesselResource(s, WarpHelp.ResourceAmountOnVessel(vessel, s)));
 			}
 		}
-        // Calculates the resources needed for a drive of a given diameter and multiplier
-		double MainResCalc(double diameter, double multiplier) => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+		//too lazy to change all the references, so I just changed these two
+		// Calculates the resources needed for a drive of a given diameter and multiplier
+		double MainResCalc(double diameter, double multiplier) => SpaceFolderDriveVesselModule.MainResourceWarpCalc(diameter, multiplier);
         // Calculates the amount of catalyst needed for a drive of a given diameter and multiplier
-		double CatCalc(double diameter, double multiplier) => Math.Pow(Math.E, diameter * multiplier / 5);
+		double CatCalc(double diameter, double multiplier) => SpaceFolderDriveVesselModule.CatalystWarpCalc(diameter, multiplier);
         // Runs a full simulation of resource usage for a warp
 		public void RunSimulation()
 		{
@@ -66,7 +67,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			double diam = WarpHelp.VesselDiameterCalc(vessel);
 			List<Part> drives = SFWarpHelp.PartsWithModuleSFD(vessel);
 			// Dictionary of the actual diameter that the part is putting out
-			Dictionary < SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
+			Dictionary <SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
 			double percentCalc = diam / SpaceFolderWarpChecks.MaxWarpHoleSize(drives);
 			foreach(SpaceFolderDriveData dd in driveDatas)
 			{

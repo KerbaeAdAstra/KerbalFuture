@@ -36,6 +36,7 @@
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\UnityEngine.dll</HintPath>
     </Reference>
@@ -71,6 +72,9 @@
     <Compile Include="Utils\SimulationStatus.cs" />
     <Compile Include="Utils\Tuple.cs" />
     <Compile Include="Utils\WarpHelp.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

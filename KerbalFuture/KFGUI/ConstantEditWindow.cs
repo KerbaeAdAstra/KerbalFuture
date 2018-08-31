@@ -10,6 +10,7 @@ namespace KerbalFuture.KFGUI
 	[KSPAddon(KSPAddon.Startup.Flight, false)]
 	public class ConstantEditWindow : MonoBehaviour
 	{
+		public static bool advancedMode = false;
 		double constOfSpaceTime = 0;
 		double constOfContraction = 0;
 		double constOfHyperspaceDrag = 0;
@@ -79,6 +80,7 @@ namespace KerbalFuture.KFGUI
 				UpdateConstants();
 			}
 			GUILayout.EndHorizontal();
+			advancedMode = GUILayout.Toggle(advancedMode, "Debug Mode", "button");
 		}
 		private void SaveConstants()
 		{
