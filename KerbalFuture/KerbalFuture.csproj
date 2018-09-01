@@ -48,6 +48,7 @@
     <Compile Include="KFGUI\Changelog.cs" />
     <Compile Include="KFGUI\ConstantEditWindow.cs" />
     <Compile Include="KFGUI\KFGUI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Superluminal\FrameShift\FrameShiftWarpChecks.cs" />
     <Compile Include="Superluminal\FrameShift\FSWarpHelp.cs" />
     <Compile Include="Superluminal\FrameShift\VesselResourceSimulation.cs" />
@@ -73,8 +74,6 @@
     <Compile Include="Utils\Tuple.cs" />
     <Compile Include="Utils\WarpHelp.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
