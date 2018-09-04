@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using System.Collections.Generic;
 using KSP.UI.Screens;
@@ -9,6 +9,7 @@ using KerbalFuture.Superluminal.FrameShift;
 using KerbalFuture.Superluminal.SpaceFolder;
 using KerbalFuture.Superluminal;
 using KerbalFuture.Utils;
+using System.Collections;
 
 namespace KerbalFuture.KFGUI
 {
@@ -178,6 +179,7 @@ namespace KerbalFuture.KFGUI
 		List<VesselResource> vrUDWList;
 		List<VesselResource> vrList;
 		double outDouble = 0; //useless, need for TryParse
+		bool sfdMapLine = false;
 		private void DrawFTLInternals(int id)
 		{
 			GUI.DragWindow(new Rect(0, 0, ftlRect.width, 20 * heightMultiplier));
@@ -424,8 +426,8 @@ namespace KerbalFuture.KFGUI
 					{
 						warpSuccess = currVM.WarpVessel(
 							new SpaceFolderWarpData(currVM.Vessel, 
-								new BodyCoords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent), 
-									double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent), 
+								new BodyCoords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint), 
+									double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint), 
 									SFDCB), 
 								0), 
 							out sfdErr);
@@ -445,9 +447,40 @@ namespace KerbalFuture.KFGUI
 						sfdErr = SpaceFolderWarpChecks.WarpAvailable(currVM.Vessel);
 					}
 				}
-				if(GUILayout.Button("Toggle map line"))
+				bool prevMapState = sfdMapLine;
+				sfdMapLine = GUILayout.Toggle(sfdMapLine, "Toggle map line", "button");
+				if (inputsGood && sfdMapLine)
 				{
-					sfdLineDrawn = !sfdLineDrawn;
+					//if the state is different
+					if (prevMapState != sfdMapLine)
+					{
+						//If the line was just turned on
+						if (sfdMapLine)
+						{
+							OrbitDrawer.Instance.RefreshFields();
+							OrbitDrawer.Instance.DrawSFDWarpLineWithVessel(new Coords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint), double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint), WarpHelp.CalculateGravPot(SFDCB, currVM.Vessel), SFDCB).WorldSpace,
+								currVM.Vessel.velocityD,
+								SFDCB);
+							FlightGlobals.SetActiveVessel(currVM.Vessel);
+						}
+						//If the line was just turned off
+						else
+						{
+							OrbitDrawer.Instance.DestroyVessel();
+						}
+					}
+					//if the state is the same and the line is turned on
+					else if (sfdMapLine)
+					{
+						OrbitDrawer.Instance.UpdateSFDWarpOrbit(new Coords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint), double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint), WarpHelp.CalculateGravPot(SFDCB, currVM.Vessel), SFDCB).WorldSpace,
+								currVM.Vessel.velocityD,
+								SFDCB);
+					}
+					//Don't do anything if the state is the same and the line is turned off
+				}
+				else if(!inputsGood && sfdMapLine)
+				{
+					output = "Cannot draw map\nline, inputs bad";
 				}
 				GUILayout.BeginVertical();
 				GUILayout.Label("Output");
@@ -676,32 +709,7 @@ namespace KerbalFuture.KFGUI
 		}
 		#endregion
 		#region SFDEndLine
-		bool sfdLineDrawn = false;
-		LineRenderer line = null;
-		GameObject obj = new GameObject("Line");
-		PlanetariumCamera planetariumCamera = null;
-		void DrawSFDLatLongLine(bool inputsGood)
-		{
-			if (!inputsGood || !MapView.MapIsEnabled || !sfdLineDrawn)
-			{
-				return;
-			}
-			planetariumCamera = (PlanetariumCamera)FindObjectOfType(typeof(PlanetariumCamera));
-			List<Vector3> linePoints = new List<Vector3>();
-			linePoints.Add(SFDCB.position);
-			linePoints.Add(new Coords(double.Parse(SFDLat), double.Parse(SFDLon), SFDCB.Radius * 3, SFDCB).WorldSpace);
-			obj.layer = 9;
-			line = obj.AddComponent<LineRenderer>();
-			line.useWorldSpace = true;
-			line.material = new Material(Shader.Find("Particles/Additive"));
-			line.startColor = sfdEndpointColor;
-			line.endColor = sfdEndpointColor;
-			line.startWidth = (float)(0.005 * planetariumCamera.Distance);
-			line.endWidth = (float)(0.005 * planetariumCamera.Distance);
-			line.positionCount = 2;
-			line.SetPositions(linePoints.ToArray());
-			line.enabled = true;
-		}
+		
 		#endregion
 		#region Constant loading
 		//Loads the FSD warp constants

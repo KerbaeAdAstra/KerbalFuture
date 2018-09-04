@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using KerbalFuture.Utils;
 using System.IO;
-using KerbalFuture.Superluminal;
 using KerbalFuture.Superluminal.FrameShift;
 using KerbalFuture.Superluminal.SpaceFolder;
 
