@@ -40,9 +40,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)) && KFGUI.ConstantEditWindow.advancedMode)
 			{
-				Error err = new Error();
-				bool success = WarpVessel(new SpaceFolderWarpData(Vessel, new BodyCoords(0, 0, FlightGlobals.Bodies[2]), 0), out err);
-				Debug.Log("[KF] Recieved error " + err.ToString() + " after warp output of " + success);
+				
 			}
 		}
 		// Warps the vessel, using resources

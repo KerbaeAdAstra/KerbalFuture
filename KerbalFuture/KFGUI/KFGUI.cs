@@ -64,6 +64,9 @@ namespace KerbalFuture.KFGUI
 		bool fsdState, sfdState, swdState, psdState;
 		bool ARUActive = false;
 		bool sfdBodySelection = false;
+		bool sfdOrbitStats = false;
+
+		bool keplerian = false, kerbalian = false, keplerianAdvanced = false;
 
 		public Color sfdEndpointColor = new Color(255, 35, 181, 1);
 
@@ -99,6 +102,7 @@ namespace KerbalFuture.KFGUI
 			winSelectRect = new Rect(10, 50, 150 * widthMultiplier, 100 * heightMultiplier);
 		}
 		Vector2 bodySelectScrollPos = new Vector2();
+		Orbit sfdLineOrbit = null;
 		private void OnGUI()
 		{
 			if (FTLActive)
@@ -120,8 +124,8 @@ namespace KerbalFuture.KFGUI
 			#region SFD body selection scroll
 			if (sfdBodySelection && sfdState)
 			{
-				GUILayout.BeginArea(new Rect(ftlRect.x + ftlRect.width, ftlRect.y, 150, 500), "Select a body", "box");
-				GUILayout.Space(20);
+				GUILayout.BeginArea(new Rect(ftlRect.x + ftlRect.width, ftlRect.y, 150 * widthMultiplier, 500 * heightMultiplier), "Select a body", "box");
+				GUILayout.Space(20 * widthMultiplier);
 				bodySelectScrollPos = GUILayout.BeginScrollView(bodySelectScrollPos);
 				foreach (CelestialBody cb in cbList)
 				{
@@ -134,9 +138,121 @@ namespace KerbalFuture.KFGUI
 				GUILayout.EndScrollView();
 				GUILayout.EndArea();
 			}
-			else if (sfdBodySelection && !sfdState)
+			else if (sfdBodySelection && !sfdState || !FTLActive) //checks to see either if it was just turned off or the window was switched off
 			{
 				sfdBodySelection = false;
+			}
+			#endregion
+			#region SFDFinalOrbitStats
+			if(sfdOrbitStats && sfdState)
+			{
+				Rect rectToUse;
+				bool writeWindow = true;
+				if(sfdBodySelection)
+				{
+					rectToUse = new Rect(ftlRect.x + ftlRect.width + 150 * widthMultiplier, ftlRect.y, 150 * widthMultiplier, 500 * heightMultiplier);
+				}
+				else
+				{
+					rectToUse = new Rect(ftlRect.x + ftlRect.width, ftlRect.y, 300 * widthMultiplier, 300 * heightMultiplier);
+				}
+				GUILayout.BeginArea(rectToUse, "SFD Warp Orbital Parameters", "box");
+				GUILayout.Space(20 * widthMultiplier);
+				if(SpaceFolderDriveVesselModule.CurrentVesselModule.Vessel.LandedOrSplashed)
+				{
+					writeWindow = false;
+				}
+				if (writeWindow)
+				{
+					#region OrbitStatToolbar
+					GUILayout.BeginHorizontal();
+					if (GUILayout.Button("Keplarian"))
+					{
+						kerbalian = keplerianAdvanced = false;
+						keplerian = true;
+					}
+					if (GUILayout.Button("Kerbalian"))
+					{
+						keplerian = keplerianAdvanced = false;
+						kerbalian = true;
+					}
+					if (GUILayout.Button("Keplerian Advanced"))
+					{
+						kerbalian = keplerian = false;
+						keplerianAdvanced = true;
+					}
+					GUILayout.EndHorizontal();
+					#endregion
+					string toWrite = "";
+					double lat, lon, tempDouble;
+					lat = lon = tempDouble = 0;
+					bool inputsGood = true;
+					if (!double.TryParse(SFDLat, out tempDouble))
+					{
+						inputsGood = false;
+					}
+					if (!double.TryParse(SFDLon, out tempDouble))
+					{
+						inputsGood = false;
+					}
+					if (inputsGood)
+					{
+						lat = double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint);
+						lon = double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint);
+						Coords c = new Coords(lat, lon, WarpHelp.CalculateGravPot(SFDCB, SpaceFolderDriveVesselModule.CurrentVesselModule.Vessel), SFDCB);
+						if(sfdLineOrbit == null)
+						{
+							//create copy of the vessel's orbit, otherwise we're working directly with it :o
+							sfdLineOrbit = new Orbit(SpaceFolderDriveVesselModule.CurrentVesselModule.Vessel.orbit);
+						}
+						sfdLineOrbit.UpdateFromStateVectors(c.WorldSpace, SpaceFolderDriveVesselModule.CurrentVesselModule.Vessel.GetObtVelocity(), SFDCB, Planetarium.GetUniversalTime());
+						//convert the orbital parameters into the string toWrite
+						toWrite += "Latitude: " + Math.Round(lat, 1) + "\n";
+						toWrite += "Longitude: " + Math.Round(lon, 1) + "\n";
+						toWrite += "Celestial Body: " + SFDCB.GetName() + "\n";
+						toWrite += "Orbit is ";
+						//if the Pe is below the radius + atmosphere of the body
+						if(sfdLineOrbit.semiMajorAxis * (1 - Math.Abs(sfdLineOrbit.eccentricity)) < SFDCB.radiusAtmoFactor)
+						{
+							toWrite += "suborbital";
+						}
+						//if the 
+						else if(sfdLineOrbit.eccentricity > 0 && sfdLineOrbit.eccentricity < 1)
+						{
+							toWrite += "elliptical";
+						}
+						else if(sfdLineOrbit.eccentricity == 1)
+						{
+							toWrite += "parabolic escape";
+						}
+						else if(sfdLineOrbit.eccentricity > 1)
+						{
+							toWrite += "hyperbolic escape";
+						}
+						toWrite += "\nORBITAL PARAMETERS\n";
+						if (keplerian || keplerianAdvanced)
+						{
+							toWrite += "SMA: " + Math.Round(sfdLineOrbit.semiMajorAxis, 2) + "\n";
+							toWrite += "E: " + Math.Round(sfdLineOrbit.eccentricity, 2) + "\n";
+							toWrite += "I: " + Math.Round(sfdLineOrbit.inclination, 2);
+							if (keplerianAdvanced)
+							{
+								toWrite += "\n";
+								toWrite += "Ω: " + Math.Round(sfdLineOrbit.LAN, 2) + "\n";
+								toWrite += "ω: " + Math.Round(sfdLineOrbit.argumentOfPeriapsis, 2) + "\n";
+								toWrite += "θ: " + Math.Round(sfdLineOrbit.trueAnomaly, 2);
+							}
+						}
+						else if (kerbalian)
+						{
+							toWrite += "Ap: " + Math.Round(sfdLineOrbit.semiMajorAxis * (1 + Math.Abs(sfdLineOrbit.eccentricity)), 2) + "\n";
+							toWrite += "Pe: " + Math.Round(sfdLineOrbit.semiMajorAxis * (1 - Math.Abs(sfdLineOrbit.eccentricity)), 2) + "\n";
+							toWrite += "I: " + Math.Round(sfdLineOrbit.inclination, 2);
+						}
+					}
+					GUILayout.Label(toWrite);
+				}
+				GUILayout.EndArea();
 			}
 			#endregion
 		}
@@ -447,9 +563,10 @@ namespace KerbalFuture.KFGUI
 						sfdErr = SpaceFolderWarpChecks.WarpAvailable(currVM.Vessel);
 					}
 				}
-				bool prevMapState = sfdMapLine;
-				sfdMapLine = GUILayout.Toggle(sfdMapLine, "Toggle map line", "button");
-				if (inputsGood && sfdMapLine)
+				sfdOrbitStats = GUILayout.Toggle(sfdOrbitStats, "Warp Orbit Statistics", "button");
+				#region OldCodeForOrbitDrawer
+				/*
+				if (inputsGood && sfdMapLine && OrbitDrawer.IsReady)
 				{
 					//if the state is different
 					if (prevMapState != sfdMapLine)
@@ -457,31 +574,50 @@ namespace KerbalFuture.KFGUI
 						//If the line was just turned on
 						if (sfdMapLine)
 						{
+							/*
+							OrbitDrawer.Instance.DestroyVessel();
 							OrbitDrawer.Instance.RefreshFields();
-							OrbitDrawer.Instance.DrawSFDWarpLineWithVessel(new Coords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint), double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint), WarpHelp.CalculateGravPot(SFDCB, currVM.Vessel), SFDCB).WorldSpace,
+							OrbitDrawer.Instance.DrawSFDWarpLineWithVessel(OrbitDrawer.CalculateOrbit(new Coords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint), double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint), WarpHelp.CalculateGravPot(SFDCB, currVM.Vessel), SFDCB).WorldSpace,
 								currVM.Vessel.velocityD,
-								SFDCB);
+								SFDCB));
+							Debug.Log("[KF] Drew SFD line with new vessel");
 							FlightGlobals.SetActiveVessel(currVM.Vessel);
+							*
+							OrbitDrawer.Instance.SetDrawnOrbit(/*orbit to draw here*);
+							OrbitDrawer.Instance.DrawLine = true;
 						}
 						//If the line was just turned off
 						else
 						{
-							OrbitDrawer.Instance.DestroyVessel();
+							//OrbitDrawer.Instance.DestroyVessel();
+							OrbitDrawer.Instance.DrawLine = false;
 						}
 					}
 					//if the state is the same and the line is turned on
 					else if (sfdMapLine)
 					{
+						/*
 						OrbitDrawer.Instance.UpdateSFDWarpOrbit(new Coords(double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint), double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint), WarpHelp.CalculateGravPot(SFDCB, currVM.Vessel), SFDCB).WorldSpace,
 								currVM.Vessel.velocityD,
 								SFDCB);
+						*
+						OrbitDrawer.Instance.SetDrawnOrbit(/*orbit to draw here, CelestialBody*);
 					}
 					//Don't do anything if the state is the same and the line is turned off
 				}
-				else if(!inputsGood && sfdMapLine)
+				else if(!inputsGood && sfdMapLine && OrbitDrawer.Instance.IsReady)
 				{
 					output = "Cannot draw map\nline, inputs bad";
 				}
+				//should never be used, but it's an edge case
+				else if(inputsGood && sfdMapLine && !OrbitDrawer.Instance.IsReady)
+				{
+					Debug.Log("[KF] Attempting orbit line drawing, but OrbitDrawer is not ready...");
+					sfdMapLine = false; //turns the button back off
+				}
+				*/
+				#endregion
+				#region Output
 				GUILayout.BeginVertical();
 				GUILayout.Label("Output");
 				if(warpSuccess && sfdErr == Superluminal.SpaceFolder.Error.ClearForWarp)
@@ -503,6 +639,7 @@ namespace KerbalFuture.KFGUI
 				GUILayout.Label(output);
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
+				#endregion
 			}
 			#endregion
 			#region PSD
