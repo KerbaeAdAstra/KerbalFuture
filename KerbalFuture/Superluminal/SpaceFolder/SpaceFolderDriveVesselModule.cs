@@ -57,7 +57,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             }
             Debug.Log("[KF] SFD warp checks successful, warping vessel " + Vessel.GetDisplayName() + " now.");
             UseWarpResources();
-            Vessel.SetPosition(new Coords(warpData.WarpLocation.Lat, warpData.WarpLocation.Lon, (warpData.WarpLocation.Body.gravParameter / WarpHelp.CalculateGravPot(warpData.WarpLocation.Body, Vessel)), warpData.WarpLocation.Body).WorldSpace);
+            Vessel.SetPosition(new Coords(warpData.WarpLocation.Lat, warpData.WarpLocation.Lon, WarpHelp.GravPotAltitude(Vessel, warpData.WarpCelestialBody), warpData.WarpLocation.Body).WorldSpace);
             DistributeHeat();
             return true;
         }

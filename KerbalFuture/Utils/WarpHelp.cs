@@ -96,6 +96,10 @@ namespace KerbalFuture.Utils
 		// Gets the gravitation potential for a vessel above a celestial body
 		public static double CalculateGravPot(CelestialBody cb, Vessel v)
 			=> cb.gravParameter / GetVesselAltitude(true, v);
+		// Gets the gravitational potential's altitude from a provided body and vessel
+		// (the altitude where the grav pot's are the same between the vessel's current body and altitude, and the provided new celestial body)
+		public static double GravPotAltitude(Vessel v, CelestialBody cb)
+			=> cb.gravParameter / CalculateGravPot(cb, v);
 		// Gets the direction that the vessel is facing
 		public static Direction GetFacing(Vessel vessel)
 		{
