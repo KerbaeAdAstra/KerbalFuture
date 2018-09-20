@@ -66,9 +66,7 @@ namespace KerbalFuture.KFGUI
 		bool sfdBodySelection = false;
 		bool sfdOrbitStats = false;
 
-		bool keplerian = false, kerbalian = false, keplerianAdvanced = false;
-
-		public Color sfdEndpointColor = new Color(255, 35, 181, 1);
+		bool keplerian = true, kerbalian = false, keplerianAdvanced = false; //start with one on
 
 		private void Start()
 		{
@@ -199,7 +197,7 @@ namespace KerbalFuture.KFGUI
 					{
 						lat = double.Parse(SFDLat, System.Globalization.NumberStyles.AllowDecimalPoint);
 						lon = double.Parse(SFDLon, System.Globalization.NumberStyles.AllowDecimalPoint);
-						Coords c = new Coords(lat, lon, WarpHelp.CalculateGravPot(SFDCB, SpaceFolderDriveVesselModule.CurrentVesselModule.Vessel), SFDCB);
+						Coords c = new Coords(lat, lon, WarpHelp.GravPotAltitude(SpaceFolderDriveVesselModule.CurrentVesselModule.Vessel, SFDCB), SFDCB);
 						if(sfdLineOrbit == null)
 						{
 							//create copy of the vessel's orbit, otherwise we're working directly with it :o
@@ -844,9 +842,6 @@ namespace KerbalFuture.KFGUI
 			}
 			return t;
 		}
-		#endregion
-		#region SFDEndLine
-		
 		#endregion
 		#region Constant loading
 		//Loads the FSD warp constants
