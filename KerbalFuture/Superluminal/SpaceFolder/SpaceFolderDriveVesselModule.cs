@@ -40,7 +40,7 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			}
 			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)) && KFGUI.ConstantEditWindow.advancedMode)
 			{
-				
+				Debug.Log("[KF] " + Vessel.mainBody.GetDisplayName() + "'s gravitational parameter is " + Vessel.mainBody.gravParameter);
 			}
 		}
 		// Warps the vessel, using resources
