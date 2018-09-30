@@ -92,12 +92,13 @@ namespace KerbalFuture.KFGUI
 			GameEvents.onGUIApplicationLauncherReady.Add(CreateButton);
 			GameEvents.onGUIApplicationLauncherDestroyed.Add(DestroyButton);
 			//Gets the height multiplier and the width multiplier to fix up the GUI size
-			heightMultiplier = GameSettings.SCREEN_RESOLUTION_HEIGHT / 1080;
-			widthMultiplier = GameSettings.SCREEN_RESOLUTION_WIDTH / 1920; //looks good on my screen, so we'll multiply the rect's sizes by this to get them the same relative size everwhere
+			heightMultiplier = GameSettings.SCREEN_RESOLUTION_HEIGHT / 1080f;
+			widthMultiplier = GameSettings.SCREEN_RESOLUTION_WIDTH / 1920f; //looks good on my screen, so we'll multiply the rect's sizes by this to get them the same relative size everwhere
 			ftlRect = new Rect(50, 50, 500 * widthMultiplier, 300 * heightMultiplier);
 			pdRect = new Rect(50, 50, 500 * widthMultiplier, 300 * heightMultiplier);
 			optRect = new Rect(50, 50, 500 * widthMultiplier, 300 * heightMultiplier);
 			winSelectRect = new Rect(10, 50, 150 * widthMultiplier, 100 * heightMultiplier);
+			Debug.Log("[KF] heightMultiplier=" + heightMultiplier + ", widthMultiplier=" + widthMultiplier);
 		}
 		Vector2 bodySelectScrollPos = new Vector2();
 		Orbit sfdLineOrbit = null;
@@ -123,12 +124,15 @@ namespace KerbalFuture.KFGUI
 			if (sfdBodySelection && sfdState)
 			{
 				GUILayout.BeginArea(new Rect(ftlRect.x + ftlRect.width, ftlRect.y, 150 * widthMultiplier, 500 * heightMultiplier), "Select a body", "box");
+				//GUILayout.BeginArea(new Rect(ftlRect.x + ftlRect.width, ftlRect.y, 150, 500), "Select a body", "box");
 				GUILayout.Space(20 * widthMultiplier);
+				//GUILayout.Space(20);
 				bodySelectScrollPos = GUILayout.BeginScrollView(bodySelectScrollPos);
 				foreach (CelestialBody cb in cbList)
 				{
 					if (GUILayout.Button(cb.name))
 					{
+						Debug.Log("[KF] Selected body " + cb.name);
 						sfdBodySelection = false;
 						SFDCB = cb;
 					}
@@ -148,7 +152,7 @@ namespace KerbalFuture.KFGUI
 				bool writeWindow = true;
 				if(sfdBodySelection)
 				{
-					rectToUse = new Rect(ftlRect.x + ftlRect.width + 150 * widthMultiplier, ftlRect.y, 150 * widthMultiplier, 500 * heightMultiplier);
+					rectToUse = new Rect(ftlRect.x + ftlRect.width + 150 * widthMultiplier, ftlRect.y, 300 * widthMultiplier, 300 * heightMultiplier);
 				}
 				else
 				{
