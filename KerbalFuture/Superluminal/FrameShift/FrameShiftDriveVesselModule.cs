@@ -54,7 +54,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 			// Called during the warp
 			else if (isWarping && wasWarping)
 			{
-				CheckWarpAvalibility();
+				CheckInWarpAvalibility();
 				UseResourcesDuringWarp(warpVelocity);
 			}
 			// Called right after the warp has finished
@@ -131,7 +131,7 @@ namespace KerbalFuture.Superluminal.FrameShift
 		void DistributeHeatBeforeWarp(double U_F)
 		{
 			Debug.Log("[KF] Distributing lost heat before warp.");
-			//D_AddHeatModulesToParts();
+			AddHeatModulesToParts();
 			foreach (KeyValuePair<FrameShiftDriveData, double> kvp in vrsInstance.PartECPercent)
 			{
 				//J each part is putting in
@@ -160,15 +160,15 @@ namespace KerbalFuture.Superluminal.FrameShift
 			//D_RemoveHeatModulesFromParts();
 		}
 		//All KF drives will have ModuleCoreHeat added to them through a MM patch
-		void D_AddHeatModulesToParts()
+		void AddHeatModulesToParts()
 		{
-			Debug.Log("[KF] Adding heat modules to all vessel parts.");
-			partsWithoutModuleCoreHeat.Clear();
+			Debug.Log("[KF] Adding heat modules to all vessel FSDs.");
+			//partsWithoutModuleCoreHeat.Clear();
 			foreach (Part p in Vessel.Parts)
 			{
 				if (!p.Modules.Contains("ModuleCoreHeat"))
 				{
-					partsWithoutModuleCoreHeat.Add(p);
+					//partsWithoutModuleCoreHeat.Add(p);
 					p.AddModule("ModuleCoreHeat");
 				}
 			}

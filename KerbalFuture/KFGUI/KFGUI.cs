@@ -10,6 +10,7 @@ using KerbalFuture.Superluminal.SpaceFolder;
 using KerbalFuture.Superluminal;
 using KerbalFuture.Utils;
 using System.Collections;
+using System.Globalization;
 
 namespace KerbalFuture.KFGUI
 {
@@ -358,7 +359,8 @@ namespace KerbalFuture.KFGUI
 				#region Velocity input
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Desired velocity");
-				if (double.TryParse(FSDVelocity, out outDouble))
+				//if (double.TryParse(FSDVelocity, out outDouble))
+				if(decimal.TryParse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture, out _)) //discard the value, we don't need it
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
