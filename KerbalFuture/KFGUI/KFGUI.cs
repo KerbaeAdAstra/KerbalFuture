@@ -359,8 +359,9 @@ namespace KerbalFuture.KFGUI
 				#region Velocity input
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Desired velocity");
-				//if (double.TryParse(FSDVelocity, out outDouble))
-				if(decimal.TryParse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture, out _)) //discard the value, we don't need it
+				//Max length is 42 digits, that's when the box starts stretching and things get kinda weird
+				FSDVelocity = GUILayout.TextField(FSDVelocity, 42);
+				if (decimal.TryParse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture, out _)) //discard the value, we don't need it
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -369,8 +370,6 @@ namespace KerbalFuture.KFGUI
 					formatOkay = false;
 					GUI.contentColor = Color.red;
 				}
-				//Max length is 42 digits, that's when the box starts stretching and things get kinda weird
-				FSDVelocity = GUILayout.TextField(FSDVelocity, 42);
 				GUI.contentColor = GUIStandardContentColor;
 				GUILayout.Label("m/s");
 				GUILayout.EndHorizontal();
@@ -385,7 +384,7 @@ namespace KerbalFuture.KFGUI
 					bool warpSuccess = false;
 					if (formatOkay)
 					{
-						velocity = double.Parse(FSDVelocity, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowExponent);
+						velocity = decimal.ToDouble(decimal.Parse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture));
 					}
 					if (GUILayout.Button("Warp Vessel"))
 					{

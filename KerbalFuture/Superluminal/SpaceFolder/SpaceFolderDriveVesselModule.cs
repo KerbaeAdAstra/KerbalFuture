@@ -57,6 +57,11 @@ namespace KerbalFuture.Superluminal.SpaceFolder
             UseWarpResources();
             Vessel.SetPosition(new Coords(warpData.WarpLocation.Lat, warpData.WarpLocation.Lon, WarpHelp.GravPotAltitude(Vessel, warpData.WarpCelestialBody) - warpData.WarpCelestialBody.Radius, warpData.WarpLocation.Body).WorldSpace);
             DistributeHeat();
+			//update everything I guess?
+			Vessel.UpdateCaches();
+			Vessel.UpdateLandedSplashed();
+			Vessel.UpdatePosVel();
+			Vessel.UpdateDistanceTraveled();
             return true;
         }
 		void UseWarpResources()
