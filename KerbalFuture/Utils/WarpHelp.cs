@@ -3,14 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AT_Utils;
 
 namespace KerbalFuture.Utils
 {
 	public class WarpHelp
 	{
 		//Gets the diameter of the vessel
-		public static double VesselDiameterCalc(Vector3 boundingBoxSize)
+		static double VesselDiameterCalc(Vector3 boundingBoxSize)
 		{
 			Debug.Log("[KF] Calculating the size of a vessel");
 			double xrad, yrad, zrad;

@@ -297,8 +297,6 @@ namespace KerbalFuture.KFGUI
 		Superluminal.SpaceFolder.Error sfdErr = Superluminal.SpaceFolder.Error.Null;
 		List<VesselResource> vrUDWList;
 		List<VesselResource> vrList;
-		double outDouble = 0; //useless, need for TryParse
-		bool sfdMapLine = false;
 		private void DrawFTLInternals(int id)
 		{
 			GUI.DragWindow(new Rect(0, 0, ftlRect.width, 20 * heightMultiplier));
@@ -358,17 +356,20 @@ namespace KerbalFuture.KFGUI
 				bool formatOkay = true;
 				#region Velocity input
 				GUILayout.BeginHorizontal();
-				GUILayout.Label("Desired velocity");
-				//Max length is 42 digits, that's when the box starts stretching and things get kinda weird
-				FSDVelocity = GUILayout.TextField(FSDVelocity, 42);
-				if (decimal.TryParse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture, out _)) //discard the value, we don't need it
+				if (decimal.TryParse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
 				else
 				{
-					formatOkay = false;
 					GUI.contentColor = Color.red;
+				}
+				GUILayout.Label("Desired velocity");
+				//Max length is 42 digits, that's when the box starts stretching and things get kinda weird
+				FSDVelocity = GUILayout.TextField(FSDVelocity, 42);
+				if (!decimal.TryParse(FSDVelocity, NumberStyles.Float, CultureInfo.InvariantCulture, out _)) //discard the value, we don't need it
+				{
+					formatOkay = false;
 				}
 				GUI.contentColor = GUIStandardContentColor;
 				GUILayout.Label("m/s");
@@ -443,6 +444,7 @@ namespace KerbalFuture.KFGUI
 			}
 			#endregion
 			#region SWD
+			//FIXME: FormatException will be thown with the standard configuration, see FSD for details
 			if (swdState)
 			{
 				#region Inputs
@@ -452,7 +454,7 @@ namespace KerbalFuture.KFGUI
 				GUILayout.Label("Wavelength");
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
-				if (double.TryParse(SWDAmplitude, out outDouble))
+				if (double.TryParse(SWDAmplitude, out _))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -461,9 +463,10 @@ namespace KerbalFuture.KFGUI
 					GUI.contentColor = Color.red;
 				}
 				SWDAmplitude = GUILayout.TextField(SWDAmplitude, 21);
+				//TryParse again here to get the actual value to use
 				GUI.contentColor = GUIStandardContentColor;
 				GUILayout.BeginHorizontal();
-				if (double.TryParse(SWDWavelength, out outDouble))
+				if (double.TryParse(SWDWavelength, out _))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -472,6 +475,7 @@ namespace KerbalFuture.KFGUI
 					GUI.contentColor = Color.red;
 				}
 				SWDWavelength = GUILayout.TextField(SWDWavelength, 21);
+				//TryParse again here to get the actual value to use
 				GUI.contentColor = GUIStandardContentColor;
 				GUILayout.Label("meters");
 				GUILayout.EndHorizontal();
@@ -507,27 +511,33 @@ namespace KerbalFuture.KFGUI
 				GUILayout.Label("Celestial Body");
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
-				if (double.TryParse(SFDLat, out outDouble))
+				if (double.TryParse(SFDLat, out _))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
 				else
 				{
-					inputsGood = false;
 					GUI.contentColor = Color.red;
 				}
 				SFDLat = GUILayout.TextField(SFDLat, 6);
+				if(!double.TryParse(SFDLat, out _))
+				{
+					inputsGood = false;
+				}
 				GUI.contentColor = GUIStandardContentColor;
-				if (double.TryParse(SFDLon, out outDouble))
+				if (double.TryParse(SFDLon, out _))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
 				else
 				{
-					inputsGood = false;
 					GUI.contentColor = Color.red;
 				}
 				SFDLon = GUILayout.TextField(SFDLon, 6);
+				if (!double.TryParse(SFDLon, out _))
+				{
+					inputsGood = false;
+				}
 				GUI.contentColor = GUIStandardContentColor;
 				if (GUILayout.Button(SFDCB.name))
 				{
@@ -651,7 +661,7 @@ namespace KerbalFuture.KFGUI
 				#region Inputs
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Layer");
-				if (double.TryParse(SWDWavelength, out outDouble))
+				if (double.TryParse(SWDWavelength, out _))
 				{
 					GUI.contentColor = GUIStandardContentColor;
 				}
@@ -660,6 +670,7 @@ namespace KerbalFuture.KFGUI
 					GUI.contentColor = Color.red;
 				}
 				PSDLayer = GUILayout.TextField(PSDLayer, 2);
+				//Parse again to get the true values and avoid FormatExceptions
 				GUI.contentColor = GUIStandardContentColor;
 				GUILayout.EndHorizontal();
 				#endregion
