@@ -22,4 +22,4 @@ The CC-BY-NC-SA license applies to all of the following items:
 
 ## Clarifications
 
-If you are unsure as to which license applies to which part, please contact us (see CONTRIBUTING) and we will be glad to explain it.
+If you are unsure as to which license applies to which part, please contact us (see `CONTRIBUTING.md`) and we will be glad to explain it.

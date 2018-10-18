@@ -2,21 +2,9 @@
 
 The Kerbae ad Astra group wishes to extend the warmest welcome to any and all contributors. In order to accomplish this, we ask the following things from you.
 
-## IRC Channel
+## Discord Server
 
-When visiting the Kerbae ad Astra IRC channel (#kerbaeadastra) on Freenode, accessible through <<http://webchat.freenode.net>>, we ask that you be respectful and thoughtful before posting. Any abuse will not be tolerated, and reports can and will be made to the staff members of the channel. This includes the following:
-
-* Sexual or suggestive language
-* Links to inappropriate pictures or websites. As a rule-of-thumb, if the KSP Forums would block it, so will we.
-* Posting of inappropriate pictures. Using certain clients, it is possible to post pictures directly in chat. See above for the rule-of-thumb.
-* Abusive language of any kind, insulting others in any way. "Playful" teasing is not tolerated, nor is any other form of disrespect for other members.
-* Role playing while on the channel is not acceptable.
-* Comments about any other user's suspected race, sexual orientation, or ethnicity is not tolerated. As a rule of thumb, if you feel as though others will make fun of you for revealing your race or ethnicity, do not state it in the channel. The same goes for sexual orientation.
-* Keep all posts on topic, and for any confidential information, personal message the user.
-* Political statements of any kind will not be tolerated.
-* Posting other users' personal information (doxxing) is forbidden.
-
-To restate all of the above, keep all posts on topic and SFW [Safe For Work], and respect other users' beliefs and practices.
+The rules to the official Kerbae ad Astra Discord server, accessible [here](https://discord.gg/hRv6yq8), are present in the #rules channel. You will be asked to read and acknowledge them before being granted access to the server itself.
 
 ## GitLab
 
@@ -30,19 +18,9 @@ Once you have obtained access to the repository, you may submit new issues or MR
 * Making issues or MRs without a purpose.
 * Unhelpful creation of issues such as "it is completely broken". These do not help anyone in any way, and create much more unnecessary communication and waiting time for the issue to be fixed.
 
-## Staff Members
-
-* 0111narwhalz
-* TotallyNotHuman
-* KAL 9000
-* Benjamin Kerman
-* Brent Kerman
-
-We (the staff members) are committed to keeping Kerbae ad Astra and all related places healthy and accepting for all users.
-
 ## Consequences for misconduct
 
-### Consequences: IRC Channel
+### Consequences: Discord Server
 
 Punishments for misconduct are issued at the staff members' discretion.
 

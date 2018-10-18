@@ -1,17 +1,17 @@
 # Contributing to Kerbal Future
 
-First of all, thank you for considering contributing to Kerbal Future. We're a small team - only six people at the moment - so we can and will appreciate all the help we can get.
+First of all, thank you for considering contributing to Kerbal Future. We're a small team - only seven people at the moment - so we can and will appreciate all the help we can get.
 
 Following these guidelines tells us that you respect our time. In turn, we'll reciprocate that respect by addressing your issue in a timely and friendly fashion.
 
 Kerbal Future is an open source project and we welcome contributions from the open source community. There are many ways to contribute; tutorials, documentation, bug reports - and, of course, writing code to be integrated into Kerbal Future itself.
 
-Please don't use the issue tracker for support, questions, or other miscellany. The official IRC channel (#kerbaeadastra on Freenode) can help you with your issue.
+Please don't use the issue tracker for support, questions, or other miscellany. The official Discord server, located [here](https://discord.gg/hRv6yq8), can help you with your issue.
 
 ## Ground Rules
 
 There is only one important ground rule, and it is as follows:
-> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](http://35.190.136.99:3000/KerbaeAdAstra/KerbalFuture/blob/Documentation/CODE_OF_CONDUCT.md).
+> Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See our [Code of Conduct](https://repo.nothuman.online/KerbaeAdAstra/KerbalFuture/blob/Documentation/CODE_OF_CONDUCT.md).
 
 ## Contributing
 
@@ -25,7 +25,7 @@ There is only one important ground rule, and it is as follows:
 
 ### Coding style
 
-Please refer to the [style guide](http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/blob/Documentation/STYLEGUIDE.md) for specific information. If non-compliant code is written, we may ask you to refactor it accordingly.
+Please refer to the [style guide](https://repo.nothuman.online/KerbaeAdAstra/KerbalFuture/blob/Documentation/STYLEGUIDE.md) for specific information. If non-compliant code is written, we may ask you to refactor it accordingly.
 
 ### Commit message guidelines
 
@@ -47,8 +47,8 @@ The commit message should describe what changed and why.
 1. If your patch fixes an open issue, you can add a reference to it at the end of the log. Use the `Fixes:` prefix and the full issue URL. For other references, use `Refs:`.
 
    Examples:
-   * `Fixes: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/issues/76`
-   * `Refs: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/merge_requests/83`
+   * `Fixes: https://repo.nothuman.online/KerbaeAdAstra/KerbalFuture/issues/76`
+   * `Refs: https://repo.nothuman.online/KerbaeAdAstra/KerbalFuture/merge_requests/83`
 
 Sample complete commit message:
 
@@ -64,8 +64,8 @@ please do proper word-wrap and keep columns shorter than about
 72 characters or so. That way, `git log` will show things
 nicely even when it is indented.
 
-Fixes: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/issues/76
-Refs: http://35.190.136.99:8080/KerbaeAdAstra/KerbalFuture/merge_requests/83
+Fixes: https://repo.nothuman.online/KerbaeAdAstra/KerbalFuture/issues/76
+Refs: https://repo.nothuman.online/KerbaeAdAstra/KerbalFuture/merge_requests/83
 ```
 
 ## Bug Reporting
@@ -88,8 +88,8 @@ And most importantly, you **must** include the `KSP.log` (preferably using the G
 
 ## Suggesting Features
 
-Kerbal Future is based on a foundation of hard science-fiction. Handwaving is kept to a minimum. Kerbal Future will implement most if not all paradigms of Kerbae ad Astra - see the official Wiki [here](http://35.190.136.99/w/). As such, feature requests or suggestions will probably be denied unless it fits in with the universe.
+Kerbal Future is based on a foundation of hard science-fiction. Handwaving is kept to a minimum. Kerbal Future will implement most if not all paradigms of Kerbae ad Astra. As such, feature requests or suggestions will probably be denied unless it fits in with the universe.
 
 ## Community
 
-You can reach the team in several ways. The preferred way is of course IRC - the channel is #kerbaeadastra on Freenode. Alternatively, send an email to kerbaeadastra@gmail.com entitled "To [TEAMMEMBER]".
+You can reach the team in several ways. The preferred way is of course Discord - the permanent invite is posted above. Alternatively, send an email to kerbaeadastra@gmail.com entitled "To [TEAMMEMBER]".
