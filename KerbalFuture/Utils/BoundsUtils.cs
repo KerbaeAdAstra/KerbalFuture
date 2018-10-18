@@ -106,12 +106,6 @@ namespace KerbalFuture.Utils
 			p.partTransform.rotation = part_rot;
 			return b;
 		}
-		public static Bounds Bounds(this Part p, Transform refT)
-		{
-			Bounds b = new Bounds();
-			bool inited = false;
-			return p.Bounds(refT, ref b, ref inited);
-		}
 		public static Bounds Bounds(this IShipconstruct vessel, Transform refT = null)
 		{
 			//update physical bounds
@@ -126,46 +120,6 @@ namespace KerbalFuture.Utils
 					p.Bounds(refT, ref b, ref inited);
 				}
 			}
-			return b;
-		}
-		public static Bounds EnginesExhaust(this Vessel vessel, Transform refT)
-		{
-			Vector3 CoM = vessel.CurrentCoM;
-			Bounds b = new Bounds();
-			bool inited = false;
-			for (int i = 0, vesselPartsCount = vessel.Parts.Count; i < vesselPartsCount; i++)
-			{
-				Part p = vessel.Parts[i];
-				List<ModuleEngines> engines = p.Modules.GetModules<ModuleEngines>();
-				for (int j = 0, enginesCount = engines.Count; j < enginesCount; j++)
-				{
-					ModuleEngines e = engines[j];
-					if (!e.exhaustDamage)
-					{
-						continue;
-					}
-					for (int k = 0, tCount = e.thrustTransforms.Count; k < tCount; k++)
-					{
-						Transform t = e.thrustTransforms[k];
-						Vector3 term = refT.InverseTransformDirection(t.position + t.forward * e.exhaustDamageMaxRange - CoM);
-						if (inited)
-						{
-							b.Encapsulate(term);
-						}
-						else
-						{
-							b = new Bounds(term, Vector3.zero);
-							inited = true;
-						}
-					}
-				}
-			}
-			return b;
-		}
-		public static Bounds BoundsWithExhaust(this Vessel vessel, Transform refT)
-		{
-			Bounds b = vessel.Bounds(refT);
-			b.Encapsulate(vessel.EnginesExhaust(refT));
 			return b;
 		}
 	}
