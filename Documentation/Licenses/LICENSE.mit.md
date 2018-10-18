@@ -1,7 +1,7 @@
 MIT License
 ===========
 
-Copyright (c) 2017 the Kerbae ad Astra group
+Copyright (c) 2017-2018 the Kerbae ad Astra group
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
