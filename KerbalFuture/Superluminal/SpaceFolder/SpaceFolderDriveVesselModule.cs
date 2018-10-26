@@ -2,148 +2,119 @@ using KerbalFuture.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
-    public class SpaceFolderDriveVesselModule : VesselModule
+	public class SpaceFolderDriveVesselModule : VesselModule
     {
-        // 1 Electric Charge is equal to 1kJ\!
+		internal static double sfConstReactantUsage = 0.0;
+		public static double SPACEFOLDER_CONSTANT_OF_REACTANT_USAGE
+		{
+			get
+			{
+				return sfConstReactantUsage;
+			}
+			internal set
+			{
+				sfConstReactantUsage = value;
+			}
+		}
+		internal static SpaceFolderDriveVesselModule CurrentVesselModule { get; private set; }
+		// 1 Electric Charge is equal to 1kJ\!
 
-        // Dictionary of the part and its respective participation in the warp
-        Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
+		// Dictionary of the part and its respective participation in the warp
+		// Created by UseWarpResources for DistributeHeat
+		Dictionary<Part, double> partECAmount = new Dictionary<Part, double>();
 
 		//Fires on Vessel startup
 		protected override void OnStart()
 		{
 			base.OnStart();
-			Debug.Log("[KF] Vessel module starting for " + Vessel.GetDisplayName());
+			Debug.Log("[KF] SFD Vessel module starting for " + Vessel.GetDisplayName());
 		}
-        // Warps the vessel, using resources
-        public bool WarpVessel(SpaceFolderWarpData warpData, out Error fault)
+		private void Update()
+		{
+			if(Vessel == FlightGlobals.ActiveVessel && CurrentVesselModule != this)
+			{
+				CurrentVesselModule = this;
+			}
+			if (Input.GetKey(KeyCode.U) && (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)) && KFGUI.ConstantEditWindow.advancedMode)
+			{
+				Debug.Log("[KF] " + Vessel.mainBody.GetDisplayName() + "'s gravitational parameter is " + Vessel.mainBody.gravParameter);
+			}
+		}
+		// Warps the vessel, using resources
+		public bool WarpVessel(SpaceFolderWarpData warpData, out Error fault)
         {
-            Debug.Log("[KF] Warp triggered from an external source for " + Vessel.name);
+            Debug.Log("[KF] SFD warp triggered from an external source for " + Vessel.name);
             Error internFault = fault = SpaceFolderWarpChecks.WarpAvailable(Vessel);
             if (internFault != 0)
             {
-                Debug.Log("[KF] Fault discovered in warp checks with code " + internFault.ToString());
+                Debug.Log("[KF] Fault discovered in SFD warp checks with code " + internFault.ToString());
                 return false;
             }
-            Debug.Log("[KF] Warp checks successful, warping vessel " + Vessel.GetDisplayName() + " now.");
+            Debug.Log("[KF] SFD warp checks successful, warping vessel " + Vessel.GetDisplayName() + " now.");
             UseWarpResources();
-            Vessel.SetPosition(warpData.WarpLocation);
+            Vessel.SetPosition(new Coords(warpData.WarpLocation.Lat, warpData.WarpLocation.Lon, WarpHelp.GravPotAltitude(Vessel, warpData.WarpCelestialBody) - warpData.WarpCelestialBody.Radius, warpData.WarpLocation.Body).WorldSpace);
             DistributeHeat();
+			//update everything I guess?
+			Vessel.UpdateCaches();
+			Vessel.UpdateLandedSplashed();
+			Vessel.UpdatePosVel();
+			Vessel.UpdateDistanceTraveled();
             return true;
         }
-		//TODO implement selective drives
-		//i.e. smart usage to pick smaller drives that get the hole size closer to the vessel size
-		// Uses resources from the drives in driveList
 		void UseWarpResources()
 		{
-			List<SpaceFolderDriveData> pSortedList = new List<SpaceFolderDriveData>();
-			Debug.Log("[KF] Using warp resources for vessel " + Vessel.GetDisplayName());
-			double vesselDiameter = SpaceFolderWarpChecks.VesselDiameterCalc(
-				ShipConstruction.CalculateCraftSize(
-					new ShipConstruct(Vessel.name, EditorFacility.VAB, Vessel.Parts)));
-			Debug.Log("[KF] Calculated craft diameter as " + vesselDiameter + " meters");
-			if (SFWarpHelp.DriveDataList(Vessel).Count > 1)
+			Debug.Log("[KF] Using resources for warp");
+			partECAmount.Clear();
+			double diam = WarpHelp.VesselDiameterCalc(vessel);
+			Debug.Log("[KF] Vessel diameter is " + diam);
+			List<Part> drives = SFWarpHelp.PartsWithModuleSFD(vessel);
+			Debug.Log("[KF] Found " + drives.Count + "  drives in " + vessel.GetDisplayName());
+			// Dictionary of the actual diameter that the part is putting out
+			Dictionary<SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
+			double percentCalc = diam / SpaceFolderWarpChecks.MaxWarpHoleSize(drives);
+			Debug.Log("[KF] percentCalc is " + percentCalc);
+			List<SpaceFolderDriveData> driveDatas = new List<SpaceFolderDriveData>(SFWarpHelp.DriveDataList(Vessel));
+			foreach (SpaceFolderDriveData dd in driveDatas)
 			{
-				List<SpaceFolderDriveData> sortedList = new List<SpaceFolderDriveData>(SFWarpHelp.SortDriveData(SFWarpHelp.DriveDataList(Vessel)));
-				List<SpaceFolderDriveData> testList = new List<SpaceFolderDriveData>();
-				Debug.Log("[KF] Trying to test additions to testList");
-				foreach (SpaceFolderDriveData dd in sortedList)
-				{
-					testList.Add(dd);
-					IEnumerable<Part> ddPartList = from dda in testList
-												   select dda.DriveDataPart;
-					double size = SpaceFolderWarpChecks.MaxWarpHoleSize(ddPartList);
-					if (vesselDiameter < size)
-					{
-						Debug.Log("[KF] testList's Warp Hole Size is above vessel diameter! Removing last element");
-						//testList now contains just under the diameter of the warp bubble needed
-						testList.RemoveAt(testList.Count - 1);
-						break;
-					}
-				}
-				if (testList.Count + 1 != sortedList.Count)
-				{
-					Debug.Log("[KF] Warp does not need all drives avalible");
-					sortedList.Reverse();
-					foreach (SpaceFolderDriveData dd in sortedList)
-					{
-						testList.Add(dd);
-						IEnumerable<Part> ddPartList = from dda in testList
-													   select dda.DriveDataPart;
-						double size = SpaceFolderWarpChecks.MaxWarpHoleSize(ddPartList);
-						if (vesselDiameter < size)
-						{
-							//breaks when it reaches a small enough drive
-							pSortedList.Clear();
-							pSortedList.AddRange(testList);
-							break;
-						}
-					}
-				}
-				else
-				{
-					pSortedList.Clear();
-					pSortedList.AddRange(sortedList);
-				}
+				partRelDiamDict.Add(dd, dd.Diameter * percentCalc);
 			}
-			else if (SFWarpHelp.DriveDataList(Vessel).Count == 1)
+			Debug.Log("[KF] There are " + partRelDiamDict.Count + " values in partRelDiamDict");
+			foreach (KeyValuePair<SpaceFolderDriveData, double> kvp in partRelDiamDict)
 			{
-				Debug.Log("[KF] One drive on vessel");
-				pSortedList.Clear();
-				pSortedList.Add(SFWarpHelp.DriveDataList(Vessel)[0]);
+				// Creating the partECAmount dictionary for heat distribution in kJ
+				partECAmount.Add(kvp.Key.DriveDataPart, MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier));
+				//using the resources
+				Debug.Log("[KF] Using " + MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier) + " " + kvp.Key.MainResource);
+				WarpHelp.UseResource(kvp.Key.DriveDataPart, MainResourceWarpCalc(kvp.Value, kvp.Key.Multiplier), kvp.Key.MainResource);
 			}
-			else
-			{
-				Debug.Log("[KF] No drives on vessel, aborting");
-				return;
-			}
-			foreach (SpaceFolderDriveData dd in pSortedList)
-			{
-				Debug.Log("[KF] Using warp resources for " + dd.DriveDataPart.persistentId);
-				double tempEC = MainResourceWarpCalc(dd.Diameter, dd.Multiplier);
-				partECAmount.Clear();
-				partECAmount.Add(dd.DriveDataPart, tempEC);
-				WarpHelp.UseResource(dd.DriveDataPart, tempEC, dd.MainResource);
-			}
-			/*
-			double tempEC = MainResourceWarpCalc(d.Diameter, d.Multiplier);
-            partECAmount.Add(d.DriveDataPart, tempEC);
-            WarpHelp.UseResource(d.DriveDataPart, tempEC, d.MainResource);
-			*/
-        }
-        // Heat distribution for after warp, using ModuleCoreHeat put in place by a MM patch
+		}
+        // Heat distribution for after warp, using ModuleCoreHeat hopefully put in place by a MM patch
+		// otherwise adds it in the function
         void DistributeHeat()
         {
             Debug.Log("[KF] Distributing heat to vessel " + Vessel.name);
             // Adds heat
             foreach (KeyValuePair<Part, double> kvp in partECAmount)
             {
-                bool hadModuleCoreHeat = true;
                 // Iff MM doesn't work or this engine for whatever reason doesn't have a ModuleCoreHeat, we add one
+				// Don't bother removing it, cause we're going to keep using it later
                 if (!kvp.Key.Modules.Contains("ModuleCoreHeat"))
                 {
                     Debug.Log("[KF] Part " + kvp.Key.name + " does not contain ModuleCoreHeat. Adding");
-                    hadModuleCoreHeat = false;
                     kvp.Key.AddModule("ModuleCoreHeat", true);
                 }
-                // p.Modules.GetModule<ModuleSpaceFolderEngine>.PartDriveData
-                Debug.Log("[KF] Adding " + kvp.Value + "kJ of heat to " + kvp.Key.name + ". Final part temperature is " + (kvp.Key.temperature + kvp.Value).ToString() + "C");
+				// p.Modules.GetModule<ModuleSpaceFolderDrive>.PartDriveData
+				Debug.Log("[KF] Adding " + kvp.Value + "kJ of heat to " + kvp.Key.name + ". Final part temperature is " + (kvp.Key.temperature + kvp.Value).ToString() + "C");
                 ((ModuleCoreHeat)kvp.Key.Modules["ModuleCoreHeat"]).AddEnergyToCore(kvp.Value);
-                // Removes ModuleCoreHeat if the part didn't already have it
-                if (hadModuleCoreHeat)
-                {
-                    Debug.Log("[KF] Part " + kvp.Key.name + " did not have ModuleCoreHeat. Removing.");
-                    kvp.Key.RemoveModule(kvp.Key.Modules["ModuleCoreHeat"]);
-                }
-                
             }
         }
-		//Calculates the amount of main resource used
-		double MainResourceWarpCalc(double diameter, double multiplier)
-            => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+		//Calculates the amount of main resource used in kJ
+		public static double MainResourceWarpCalc(double diameter, double multiplier)
+            => Math.Pow(Math.E, diameter * multiplier / 5) * 300 / 1000 * 30000;
+		public static double CatalystWarpCalc(double diameter, double multiplier)
+			=> Math.Pow(Math.E, diameter * multiplier / 5) / 1000;
     }
 }

@@ -1,16 +1,52 @@
-using KerbalFuture.Superluminal.SpaceFolder;
+using KerbalFuture.Superluminal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace KerbalFuture.Utils
 {
 	public class WarpHelp
 	{
-        // Converts a Vector3d int XYZ CartCoords, with ref's
-        public static void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z)
+		//Gets the diameter of the vessel
+		static double VesselDiameterCalc(Vector3 boundingBoxSize)
+		{
+			Debug.Log("[KF] Calculating the size of a vessel");
+			double xrad, yrad, zrad;
+			xrad = boundingBoxSize.x / 2;
+			yrad = boundingBoxSize.y / 2;
+			zrad = boundingBoxSize.z / 2;
+			//Gets the radius of the sphere
+			//Works by getting the box dimensions and then calculating the distance
+			//from a virtual center
+			double radius = Distance(0, 0, 0, xrad, yrad, zrad);
+			return radius * 2;
+		}
+		public static double VesselDiameterCalc(Vessel v) => VesselDiameterCalc(v.Bounds(null).size);
+		// Gets a list of parts on a vessel with the specified PartModule
+		public static List<Part> PartsWithModule(Vessel v, Type partModuleType)
+		{
+			List<Part> returnList = new List<Part>();
+			foreach (Part p in v.Parts)
+			{
+				IEnumerator ting = p.Modules.GetEnumerator();
+				bool tingStatus = ting.MoveNext();
+				for (int i = 0; i < p.Modules.Count; i++)
+				{
+					if (ting.Current.GetType() == partModuleType)
+					{
+						returnList.Add(p);
+					}
+					if (tingStatus)
+					{
+						tingStatus = ting.MoveNext();
+					}
+				}
+			}
+			return returnList;
+		}
+		// Converts a Vector3d int XYZ CartCoords, with ref's
+		public static void ConvertVector3dToXYZCoords(Vector3d v3d, ref double x, ref double y, ref double z)
         {
             x = v3d.x;
             y = v3d.y;
@@ -59,5 +95,29 @@ namespace KerbalFuture.Utils
 		// Gets the gravitation potential for a vessel above a celestial body
 		public static double CalculateGravPot(CelestialBody cb, Vessel v)
 			=> cb.gravParameter / GetVesselAltitude(true, v);
+		// Gets the gravitational potential's altitude from a provided body and vessel
+		// (the altitude where the grav pot's are the same between the vessel's current body and altitude, and the provided new celestial body)
+		public static double GravPotAltitude(Vessel v, CelestialBody warpCB)
+			=> warpCB.gravParameter * GetVesselAltitude(true, v) / v.mainBody.gravParameter;
+		// Gets the direction that the vessel is facing
+		public static Direction GetFacing(Vessel vessel)
+		{
+			Quaternion vesselRotation = vessel.ReferenceTransform.rotation;
+			Quaternion vesselFacing = Quaternion.Inverse(Quaternion.Euler(90, 0, 0) * Quaternion.Inverse(vesselRotation) * Quaternion.identity);
+			return new Direction(vesselFacing);
+		}
+		public static IEnumerable<VesselResource> SumVesselResources(List<VesselResource> listOne, List<VesselResource> listTwo)
+		{
+			foreach(VesselResource vr in listOne)
+			{
+				foreach(VesselResource r in listTwo)
+				{
+					if(vr.resource == r.resource)
+					{
+						yield return new VesselResource(vr.resource, vr.amount + r.amount);
+					}
+				}
+			}
+		}
 	}
 }

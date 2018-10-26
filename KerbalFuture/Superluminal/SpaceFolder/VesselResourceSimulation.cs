@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using KerbalFuture.Utils;
 using UnityEngine;
-using KerbalFuture.Superluminal.SpaceFolder;
-using System.Linq;
-using System.Collections;
 
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
@@ -31,12 +28,10 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 		List<Part> drives = new List<Part>();
         // A list of SpaceFolderDriveDatas for the list of parts
 		List<SpaceFolderDriveData> driveDatas = new List<SpaceFolderDriveData>();
-        // Hashsets for the main resources and catalysts
-		HashSet<string> mainRes = new HashSet<string>();
-		HashSet<string> cat = new HashSet<string>();
-		// Resource dictionaries with the name and the amount
-		Dictionary<string, double> ResDic = new Dictionary<string, double>();
-		Dictionary<string, double> CatDic = new Dictionary<string, double>();
+        // Hashset for the main resources and catalysts
+		HashSet<string> resHash = new HashSet<string>();
+		// Resource dictionary with the name and the amount
+		List<VesselResource> resList = new List<VesselResource>();
         // The status of the current simulation
 		public SimulationStatus Status { get; private set; }
         // Fills the HashSets, creates resource dictionaries
@@ -45,87 +40,63 @@ namespace KerbalFuture.Superluminal.SpaceFolder
 			Debug.Log("[KF] [VRS] Populating resource hash sets");
 			foreach (SpaceFolderDriveData d in driveDatas)
 			{
-				Debug.Log("[KF] data is: " + d.DriveDataPart.persistentId + " " + d.MainResource + " " + d.Catalyst);
-				mainRes.Add(d.MainResource);
-				cat.Add(d.Catalyst);
+				Debug.Log("[KF] [VRS] Data is: " + d.DriveDataPart.persistentId + " " + d.MainResource + " " + d.Catalyst);
+				resHash.Add(d.MainResource);
+				resHash.Add(d.Catalyst);
 			}
 			CreateResourceDictionary();
-			CreateCatalystDictionary();
 		}
         // Creates the Main Resource dictionary
 		void CreateResourceDictionary()
 		{
 			Debug.Log("[KF] [VRS] Creating resource dictionary");
-			foreach (string s in mainRes)
+			foreach (string s in resHash)
 			{
-				ResDic.Add(s, WarpHelp.ResourceAmountOnVessel(vessel, s));
+				resList.Add(new VesselResource(s, WarpHelp.ResourceAmountOnVessel(vessel, s)));
 			}
 		}
-        // Creates the Catalyst dictionary
-		void CreateCatalystDictionary()
-		{
-			Debug.Log("[KF] [VRS] Creating catalyst dictionary");
-			foreach (string s in cat)
-			{
-				CatDic.Add(s, WarpHelp.ResourceAmountOnVessel(vessel, s));
-			}
-		}
-        // Calculates the resources needed for a drive of a given diameter and multiplier
-		double MainResCalc(double diameter, double multiplier) => Math.Pow(Math.E, diameter * multiplier / 5) * 300;
+		//too lazy to change all the references, so I just changed these two
+		// Calculates the resources needed for a drive of a given diameter and multiplier
+		double MainResCalc(double diameter, double multiplier) => SpaceFolderDriveVesselModule.MainResourceWarpCalc(diameter, multiplier);
         // Calculates the amount of catalyst needed for a drive of a given diameter and multiplier
-		double CatCalc(double diameter, double multiplier) => Math.Pow(Math.E, diameter * multiplier / 5);
+		double CatCalc(double diameter, double multiplier) => SpaceFolderDriveVesselModule.CatalystWarpCalc(diameter, multiplier);
         // Runs a full simulation of resource usage for a warp
 		public void RunSimulation()
 		{
 			Debug.Log("[KF] [VRS] Running simulation");
-			Dictionary<string, double> ResDicCopy = new Dictionary<string, double>();
-			Dictionary<string, double> CatDicCopy = new Dictionary<string, double>();
-			// RESOURCE Math.Pow(Math.E, [diameter] * [multiplier] / 5) * 300;
-			// CATALYST Math.Pow(Math.E, [diameter] * [multiplier] / 5);
-			foreach (SpaceFolderDriveData d in driveDatas)
+			double diam = WarpHelp.VesselDiameterCalc(vessel);
+			List<Part> drives = SFWarpHelp.PartsWithModuleSFD(vessel);
+			// Dictionary of the actual diameter that the part is putting out
+			Dictionary <SpaceFolderDriveData, double> partRelDiamDict = new Dictionary<SpaceFolderDriveData, double>();
+			double percentCalc = diam / SpaceFolderWarpChecks.MaxWarpHoleSize(drives);
+			foreach(SpaceFolderDriveData dd in driveDatas)
 			{
-				// ResDic.Item[d.MainResource] -= MainResCalc(d.Diameter, d.Multiplier);
-				// CatDic.Item[d.Catalyst] -= CatCalc(d.Diameter, d.Multiplier);
-                foreach (KeyValuePair<string, double> kvp in ResDic)
-                {
-					if (kvp.Key != d.MainResource)
-					{
-						continue;
-					}
-					ResDicCopy.Add(d.MainResource, kvp.Value - MainResCalc(d.Diameter, d.Multiplier));
-                }
-                foreach (KeyValuePair<string, double> kvp in CatDic)
-                {
-					if (kvp.Key != d.Catalyst)
-					{
-						continue;
-					}
-					CatDicCopy.Add(d.Catalyst, kvp.Value - CatCalc(d.Diameter, d.Multiplier));
-				}
+				partRelDiamDict.Add(dd, dd.Diameter * percentCalc);
 			}
-			foreach (KeyValuePair<string, double> kvp in ResDicCopy)
+			//Runs through all the resources in resList, removing when the resources match up
+			for(int i = 0; i < resList.Count; i++)
 			{
-				Debug.Log("[KF] In sector 4, looping");
-				if (kvp.Value >= 0)
+				foreach(KeyValuePair<SpaceFolderDriveData, double> kvp in partRelDiamDict)
 				{
-					Debug.Log("[KF] In sector 4, continuing");
-					continue;
+					if(resList[i].resource == kvp.Key.MainResource)
+					{
+						//Creates a local var to set the VesselResource struct in the list to the new value
+						double amt = resList[i].amount - MainResCalc(kvp.Value, kvp.Key.Multiplier);
+						resList[i] = new VesselResource(resList[i].resource, amt);
+					}
+					if(resList[i].resource == kvp.Key.Catalyst)
+					{
+						double amt = resList[i].amount - CatCalc(kvp.Value, kvp.Key.Multiplier);
+						resList[i] = new VesselResource(resList[i].resource, amt);
+					}
 				}
-				Debug.Log("[KF] In sector 4, sim failed");
-				Status = SimulationStatus.Failed;
-				return;
-			}
-			foreach (KeyValuePair<string, double> kvp in CatDicCopy)
-			{
-				Debug.Log("[KF] In sector 5, looping");
-				if (kvp.Value >= 0)
+				//checks after removing all resources for the resource in the for() loop (not the foreach)
+				//This cuts down on the amount of times it has to run through the list if the resources aren't all there
+				if(resList[i].amount < 0)
 				{
-					Debug.Log("[KF] In sector 5, continuing");
-					continue;
+					Status = SimulationStatus.Failed;
+					return;
 				}
-				Debug.Log("[KF] In sector 5, sim failed");
-				Status = SimulationStatus.Failed;
-				return;
 			}
 			Status = SimulationStatus.Succeeded;
 			return;

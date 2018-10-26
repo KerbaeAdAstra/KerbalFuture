@@ -1,12 +1,12 @@
 namespace KerbalFuture.Superluminal.SpaceFolder
 {
-	public class ModuleSpaceFolderEngine : PartModule
+	public class ModuleSpaceFolderDrive : PartModule
 	{
-		// If anything, a part that uses ModuleSpaceFolderEngine needs to define warpDriveDiameter
+		// If anything, a part that uses ModuleSpaceFolderDrive needs to define warpDriveDiameter
 		// Everything else has default values
-		
+
 		// Max diamater that this warp drive alone can encapsulate
-		[KSPField(guiActiveEditor = true, guiName = "Warpable diameter", guiUnits = "meters")]
+		[KSPField(guiActiveEditor = true, guiName = "Warpable diameter")]
 		public float warpDriveDiameter;
 		// Efficiency of engine
 		[KSPField]
