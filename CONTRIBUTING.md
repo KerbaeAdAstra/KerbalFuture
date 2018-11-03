@@ -18,7 +18,7 @@ There is only one important ground rule, and it is as follows:
 * Each merge request should implement one, and only one, feature or bug fix. Should you wish to implement or fix more than one feature/bug, submit more than one merge request.
 * The commits of each merge request should be directly relevant to the merge request itself. Do not commit changes to files that are irrelevant to the merge request.
 * Do not add `using` directives that point to third-party libraries, unless said library is either essential to the project or pre-approved. When in doubt, contact the project maintainers.
-* Pre-approved libraries are defined as any library included with Kerbal Space Program itself (i.e., in `<KSP_DIR>/KSP_Data`).
+* Pre-approved libraries are defined as any library included with Kerbal Space Program itself (i.e., in `<KSP_DIR>/KSP_Data`) or any library that is already being used by the Kerbal Future team.
 * Be willing to accept constructive criticism from the project maintainers.
 * Be aware that the merge request review process is not immediate, and that the project maintainers have other things to do. Do not pester the project maintainers.
 * Low-effort merge requests will generally be rejected.
